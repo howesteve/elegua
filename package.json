@@ -1,0 +1,69 @@
+{
+	"name": "elegua",
+	"version": "0.0.1",
+	"private": false,
+	"homepage": "https://github.com/howesteve/elegua",
+	"bugs": {
+		"url": "https://github.com/howesteve/elegua/issues"
+	},
+	"scripts": {
+		"dev": "echo Starting demo application... && vite dev",
+		"build": "svelte-package -i src/lib -o dest",
+		"clean": "rm -fr dist",
+		"preview": "vite preview",
+		"test": "playwright test",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write .",
+		"publish": "pnpm publish",
+		"release:pre": "wc -c src/lib/Elegua.svelte",
+		"release": "pnpm run clean;pnpm run lint && pnpm run release:pre && pnpm run build && pnpm run publish"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"dist/**",
+		"src/**",
+		"task/**",
+		"index.d.ts",
+		"README.md",
+		"CHANGELOG.md",
+		"LICENSE"
+	],
+	"readme": "README.md",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/howesteve/elegua"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.34.3",
+		"@sveltejs/adapter-auto": "^2.1.0",
+		"@sveltejs/kit": "^1.20.1",
+		"@sveltejs/package": "^2.0.2",
+		"@sveltejs/vite-plugin-svelte": "^2.4.1",
+		"@typescript-eslint/eslint-plugin": "^5.59.8",
+		"@typescript-eslint/parser": "^5.59.8",
+		"eslint": "^8.42.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"prettier": "^2.8.8",
+		"prettier-plugin-svelte": "^2.10.1",
+		"svelte": "^3.54.0",
+		"svelte-check": "^3.4.3",
+		"tslib": "^2.5.3",
+		"typescript": "^5.1.3",
+		"vite": "^4.3.9"
+	},
+	"dependencies": {
+		"svelte": "^3.59.1"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		}
+	},
+	"type": "module"
+}

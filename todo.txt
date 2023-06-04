@@ -1,0 +1,9 @@
+- Add redirect support?
+- Add a sed script that updates LoC and kb/gziped
+- Add docs for synamic components
+- Add docs for guarded/protected route
+- Support a regular <a> link behaviour?
+- Check if setting stores, everything gets updated
+- Test should include nav menu <-> current path reflection
+- Add a demo page and a build script that updates it
+- Bencmark?
