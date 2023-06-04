@@ -28,45 +28,47 @@ export const hash = (() => {
   return {
     subscribe,
     set: (x) => {
-      console.log(`fuck`, get(url));
       const u = get(url);
       u.hash = x;
-      history.pushState(window.location.href, "", u.toString());
       url.set(u);
       return set(x);
     },
     update
   };
 })();
+let urlSetter;
 export const url = (() => {
-  const { subscribe, set: set_, update } = writable(new URL("https://example.com"));
+  const { subscribe, set: set_, update } = writable(new URL(window.location.href));
+  urlSetter = (u) => {
+    const sset = u.searchParams.set;
+    const sdel = u.searchParams.delete;
+    u.searchParams.set = (name, value) => {
+      const res = sset.call(u.searchParams, name, value);
+      set_(u);
+      history.pushState({}, "", u.toString());
+      return res;
+    };
+    u.searchParams.delete = (name) => {
+      const res = sdel.call(u.searchParams, name);
+      set_(u);
+      history.pushState({}, "", u.toString());
+      return res;
+    };
+    oldUrlSetter(get(url));
+    set_(u);
+    if (get(path) !== u.pathname)
+      pathSetter(u.pathname);
+    if (get(hash) !== u.hash)
+      hashSetter(u.hash);
+  };
   return {
     subscribe,
     set: (u) => {
       const current2 = get(url);
-      if (u.toString() !== current2.toString()) {
-        const sset = u.searchParams.set;
-        const sdel = u.searchParams.delete;
-        u.searchParams.set = (name, value) => {
-          const res = sset.call(u.searchParams, name, value);
-          set_(u);
-          history.pushState({}, "", u.toString());
-          return res;
-        };
-        u.searchParams.delete = (name) => {
-          const res = sdel.call(u.searchParams, name);
-          set_(u);
-          history.pushState({}, "", u.toString());
-          return res;
-        };
-        oldUrlSetter(current2);
-        set_(u);
-        if (get(path) !== u.pathname)
-          pathSetter(u.pathname);
-        if (get(hash) !== u.hash)
-          hashSetter(u.hash);
-        resolve(u.pathname);
-      }
+      console.log("url.set");
+      history.pushState(null, "", u);
+      resolve(u.pathname);
+      urlSetter(u);
     },
     update
   };
@@ -110,16 +112,19 @@ export function resolve(path2) {
 export function goto(href, data = void 0) {
   if (href instanceof URL)
     href = href.toString();
-  history.pushState(data, "", href);
-  url.set(new URL(window.location.href));
+  url.set(new URL(href, window.location.href));
 }
 window?.addEventListener("load", (event) => {
-  url.set(new URL(document.location.href));
+  urlSetter(new URL(document.location.href));
+  resolve(get(path));
   addEventListener("hashchange", (event2) => {
-    url.set(new URL(event2.newURL));
+    urlSetter(new URL(window.location.href));
   });
   addEventListener("popstate", (event2) => {
-    url.set(new URL(window.location.href));
+    const u = new URL(window.location.href);
+    urlSetter(u);
+    resolve(u.pathname);
+    event2.preventDefault();
   });
   addEventListener("click", (event2) => {
     let targetElement = event2.target;
@@ -128,7 +133,7 @@ window?.addEventListener("load", (event) => {
         event2.preventDefault();
         const href = targetElement.getAttribute("href");
         if (href)
-          goto(href);
+          url.set(new URL(href, window.location.href));
         return;
       }
       targetElement = targetElement.parentElement || document.body;
