@@ -9,8 +9,8 @@
 	import Error from './Error.svelte';
 	import FileSystem from './FileSystem.svelte';
 	import { onMount } from 'svelte';
-  import Hash from './Hash.svelte';
-  import SearchParams from './SearchParams.svelte';
+	import Hash from './Hash.svelte';
+	import SearchParams from './SearchParams.svelte';
 
 	let staticPages: Array<{ path: string; html: () => Promise<string> }> = [];
 	// static routes
@@ -58,11 +58,11 @@
 		<Hash />
 	</Router>
 	<Router route="/searchparams">
-		<SearchParams/>
+		<SearchParams />
 	</Router>
 	<!-- Filesystem routing -->
 	<Router route="/filesystem">
-		<FileSystem pages={staticPages}/>
+		<FileSystem pages={staticPages} />
 	</Router>
 	<!-- Fallback route - will be displayed if nithing else matches -->
 	<Router route="*">

@@ -24,7 +24,7 @@ $ pnpm run dev
 - Regular \<a\> links supported out of the box. No need for \<Link\> additional components.
 - Routes types supported:
   - Hash/fixed paths (fast!)
-  - Dynamic routes (```/xxx/:group/:id```) (yes, they can be nested)
+  - Dynamic routes (`/xxx/:group/:id`) (yes, they can be nested)
   - Regexp: any rule you could imagine if it can be expressed by a RegExp expression
   - Fallback/error route
 
@@ -33,11 +33,11 @@ $ pnpm run dev
 - Existing dynamic routers for Svelte are too complicated, buggy, unmanteined, large and/or not satisfying me.
 - Elegua is designed for PWA applications
 - I absolutely hated what they did to SvelteKit and it's "file-based router". Things like:
-- `src/routes/blog/[slug]/+page.js`
-- `src/routes/blog/page/[page]/+page.js`
-- `src/routes/blog/page/[page]/+page.server.js`
-- `src/routes/blog/category/[category]/page/[page]/+page.server.js`
-  ... then all the boilerplate to make it work, just make me sick. Pages and pages and pages of docs just to learn how to re-learn routing! Shoot me. I have no patience.
+  - `src/routes/blog/[slug]/+page.js`
+  - `src/routes/blog/page/[page]/+page.js`
+  - `src/routes/blog/page/[page]/+page.server.js`
+  - `src/routes/blog/category/[category]/page/[page]/+page.server.js`
+    ... then all the boilerplate to make it work, just make me sick. Pages and pages and pages of docs just to learn how to re-learn routing! Shoot me. I have no patience.
 - I had to prove my boss (...I mean, gf) I was really working on something on all these hours on the computer. Hope she does not read this.
 - I actually use this on my projects and thought about sharing.
 
@@ -47,7 +47,7 @@ $ pnpm run dev
 
 ## About this repository
 
-Most of this repository is a demo applicaion with components examples. The component itself is a single file.
+Most of this repository is a demo applicaion for [Elegua](http://github.com/howesteve/elegua). The component itself is a [single file](https://github.com/howesteve/elegua/tree/master/src/lib).
 
 ## Documentation
 
@@ -78,8 +78,10 @@ It's hopefully very straighforward: there is only one component and one property
 </Route>
 ```
 
-- Every time the current browser's url changes, [Elegua](https://github.com/howesteve/elegua) will try to match every route defined in your code, no matter where. When a route route matches, it's children are rendered. All other routes that do not gets matched, remains hidden. The beulty in [Elegua](https://github.com/howesteve/elegua) is that it's stores always be updated, reflecting current url.
-- Define routes in your main application page and not in subpages that are lazily loaded, otherwise routes might not be defined when you think they are and that could lead to unexpected results.
+- Main expected usage is routing by `path`, of course. Every time the current browser's url changes, [Elegua](https://github.com/howesteve/elegua) will try to match it against the routes defined in your code, no matter where. When a route route matches, that route's children are rendered. All other routes that do not get matched, remains hidden.
+[Elegua](https://github.com/howesteve/elegua)'s stores will always be updated accordingly to he current url.
+
+> :warning:  Define routes in your main application page and not in subpages that are lazily loaded, otherwise routes might not be defined when you think they are and that could lead to unexpected results.
 
 ```svelte
 <script lang="ts">
@@ -122,11 +124,11 @@ It's hopefully very straighforward: there is only one component and one property
 
 #### $path
 
-A writable store that will always be reflecting the current url's path. If you load `http://localhost/blog`, $path will be set as `"/blog"`. If you call `path.set("/")`, the browser load home route (similar to ```goto()```).
+A writable store that will always be reflecting the current url's path. If you load `http://localhost/blog`, $path will be set as `"/blog"`. If you call `path.set("/")`, the browser load home route (similar to `goto()`).
 
 ```svelte
 <script lang="ts">
- import Router, { hash } from 'elegua';
+	import Router, { hash } from 'elegua';
 </script>
 
 <h1>Your are now in the {$path} page.</h1>
@@ -134,12 +136,12 @@ A writable store that will always be reflecting the current url's path. If you l
 
 #### $url
 
-This writable store is a [URL](https://developer.mozilla.org/pt-BR/docs/Web/API/URL) object for the current loaded url. Anytime the url changes, $url will be updated. If you update ```url```, the current browser's url will change as well.
+This writable store is a [URL](https://developer.mozilla.org/pt-BR/docs/Web/API/URL) object for the current loaded url. Anytime the url changes, $url will be updated. If you update `url`, the current browser's url will change as well.
 You can inspect `url.pathname`, `url.hash`, `url.searchParams`, etc.
 
 ```svelte
 <script lang="ts">
- import { url } from 'elegua';
+	import { url } from 'elegua';
 </script>
 
 Current page: {$url.pathname}
@@ -152,12 +154,12 @@ Using $url you can handle anything you want. For instance, loading a post by has
 
 ```svelte
 <script lang="ts">
- import { url } from 'elegua';
- let post: Post;
- url.subscribe(async (u) => {
-  // Loading post by hash
-  post = await getPost(u.hash);
- });
+	import { url } from 'elegua';
+	let post: Post;
+	url.subscribe(async (u) => {
+		// Loading post by hash
+		post = await getPost(u.hash);
+	});
 </script>
 
 <Post data={post} />
@@ -169,7 +171,7 @@ A writable store that will always be reflecting the current url's hash. If you l
 
 ```svelte
 <script lang="ts">
- import Router, { hash } from 'elegua';
+	import Router, { hash } from 'elegua';
 </script>
 
 <h1>The current hash is: {$hash}</h1>
@@ -191,7 +193,11 @@ Loading post by hash (async):
 
 #### $searchParams
 
-This readable store is a [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) object that reflects the search params for the current url. For instance, if you load:`http://localhost/blog?x=1` and call `$params.get('x')`, you'll get `"1"` (yes, a string). For changing a param value, call`$params.set("x", "1")`. [Elegua](http://github.com/howesteve/elegua) has reactive ```searchParams.set()``` and ```searchParams.delete()``` methods; if you use them, the current browser's url will be reflected.  
+This readable store is a [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) object that reflects the search params for the current url. For instance, if you load:`http://localhost/blog?x=1` and call `$searchParams.get('x')`, you'll get `"1"` (yes, a string). For changing a searchParam value, call `$searchParams.set("x", "1")`. Check the [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) for other methods.
+
+[Elegua](http://github.com/howesteve/elegua) has reactive `searchParams.set()` and `searchParams.delete()` methods; if you use them, the current browser's url and [history](https://developer.mozilla.org/en-US/docs/Web/API/History) will automatically be updated.
+
+Reading from `searchParam`:
 
 ```svelte
 <script lang="ts">
@@ -199,23 +205,35 @@ This readable store is a [URLSearchParams](https://developer.mozilla.org/en-US/d
 </script>
 
 <Router route="/blog">
+  <!-- when you load /blog/searchparams?x=1-->
   Param <code>x</code> is {$params.get("x")}.
   <br>(should print "1")
 </Route>
+```
+
+Setting a searchParam value (reactive):
+
+```svelte
+<button
+	on:click|preventDefault={() => {
+		$searchParams.set('x', '1');
+	}}>Set x</button
+>
 ```
 
 Removing a searchParam (reactive):
 
 ```svelte
 <button
- on:click|preventDefault={() => {
-  $searchParams.delete('x');
- }}>Remove x</button>
+	on:click|preventDefault={() => {
+		$searchParams.delete('x');
+	}}>Remove x</button
+>
 ```
 
 #### $match
 
-This store will be set after a match operation (i.e. on matched dynamic or regexp routes). For instance, if you load `http://localhost/blog/my-post`:
+This store will be set after a match operation (i.e. after a match on named or regexp routes). For instance, if you load `http://localhost/blog/my-post`:
 
 ```svelte
 <script lang="ts">
@@ -227,7 +245,11 @@ This store will be set after a match operation (i.e. on matched dynamic or regex
 </Route>
 ```
 
-If the last routed was matched through a hash (i.e. fixed path) match, ```matches``` will be empty.
+#### $params
+
+Similar to $match
+
+If the last routed was matched through a hash (i.e. fixed path) match, `matches` will be empty.
 
 #### $oldUrl
 
@@ -235,7 +257,7 @@ A store that will have the old (previous) url before the last browser change. Fo
 
 ```svelte
 <script lang="ts">
- import Router, { hash } from 'elegua';
+	import Router, { hash } from 'elegua';
 </script>
 
 <h1>Your are now in the {$path} page, coming from {$oldUrl.pathname}.</h1>
@@ -243,27 +265,27 @@ A store that will have the old (previous) url before the last browser change. Fo
 
 ### resolve()
 
-The `resolve()` function is the Router's resolver and used internally to sync stores when a url changes. It's exported just in case you want to do some manual routing, but typically there is no need to be used otherwise.
+The `resolve()` function is the Router's internal resolver and will be used internally to sync stores when a url changes. It's exported just in case you want to do some manual routing, but typically there is no need to be used otherwise.
 
 ### goto()
 
-The `goto()` method navigates to some url/path. Internally, it uses `history.pushState()`. Calls to goto will trigger updates in all the reactive stores:  $path, $url, $hash, $oldUrl, etc.
+The `goto()` method navigates to some url/path. Internally, it uses [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState). Calls to goto will trigger updates in all the reactive stores: `$path`, `$url`, `$hash`, `$oldUrl`, etc.
 
 #### RouteOptions
 
-Options for the router. Currently there is just a "keepMatching" option that allows to keep matching further routes even if one was matched.
+Options for the router. Currently there is just a `keepMatching` option that allows to keep matching further routes even if one was matched.
 
 ```svelte
 <script lang="ts">
   import Router, {hash} from "elegua"
 </script>
 
-  <Route route="/" options={keepMatching: true}>
-    This will be rendered
-  </Route>
-  <Route route='*'>
-    This will be rendered too;
-  </Route>
+<Route route="/" options={keepMatching: true}>
+  This will be rendered
+</Route>
+<Route route='*'>
+  This will be rendered too;
+</Route>
 ```
 
 ## Howto's/Recipes/FAQ
@@ -274,10 +296,10 @@ Just set the route property for the exact path:
 
 ```svelte
 <Route route="/">
- <Home />
+	<Home />
 </Route>
 <Route route="/about">
- <About />
+	<About />
 </Route>
 ```
 
@@ -287,42 +309,44 @@ Paths can also be nested. It doesn't matter for [Elegua](http://github.com/howes
 
 ```svelte
 <Route route="/about/authors/steve">
- <Steve />
+	<Steve />
 </Route>
 ```
 
-Fixes path routes are matches using a hash function and thus are as fast as possible: they just use a (```Map.get()```)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map] lookup.
+Fixed path routes are very fast; they are matched using a hash function (`Map.get()`)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map].
 
 ### Fallback route/404
 
-If no other routes are matched, the Route marked with a `route="*"` will be matched. You can inspect $path, $params, $url, etc, to provide the user with more info.
+If no other routes are matched, the Route marked with a `route="*"` will be matched. You can inspect `$path`, `$params`, `$url`, etc, to provide the user with more info.
 
 ```svelte
 <script lang="ts">
- import Router, { path } from 'elegua';
+	import Router, { path } from 'elegua';
 </script>
 
 <Route route="*">
- <h1>Error</h1>
- <p>No such path: $path</p>
+	<h1>Error</h1>
+	<p>No such path: {$path}</p>
 </Route>
 ```
 
-### Dynamic routes
+### Named routes
 
-Dynamic routes are routes that can have variable path sets, such as ```/blog/:slug```:
+Named routes are routes that can have named variable path sets, such as `/blog/:slug`:
 
 ```svelte
 <script lang="ts">
- import Router, { path } from 'elegua';
+	import Router, { path } from 'elegua';
 </script>
 
 <Route route="/blog/:slug">
-  This blog's slug is {$params[1]}
+	This blog's slug is {$params["slug"]}
 </Route>
 ```
 
 The `$params` store will reflect the params by name. Internally, this is implemented using a RegExp route.
+
+If the last routing did not use named routes/or regexp matching (i.e. a hash match), `$params` will be empty.
 
 ### Regexp routes
 
@@ -345,23 +369,23 @@ You could use other patterns in the same way. Ex:
 
 The downsize of regexp routes compared to hash routes is that have to be matched sequentially until something does match. However, it should be fast enough anyway even for hundreds of paths.
 
-### Hash routes?
+### Hash routes
 
 Use the `$hash` store.
 
 ```svelte
 <script lang="ts">
- import Router, { hash } from 'elegua';
+	import Router, { hash } from 'elegua';
 </script>
 
 <Route route="/blog">
- {#if $hash === 'tab1'}
-  Tab1
- {:else if $hash === 'tab2'}
-  Tab2
- {:else if $hash === 'tab2'}
-  Tab2
- {/if}
+	{#if $hash === 'tab1'}
+		Tab1
+	{:else if $hash === 'tab2'}
+		Tab2
+	{:else if $hash === 'tab2'}
+		Tab2
+	{/if}
 </Route>
 ```
 
@@ -396,19 +420,19 @@ In this case, just set a dynamic class inspecting $path:
 
 ```svelte
 <script lang="ts">
- import { path } from 'elegua';
+	import { path } from 'elegua';
 </script>
 
 <nav>
- <a href={'/blog'} class:selected={$path === '/blog'}>BLOG </a>
- <a href={'/orders'} class:selected={$path === '/orders'}>ORDERS </a>
- <a href={'/about'} class:selected={$path === '/about'}>ABOUT </a>
+	<a href={'/blog'} class:selected={$path === '/blog'}>BLOG </a>
+	<a href={'/orders'} class:selected={$path === '/orders'}>ORDERS </a>
+	<a href={'/about'} class:selected={$path === '/about'}>ABOUT </a>
 </nav>
 
 <style>
- .selected {
-  font-weight: bold;
- }
+	.selected {
+		font-weight: bold;
+	}
 </style>
 ```
 
@@ -418,7 +442,7 @@ Subscribe to [url](#url). It's the DOM `URL` object for the current browser's ur
 
 ### Redirects
 
-No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just use \<meta refresh="url..."\>:
+No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just use `\<meta refresh="url..."\>`:
 
 ```svelte
 <Route route="/old_blog/:1">
@@ -426,11 +450,12 @@ No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just u
     <meta http-equiv="refresh" content="3; url = /blog"/>
   </svelte:head>
   Blog has changed path; redirecting...
+</Route>
 ```
 
 ### How do I render \<Link\>s?
 
-There is no \<Link\> objects in [Elegua](https://github.com/howesteve/elegua); just use your plain \<a\> tag. It will be handled automatically. Are you coming from other routers?...
+There is no `\<Link\>` objects in [Elegua](https://github.com/howesteve/elegua); just use your plain `\<a\>` tag. It will be handled automatically. Are you coming from other routers?...
 
 ### File system dynamic routes?
 
@@ -438,20 +463,20 @@ I would have implemented this better, but [Vite](https://vitejs.dev/) only allow
 
 ```ts
 await Promise.all(
- // '/src/posts' is fixed below because vite only accepts literals.
- // If posts dir gets moved, it has to be updated accordingly
- Object.entries(import.meta.glob('/src/posts/**/*.md')).map(async ([path, resolver]) => {})
+	// '/src/posts' is fixed below because vite only accepts literals.
+	// If posts dir gets moved, it has to be updated accordingly
+	Object.entries(import.meta.glob('/src/posts/**/*.md')).map(async ([path, resolver]) => {})
 );
 ```
 
 There is an example of this on the demo page.
 
-### How to change url but not really triggering changing pages and all these store updates?
+### How to change url but not really triggering page changes and all these store updates?
 
-DOM's []`history`](https://developer.mozilla.org/en-US/docs/Web/API/History) is still your friend. Call `history.replaceState()`:
+DOM's [`history`](https://developer.mozilla.org/en-US/docs/Web/API/History) is still your friend. Just use `history.replaceState()`:
 
 ```ts
-history.replaceState({}, '', '/blog')
+history.replaceState({}, '', '/blog');
 ```
 
 No \<Link\> objects in lib: just use your plain \<a\> tag. It will be handled automatically. Are you coming from other Routers?...
@@ -460,7 +485,7 @@ No \<Link\> objects in lib: just use your plain \<a\> tag. It will be handled au
 
 Of course. That's the point about this lib.
 
-### I need to route using search parameters
+### I need to route using search parameters, i.e. http://xxx.com/x=1
 
 Just use `$searchParams`:
 

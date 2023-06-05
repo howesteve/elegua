@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
-	import posts from './posts';
+  import { params} from './lib/Elegua.svelte';
+  import posts from './posts';
 	export let id = '';
 	const r = get(posts).filter((x) => x.slug === id);
 	const post = r ? r[0] : undefined;
 </script>
 
 <div class="post">
-	{#if post}
+	$params: {JSON.stringify($params)}
+  {#if post}
 		<h2>{post.slug}</h2>
 		<p>{post.date.toLocaleString()}</p>
 		<div>{post.contents}</div>

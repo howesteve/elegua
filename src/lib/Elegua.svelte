@@ -75,10 +75,9 @@
 			subscribe,
 			set: (u: URL) => {
 				const current = get(url);
-				console.log('url.set')
 				history.pushState(null, '', u);
 				resolve(u.pathname);
-        urlSetter(u);
+				urlSetter(u);
 			},
 			update
 		};
@@ -176,8 +175,10 @@
 </script>
 
 <script lang="ts">
-	export let route: string | RegExp;
-	export let options: RouteOptions | undefined = undefined;
+	// The route/path to point to (ex: '/about' or /[a-z+]/)
+  export let route: string | RegExp;
+	// Router options
+  export let options: RouteOptions | undefined = undefined;
 	let id = (_id += 1);
 	const parent = getContext<ChildSetter>('parent');
 	const children = new Set<number>();

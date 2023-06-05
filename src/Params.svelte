@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { params } from "$lib/Elegua.svelte";
-  // List of tab items with labels, values and assigned components
+	import { params } from '$lib/Elegua.svelte';
+	// List of tab items with labels, values and assigned components
 </script>
 
 <h1>Dynamic Params test</h1>

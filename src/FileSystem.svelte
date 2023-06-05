@@ -40,4 +40,3 @@
 		{/await}
 	</Router>
 {/each}
-

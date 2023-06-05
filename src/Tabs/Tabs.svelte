@@ -10,7 +10,7 @@
 	export let activeTabValue = 1;
 
 	const handleClick = (tabValue: number) => () => {
-    activeTabValue = tabValue;
+		activeTabValue = tabValue;
 		hash.set(activeTabValue.toString());
 	};
 	hash.subscribe((x) => {

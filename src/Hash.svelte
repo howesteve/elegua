@@ -27,7 +27,8 @@
 <h2>$hash() testing</h2>
 <p>Current $hash: {$hash}</p>
 
-set $hash: <button on:click|preventDefault={() => hash.set(Math.floor(Math.random() * 1000).toString())}
+set $hash:<button
+	on:click|preventDefault={() => hash.set(Math.floor(Math.random() * 1000).toString())}
 	>$hash=random()</button
 >
 <Tabs {items} />
