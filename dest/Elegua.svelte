@@ -65,7 +65,6 @@ export const url = (() => {
     subscribe,
     set: (u) => {
       const current2 = get(url);
-      console.log("url.set");
       history.pushState(null, "", u);
       resolve(u.pathname);
       urlSetter(u);

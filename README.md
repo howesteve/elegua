@@ -78,10 +78,10 @@ It's hopefully very straighforward: there is only one component and one property
 </Route>
 ```
 
-- Main expected usage is routing by `path`, of course. Every time the current browser's url changes, [Elegua](https://github.com/howesteve/elegua) will try to match it against the routes defined in your code, no matter where. When a route route matches, that route's children are rendered. All other routes that do not get matched, remains hidden.
+Main expected usage is routing by `path`, of course. Every time the current browser's url changes, [Elegua](https://github.com/howesteve/elegua) will try to match it against the routes defined in your code, no matter where. When a route route matches, that route's children are rendered. All other routes that do not get matched, remains hidden.
 [Elegua](https://github.com/howesteve/elegua)'s stores will always be updated accordingly to he current url.
 
-> :warning:  Define routes in your main application page and not in subpages that are lazily loaded, otherwise routes might not be defined when you think they are and that could lead to unexpected results.
+> :warning: WARNING: Define routes in your main application's page and not in subpages that are lazily loaded, otherwise routes might not be defined when you think they are and that could lead to unexpected results.
 
 ```svelte
 <script lang="ts">
@@ -107,7 +107,7 @@ It's hopefully very straighforward: there is only one component and one property
   </Route>
   <!-- Multiple dynamic paths: $matches will have all the matching params -->
   <Route route='/blog/:author/:slug'>
-    <PostPage author={$matches['author']} slug={$matches['slug']} />
+    <PostPage author={$params['author']} slug={$params['slug']} />
   </Route>
   <!-- RegExp route: $matches will have the matching params, same as with dynamic paths -->
   <Route route={/\/authors/([0-9]+)/}>
@@ -124,7 +124,8 @@ It's hopefully very straighforward: there is only one component and one property
 
 #### $path
 
-A writable store that will always be reflecting the current url's path. If you load `http://localhost/blog`, $path will be set as `"/blog"`. If you call `path.set("/")`, the browser load home route (similar to `goto()`).
+A writable store that will always be reflecting the current url's path. If you load `http://localhost/blog`, $path will be set as `"/blog"`. 
+If you call `path.set("/")`, the browser load home route (similar to `goto()`).
 
 ```svelte
 <script lang="ts">
@@ -247,7 +248,17 @@ This store will be set after a match operation (i.e. after a match on named or r
 
 #### $params
 
-Similar to $match
+This store contains the named dynamic parts of a path; is kinda similar to `$match`.
+
+```svelte
+<script lang="ts">
+  import Router, { matches } from "elegua"
+</script>
+
+<Router route="/blog/:slug">
+  You are rendering the {params["slug"]} blog post.
+</Route>
+```
 
 If the last routed was matched through a hash (i.e. fixed path) match, `matches` will be empty.
 
