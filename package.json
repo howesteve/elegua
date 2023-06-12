@@ -8,10 +8,10 @@
 	},
 	"scripts": {
 		"dev": "echo Starting demo application... && vite dev",
-		"build:page": "vite build --outDir page",
+		"build:page": "vite build --outDir build",
 		"build:component": "svelte-package -i src/lib -o dist",
     "build": "pnpm run build:component;pnpm run build:component",
-    "clean:page": "rm -fr page",
+    "clean:page": "rm -fr build",
     "clean:dist": "rm -fr dist",
     "clean": "pnpm run clean:dist;pnpm run clean:page",
 		"preview": "vite preview",

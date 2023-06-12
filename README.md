@@ -377,7 +377,7 @@ You could use other patterns in the same way. Ex:
 - `\/users\/(howe|steve)` => $match[1] will match `"/users/howe"` or `"/users/steve"`
 - `\/users\/([a-zA-Z\_\\])*` => inspect $match[1], $match[2]
 
-The downsize of regexp routes compared to hash routes is that have to be matched sequentially until something does match. However, it should be fast enough anyway even for hundreds of paths.
+The downsize of regexp routes compared to hash routes is that they are slower and must to be matched sequentially. However, it should be fast enough anyway even for hundreds of paths.
 
 ## Hash routes
 
