@@ -35,6 +35,7 @@
 		"CHANGELOG.md",
 		"LICENSE"
 	],
+  "keywords": ["svelte", "route", "routing", "pwa"],
 	"readme": "README.md",
 	"repository": {
 		"type": "git",

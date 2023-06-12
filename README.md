@@ -54,21 +54,21 @@ Most of this repository is a demo applicaion for [Elegua](http://github.com/howe
 You mean, besides [reading the source code](https://github.com/howesteve/elegua/tree/master/src/lib)? :)
 Here it goes.
 
-### Install
+## Install
 
-#### Pnpm
+### Pnpm
 
 `pnpm i -D elegua`
 
-#### npm
+### npm
 
 `npm i -D elegua`
 
-#### yarn
+### yarn
 
 `yarn i -D elegua`
 
-### Usage
+## Usage
 
 It's hopefully very straighforward: there is only one component, and only one property (route) has to be set:
 
@@ -122,9 +122,9 @@ Every time the current browser's url changes, [Elegua](https://github.com/howest
 </main>
 ```
 
-### Stores, methods and objects
+## Stores, methods and objects
 
-#### $path
+### $path
 
 A writable store that will always be reflecting the current url's path. If you load `http://localhost/blog`, $path will be set as `"/blog"`. 
 If you call `path.set("/")`, the browser load home route (similar to `goto()`).
@@ -137,7 +137,7 @@ If you call `path.set("/")`, the browser load home route (similar to `goto()`).
 <h1>Your are now in the {$path} page.</h1>
 ```
 
-#### $url
+### $url
 
 This writable store is a [URL](https://developer.mozilla.org/pt-BR/docs/Web/API/URL) object for the current loaded url. Anytime the url changes, $url will be updated. If you update `url`, the current browser's url will change as well.
 You can inspect `url.pathname`, `url.hash`, `url.searchParams`, etc.
@@ -168,7 +168,7 @@ Using $url you can handle anything you want. For instance, loading a post by has
 <Post data={post} />
 ```
 
-#### $hash
+### $hash
 
 A writable store that will always be reflecting the current url's hash. If you load `http://localhost/#xxx`, `$hash` will be set as `"xxx"`. If you call `hash.set('xxx')`, the current hash will become `'xxx'`.
 
@@ -194,7 +194,7 @@ Loading post by hash (async):
 </script>
 ```
 
-#### $searchParams
+### $searchParams
 
 This readable store is a [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) object that reflects the search params for the current url. For instance, if you load:`http://localhost/blog?x=1` and call `$searchParams.get('x')`, you'll get `"1"` (yes, a string). For changing a searchParam value, call `$searchParams.set("x", "1")`. Check the [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) for other methods.
 
@@ -234,7 +234,7 @@ Removing a searchParam (reactive):
 >
 ```
 
-#### $match
+### $match
 
 This store will be set after a match operation (i.e. after a match on named or regexp routes). For instance, if you load `http://localhost/blog/my-post`:
 
@@ -248,7 +248,7 @@ This store will be set after a match operation (i.e. after a match on named or r
 </Route>
 ```
 
-#### $params
+### $params
 
 This store contains the named dynamic parts of a path; is kinda similar to `$match`.
 
@@ -264,7 +264,7 @@ This store contains the named dynamic parts of a path; is kinda similar to `$mat
 
 If the last routed was matched through a hash (i.e. fixed path) match, `matches` will be empty.
 
-#### $oldUrl
+### $oldUrl
 
 A store that will have the old (previous) url before the last browser change. For instance, if you were on `http://localhost/blog` and navigate to `http://localhost/about`, `$oldUrl.pathname` will be "/blog" and `$path` will become `"/about"`.
 
@@ -276,15 +276,15 @@ A store that will have the old (previous) url before the last browser change. Fo
 <h1>Your are now in the {$path} page, coming from {$oldUrl.pathname}.</h1>
 ```
 
-### resolve()
+## resolve()
 
 The `resolve()` function is the Router's internal resolver and will be used internally to sync stores when a url changes. It's exported just in case you want to do some manual routing, but typically there is no need to be used otherwise.
 
-### goto()
+## goto()
 
 The `goto()` method navigates to some url/path. Internally, it uses [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState). Calls to goto will trigger updates in all the reactive stores: `$path`, `$url`, `$hash`, `$oldUrl`, etc.
 
-#### RouteOptions
+## RouteOptions
 
 Options for the router. Currently there is just a `keepMatching` option that allows to keep matching further routes even if one was matched.
 
@@ -303,7 +303,7 @@ Options for the router. Currently there is just a `keepMatching` option that all
 
 ## Howto's/Recipes/FAQ
 
-### Matching exact/fixed paths
+## Matching exact/fixed paths
 
 Just set the route property for the exact path:
 
@@ -316,7 +316,7 @@ Just set the route property for the exact path:
 </Route>
 ```
 
-### Nesting
+## Nesting
 
 Paths can also be nested. It doesn't matter for [Elegua](http://github.com/howesteve/elegua). Just provide a valid child:
 
@@ -328,7 +328,7 @@ Paths can also be nested. It doesn't matter for [Elegua](http://github.com/howes
 
 Fixed path routes are very fast; they are matched using a hash function (`Map.get()`)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map].
 
-### Fallback route/404
+## Fallback route/404
 
 If no other routes are matched, the Route marked with a `route="*"` will be matched. You can inspect `$path`, `$params`, `$url`, etc, to provide the user with more info.
 
@@ -343,7 +343,7 @@ If no other routes are matched, the Route marked with a `route="*"` will be matc
 </Route>
 ```
 
-### Named routes
+## Named routes
 
 Named routes are routes that can have named variable path sets, such as `/blog/:slug`:
 
@@ -361,7 +361,7 @@ The `$params` store will reflect the params by name. Internally, this is impleme
 
 If the last routing did not use named routes/or regexp matching (i.e. a hash match), `$params` will be empty.
 
-### Regexp routes
+## Regexp routes
 
 Sometimes you might want a route to match only on certain specific path patterns; ex: `/users/123`. Just use a regexp as route:
 
@@ -382,7 +382,7 @@ You could use other patterns in the same way. Ex:
 
 The downsize of regexp routes compared to hash routes is that have to be matched sequentially until something does match. However, it should be fast enough anyway even for hundreds of paths.
 
-### Hash routes
+## Hash routes
 
 Use the `$hash` store.
 
@@ -422,7 +422,7 @@ hash.set('tab1');
 goto('#tab1');
 ```
 
-### Nav menu highlighting
+## Nav menu highlighting
 
 Sometimes you want to highlight a nav menu item when you are on a page, so taht can see at a glance where they are. For instance, if you are in `"/about"` and your nav menu has the following links:
 
@@ -449,11 +449,11 @@ In this case, just set a dynamic class inspecting $path:
 </style>
 ```
 
-### How do I handle any other kind of url changes?
+## How do I handle any other kind of url changes?
 
 Subscribe to [url](#url). It's the DOM `URL` object for the current browser's url. Then you can do anything you want with it.
 
-### Redirects
+## Redirects
 
 No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just use `\<meta refresh="url..."\>`:
 
@@ -466,11 +466,11 @@ No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just u
 </Route>
 ```
 
-### How do I render \<Link\>s?
+## How do I render \<Link\>s?
 
-There is no `\<Link\>` objects in [Elegua](https://github.com/howesteve/elegua); just use your plain `\<a\>` tag. It will be handled automatically. Are you coming from other routers?...
+There is no `<Link>` objects in [Elegua](https://github.com/howesteve/elegua); just use your plain `\<a\>` tag. It will be handled automatically. Are you coming from other routers?...
 
-### File system dynamic routes?
+## File system dynamic routes?
 
 I would have implemented this better, but [Vite](https://vitejs.dev/) only allows string literals in `import.meta.glob()` calls, so this has has to be manual.
 
@@ -484,7 +484,7 @@ await Promise.all(
 
 There is an example of this on the demo page.
 
-### How to change url but not really triggering page changes and all these store updates?
+## How to change url but not really triggering page changes and all these store updates?
 
 DOM's [`history`](https://developer.mozilla.org/en-US/docs/Web/API/History) is still your friend. Just use `history.replaceState()`:
 
@@ -494,11 +494,11 @@ history.replaceState({}, '', '/blog');
 
 No \<Link\> objects in lib: just use your plain \<a\> tag. It will be handled automatically. Are you coming from other Routers?...
 
-### If I change the url manually in the browser, will all these stores get updated accordingly?
+## If I change the url manually in the browser, will all these stores get updated accordingly?
 
 Of course. That's the point about this lib.
 
-### I need to route using search parameters, i.e. http://xxx.com/x=1
+## I need to route using search parameters, i.e. http://xxx.com/x=1
 
 Just use `$searchParams`:
 
@@ -525,10 +525,10 @@ or:
 </Route>
 ```
 
-### Why is this called "Elegua"?
+## Why is this called "Elegua"?
 
 That is the Yoruba deity of the paths, directions, and crossroads. Elegua controls the routes.
 
-### License
+## License
 
 MIT
