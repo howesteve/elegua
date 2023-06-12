@@ -4,10 +4,6 @@ Elegua: the best Svelte client router you'll ever see in 180 LoC.
 
 ## Demo
 
-Online:
-
-Or
-
 ```sh
 $ git clone http://github.com/howesteve/elegua
 $ cd elegua/src/test
@@ -18,12 +14,12 @@ $ pnpm run dev
 ## Features
 
 - Dependency free (except for Svelte, of course)
-- A single file/component
+- A single file/component (1.5Kb gzipped)
 - Fully reactive
 - History API only (who uses hash paths nowawdays?)
 - Regular \<a\> links supported out of the box. No need for \<Link\> additional components.
 - Routes types supported:
-  - Hash/fixed paths (fast!)
+  - Fixed paths (uses a hash lookup - fast!)
   - Dynamic routes (`/xxx/:group/:id`) (yes, they can be nested)
   - Regexp: any rule you could imagine if it can be expressed by a RegExp expression (ex: `/id/[0-9]+\.json`)
   - Fallback/error route
@@ -78,12 +74,12 @@ It's hopefully very straighforward: there is only one component, and only one pr
 </Route>
 ```
 
-Router is designed expecting most routes are guided by `path`, of course. However, you can route by hash, searchParams or anything else you want. 
+[Elegua](https://github.com/howesteve/elegua)'s routing is designed expecting most routes are guided by `path`, of course. However, you can route by hash, searchParams or anything else you want.
 
 Every time the current browser's url changes, [Elegua](https://github.com/howesteve/elegua) will try to match it against the routes defined in your code, no matter where. When a route route matches, that route's children are rendered. All other routes that do not get matched, remains hidden.
 [Elegua](https://github.com/howesteve/elegua)'s stores will always be updated accordingly to he current url.
 
-> :warning: WARNING: Define routes in your main application's page and not in subpages that are lazily loaded, otherwise routes might not be defined when you think they are and that could lead to unexpected results.
+> :warning: WARNING: Define routes in your main application's page and not in subpages that are lazily loaded, otherwise routes might not be defined when you think they are, and that could lead to unexpected results.
 
 ```svelte
 <script lang="ts">
@@ -416,7 +412,7 @@ To set hash values, either assign to `$hash`:
 hash.set('tab1');
 ```
 
-... or use plain goto:
+... or use plain `goto()`:
 
 ```ts
 goto('#tab1');
@@ -429,7 +425,7 @@ Sometimes you want to highlight a nav menu item when you are on a page, so taht 
 `BLOG  | ORDERS | *ABOUT*`
 
 ... and you want `ABOUT` highlighted when user is on `/about`.
-In this case, just set a dynamic class inspecting $path:
+In this case, just set a dynamic class inspecting `$path`:
 
 ```svelte
 <script lang="ts">
@@ -470,7 +466,7 @@ No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just u
 
 There is no `<Link>` objects in [Elegua](https://github.com/howesteve/elegua); just use your plain `\<a\>` tag. It will be handled automatically. Are you coming from other routers?...
 
-## File system dynamic routes?
+## File system dynamic routes, like Sveltekit?
 
 I would have implemented this better, but [Vite](https://vitejs.dev/) only allows string literals in `import.meta.glob()` calls, so this has has to be manual.
 
@@ -478,7 +474,9 @@ I would have implemented this better, but [Vite](https://vitejs.dev/) only allow
 await Promise.all(
 	// '/src/posts' is fixed below because vite only accepts literals.
 	// If posts dir gets moved, it has to be updated accordingly
-	Object.entries(import.meta.glob('/src/posts/**/*.md')).map(async ([path, resolver]) => {})
+	Object.entries(import.meta.glob('/src/posts/**/*.md')).map(async ([path, resolver]) => {
+    // ... handle path/resolver, vite style
+  })
 );
 ```
 
