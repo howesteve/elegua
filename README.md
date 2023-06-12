@@ -6,7 +6,7 @@ Elegua: the best Svelte client router you'll ever see in 180 LoC.
 
 Online: [https://elegua.netlify.app/](https://elegua.netlify.app/)
 
-Or run yourself:
+... or run yourself:
 
 ```sh
 $ git clone http://github.com/howesteve/elegua
@@ -20,6 +20,7 @@ $ pnpm run dev
 - Dependency free (except for Svelte, of course)
 - A single file/component (1.5Kb gzipped)
 - Fully reactive
+- Really fast.
 - History API only (who uses hash paths nowawdays?)
 - Regular \<a\> links supported out of the box. No need for \<Link\> additional components.
 - Route types supported:
@@ -31,7 +32,7 @@ $ pnpm run dev
 ## Why?
 
 - Existing dynamic routers for Svelte are too large, complicated, buggy, unmanteined, and/or not satisfying me.
-- Elegua is designed for PWA applications
+- Elegua is designed for SPA/PWA applications
 - I absolutely hated what they did to [SvelteKit](https://kit.svelte.dev/) and it's "file-based router". Things like:
   - `src/routes/blog/[slug]/+page.js`
   - `src/routes/blog/page/[page]/+page.js`
@@ -527,6 +528,10 @@ or:
   <Post {id} {mode}}>
 </Route>
 ```
+
+## Benchmarks
+
+No, I'm not benchmarking a client router. However if you care to see the source code, you'll see it's very fast.
 
 ## Why is this called "Elegua"?
 
