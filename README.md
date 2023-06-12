@@ -18,7 +18,7 @@ $ pnpm run dev
 - Fully reactive
 - History API only (who uses hash paths nowawdays?)
 - Regular \<a\> links supported out of the box. No need for \<Link\> additional components.
-- Routes types supported:
+- Route types supported:
   - Fixed paths (uses a hash lookup - fast!)
   - Dynamic routes (`/xxx/:group/:id`) (yes, they can be nested)
   - Regexp: any rule you could imagine if it can be expressed by a RegExp expression (ex: `/id/[0-9]+\.json`)
@@ -28,13 +28,12 @@ $ pnpm run dev
 
 - Existing dynamic routers for Svelte are too large, complicated, buggy, unmanteined, and/or not satisfying me.
 - Elegua is designed for PWA applications
-- I absolutely hated what they did to SvelteKit and it's "file-based router". Things like:
+- I absolutely hated what they did to [SvelteKit](https://kit.svelte.dev/) and it's "file-based router". Things like:
   - `src/routes/blog/[slug]/+page.js`
   - `src/routes/blog/page/[page]/+page.js`
   - `src/routes/blog/page/[page]/+page.server.js`
   - `src/routes/blog/category/[category]/page/[page]/+page.server.js`
     ... then all the boilerplate to make it work, just make me sick. Pages and pages and pages of docs just to learn how to re-learn routing! Shoot me. I have no patience.
-- I had to prove my boss (...I mean, gf) I was really working on something on all these hours on the computer. Hope she does not read this.
 - I actually use this on my projects and thought about sharing.
 
 ## Homepage
@@ -52,7 +51,7 @@ Here it goes.
 
 ## Install
 
-### Pnpm
+### pnpm
 
 `pnpm i -D elegua`
 
@@ -76,7 +75,7 @@ It's hopefully very straighforward: there is only one component, and only one pr
 
 [Elegua](https://github.com/howesteve/elegua)'s routing is designed expecting most routes are guided by `path`, of course. However, you can route by hash, searchParams or anything else you want.
 
-Every time the current browser's url changes, [Elegua](https://github.com/howesteve/elegua) will try to match it against the routes defined in your code, no matter where. When a route route matches, that route's children are rendered. All other routes that do not get matched, remains hidden.
+Every time the current browser's url changes, [Elegua](https://github.com/howesteve/elegua) will try to match it against the routes defined in your code, no matter where. Static paths will be tried first; if they fail, Regexp/ When a route route matches, that route's children are rendered. All other routes that do not get matched, remains hidden.
 [Elegua](https://github.com/howesteve/elegua)'s stores will always be updated accordingly to he current url.
 
 > :warning: WARNING: Define routes in your main application's page and not in subpages that are lazily loaded, otherwise routes might not be defined when you think they are, and that could lead to unexpected results.
@@ -122,8 +121,8 @@ Every time the current browser's url changes, [Elegua](https://github.com/howest
 
 ### $path
 
-A writable store that will always be reflecting the current url's path. If you load `http://localhost/blog`, $path will be set as `"/blog"`. 
-If you call `path.set("/")`, the browser load home route (similar to `goto()`).
+A writable store that reflects the current url's path. If you load `http://localhost/blog`, `$path` will be set as `"/blog"`.
+ If you call `path.set("/")`, the browser load home route (similar to `goto("/")`).
 
 ```svelte
 <script lang="ts">
@@ -131,12 +130,14 @@ If you call `path.set("/")`, the browser load home route (similar to `goto()`).
 </script>
 
 <h1>Your are now in the {$path} page.</h1>
+<p>Set path:</p>
+<button on:click|preventDefault={() => ($path = '/blog')}>Set $path='/blog'</button>
 ```
 
 ### $url
 
-This writable store is a [URL](https://developer.mozilla.org/pt-BR/docs/Web/API/URL) object for the current loaded url. Anytime the url changes, $url will be updated. If you update `url`, the current browser's url will change as well.
-You can inspect `url.pathname`, `url.hash`, `url.searchParams`, etc.
+This writable store is a [URL](https://developer.mozilla.org/pt-BR/docs/Web/API/URL) object for the current loaded url. Anytime the url changes, `$url` will be updated. If you update `url`, the current browser's url will change as well.
+You can inspect/use `url.pathname`, `url.hash`, `url.searchParams`, etc.
 
 ```svelte
 <script lang="ts">
@@ -149,7 +150,7 @@ Current page: {$url.pathname}
 <br />Current searchParams: {$url.searchParams}
 ```
 
-Using $url you can handle anything you want. For instance, loading a post by hash using $url:
+Using `$url` you can handle anything you want. For instance, loading a post by hash using `$url`:
 
 ```svelte
 <script lang="ts">
@@ -192,7 +193,7 @@ Loading post by hash (async):
 
 ### $searchParams
 
-This readable store is a [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) object that reflects the search params for the current url. For instance, if you load:`http://localhost/blog?x=1` and call `$searchParams.get('x')`, you'll get `"1"` (yes, a string). For changing a searchParam value, call `$searchParams.set("x", "1")`. Check the [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) for other methods.
+This readable store is a [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) object for the current url. For instance, if you load:`http://localhost/blog?x=1` and call `$searchParams.get('x')`, you'll get `"1"` (yes, a string). For changing a `searchParam` value, call `$searchParams.set("x", "1")`. Check the [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) for other methods.
 
 [Elegua](http://github.com/howesteve/elegua) has reactive `searchParams.set()` and `searchParams.delete()` methods; if you use them, the current browser's url and [history](https://developer.mozilla.org/en-US/docs/Web/API/History) will automatically be updated.
 
@@ -210,7 +211,7 @@ Reading from `searchParam`:
 </Route>
 ```
 
-Setting a searchParam value (reactive):
+Setting a `searchParam` value (reactive):
 
 ```svelte
 <button
@@ -220,7 +221,7 @@ Setting a searchParam value (reactive):
 >
 ```
 
-Removing a searchParam (reactive):
+Removing a `searchParam` (reactive):
 
 ```svelte
 <button
@@ -246,7 +247,7 @@ This store will be set after a match operation (i.e. after a match on named or r
 
 ### $params
 
-This store contains the named dynamic parts of a path; is kinda similar to `$match`.
+This store contains the named dynamic parts of a path; is kinda similar to [$match](#match).
 
 ```svelte
 <script lang="ts">
@@ -258,11 +259,11 @@ This store contains the named dynamic parts of a path; is kinda similar to `$mat
 </Route>
 ```
 
-If the last routed was matched through a hash (i.e. fixed path) match, `matches` will be empty.
+If the last routed was matched through a hash (i.e. fixed path) match, `params` will be empty.
 
 ### $oldUrl
 
-A store that will have the old (previous) url before the last browser change. For instance, if you were on `http://localhost/blog` and navigate to `http://localhost/about`, `$oldUrl.pathname` will be "/blog" and `$path` will become `"/about"`.
+A store for the old (previous) url before the last browser change.
 
 ```svelte
 <script lang="ts">
@@ -274,15 +275,15 @@ A store that will have the old (previous) url before the last browser change. Fo
 
 ## resolve()
 
-The `resolve()` function is the Router's internal resolver and will be used internally to sync stores when a url changes. It's exported just in case you want to do some manual routing, but typically there is no need to be used otherwise.
+The `resolve()` function is [Elegua](https://github.com/howesteve/elegua)'s internal resolver and will be used internally to route and sync stores when a url changes. It's exported just in case you want to do some manual routing, but typically there is no need to be used otherwise.
 
 ## goto()
 
-The `goto()` method navigates to some url/path. Internally, it uses [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState). Calls to goto will trigger updates in all the reactive stores: `$path`, `$url`, `$hash`, `$oldUrl`, etc.
+The `goto()` method navigates to some url/path. Internally, it uses [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState). Calls to goto will trigger updates in all the reactive stores: [$path](#path), [$url](#url), [$hash](#hash), [$oldUrl](#oldurl), etc.
 
 ## RouteOptions
 
-Options for the router. Currently there is just a `keepMatching` option that allows to keep matching further routes even if one was matched.
+Options for the router. Currently there is just a `keepMatching` option that allows to keep matching further RegExp/dynamic routes routes even if one was matched.
 
 ```svelte
 <script lang="ts">
@@ -312,9 +313,11 @@ Just set the route property for the exact path:
 </Route>
 ```
 
+Fixed path routes are very fast; they are matched using a hash function (`Map.get()`)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map].
+
 ## Nesting
 
-Paths can also be nested. It doesn't matter for [Elegua](http://github.com/howesteve/elegua). Just provide a valid child:
+Paths can also be nested. It doesn't matter for [Elegua](http://github.com/howesteve/elegua). Just provide a valid child and it will work:
 
 ```svelte
 <Route route="/about/authors/steve">
@@ -322,11 +325,9 @@ Paths can also be nested. It doesn't matter for [Elegua](http://github.com/howes
 </Route>
 ```
 
-Fixed path routes are very fast; they are matched using a hash function (`Map.get()`)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map].
+## Fallback route/404/error page
 
-## Fallback route/404
-
-If no other routes are matched, the Route marked with a `route="*"` will be matched. You can inspect `$path`, `$params`, `$url`, etc, to provide the user with more info.
+If no other routes are matched, the Route marked with a `route="*"` will be matched. You can inspect [$path](#path), [$params](#params), [$url](#url), etc, to show an error page and provide the user with more info.
 
 ```svelte
 <script lang="ts">
@@ -353,13 +354,13 @@ Named routes are routes that can have named variable path sets, such as `/blog/:
 </Route>
 ```
 
-The `$params` store will reflect the params by name. Internally, this is implemented using a RegExp route.
+The [$params](#params) store will reflect the params by name. Internally, this is implemented using a RegExp route.
 
-If the last routing did not use named routes/or regexp matching (i.e. a hash match), `$params` will be empty.
+If the last routing did not use named routes/or regexp matching (i.e. a hash match), [$params](#params) will be empty.
 
 ## Regexp routes
 
-Sometimes you might want a route to match only on certain specific path patterns; ex: `/users/123`. Just use a regexp as route:
+Sometimes you might want a route to match only on certain specific path patterns; ex: `/users/123`. Use a regexp as route:
 
 ```svelte
 <Route route={/\/users/([0-9]+)/}>
@@ -367,14 +368,14 @@ Sometimes you might want a route to match only on certain specific path patterns
 </Route>
 ```
 
-- `/users` will _not_ match this route.
-- `/users/howe` will _not_ match this route.
-- `/users/123` _will_ match this route, and `$match[1]` will be `123`
+- `\/users` will _not_ match this route.
+- `\/users\/howe` will _not_ match this route.
+- `\/users\/123` _will_ match this route, and `$match[1]` will be `123`
 
 You could use other patterns in the same way. Ex:
 
-- `/users/(howe|steve)` => $match[1] will either be `"howe"` or `"steve"`
-- `/users/([a-zA-Z\_\\])*` => $match[1], $match(2)
+- `\/users\/(howe|steve)` => $match[1] will match `"/users/howe"` or `"/users/steve"`
+- `\/users\/([a-zA-Z\_\\])*` => inspect $match[1], $match[2]
 
 The downsize of regexp routes compared to hash routes is that have to be matched sequentially until something does match. However, it should be fast enough anyway even for hundreds of paths.
 
@@ -447,7 +448,7 @@ In this case, just set a dynamic class inspecting `$path`:
 
 ## How do I handle any other kind of url changes?
 
-Subscribe to [url](#url). It's the DOM `URL` object for the current browser's url. Then you can do anything you want with it.
+Subscribe to [url](#url). It's the DOM [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL) object for the current browser's url. Then you can do anything you want with it.
 
 ## Redirects
 
@@ -498,7 +499,7 @@ Of course. That's the point about this lib.
 
 ## I need to route using search parameters, i.e. http://xxx.com/x=1
 
-Just use `$searchParams`:
+Just use [$searchParams](#searchparams):
 
 ```svelte
 <Router route="/blog?post_id=1&mode=plain">
