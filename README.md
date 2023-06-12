@@ -25,12 +25,12 @@ $ pnpm run dev
 - Routes types supported:
   - Hash/fixed paths (fast!)
   - Dynamic routes (`/xxx/:group/:id`) (yes, they can be nested)
-  - Regexp: any rule you could imagine if it can be expressed by a RegExp expression
+  - Regexp: any rule you could imagine if it can be expressed by a RegExp expression (ex: `/id/[0-9]+\.json`)
   - Fallback/error route
 
 ## Why?
 
-- Existing dynamic routers for Svelte are too complicated, buggy, unmanteined, large and/or not satisfying me.
+- Existing dynamic routers for Svelte are too large, complicated, buggy, unmanteined, and/or not satisfying me.
 - Elegua is designed for PWA applications
 - I absolutely hated what they did to SvelteKit and it's "file-based router". Things like:
   - `src/routes/blog/[slug]/+page.js`
@@ -51,7 +51,7 @@ Most of this repository is a demo applicaion for [Elegua](http://github.com/howe
 
 ## Documentation
 
-You mean, besides reading the source code? :)
+You mean, besides [reading the source code](https://github.com/howesteve/elegua/tree/master/src/lib)? :)
 Here it goes.
 
 ### Install
@@ -70,7 +70,7 @@ Here it goes.
 
 ### Usage
 
-It's hopefully very straighforward: there is only one component and one property (route) has to be set:
+It's hopefully very straighforward: there is only one component, and only one property (route) has to be set:
 
 ```svelte
 <Router route="/">
@@ -78,7 +78,9 @@ It's hopefully very straighforward: there is only one component and one property
 </Route>
 ```
 
-Main expected usage is routing by `path`, of course. Every time the current browser's url changes, [Elegua](https://github.com/howesteve/elegua) will try to match it against the routes defined in your code, no matter where. When a route route matches, that route's children are rendered. All other routes that do not get matched, remains hidden.
+Router is designed expecting most routes are guided by `path`, of course. However, you can route by hash, searchParams or anything else you want. 
+
+Every time the current browser's url changes, [Elegua](https://github.com/howesteve/elegua) will try to match it against the routes defined in your code, no matter where. When a route route matches, that route's children are rendered. All other routes that do not get matched, remains hidden.
 [Elegua](https://github.com/howesteve/elegua)'s stores will always be updated accordingly to he current url.
 
 > :warning: WARNING: Define routes in your main application's page and not in subpages that are lazily loaded, otherwise routes might not be defined when you think they are and that could lead to unexpected results.
