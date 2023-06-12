@@ -4,6 +4,10 @@ Elegua: the best Svelte client router you'll ever see in 180 LoC.
 
 ## Demo
 
+Online: [https://elegua.netlify.app/](https://elegua.netlify.app/)
+
+Or run yourself:
+
 ```sh
 $ git clone http://github.com/howesteve/elegua
 $ cd elegua/src/test
