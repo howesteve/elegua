@@ -421,12 +421,12 @@ goto('#tab1');
 
 ## Nav menu highlighting
 
-Sometimes you want to highlight a nav menu item when you are on a page, so taht can see at a glance where they are. For instance, if you are in `"/about"` and your nav menu has the following links:
+Sometimes you want to highlight a nav menu item when you are on a page, so that the user can see at a glance where they are. For instance, if you are in `"/about"` and your nav menu has the following links:
 
-`BLOG  | ORDERS | *ABOUT*`
+`BLOG | ORDERS | ABOUT`
 
-... and you want `ABOUT` highlighted when user is on `/about`.
-In this case, just set a dynamic class inspecting `$path`:
+... and you want `ABOUT` highlighted when user is on that page (`/about`).
+In this case, just set a dynamic class inspecting [$path](#path):
 
 ```svelte
 <script lang="ts">
