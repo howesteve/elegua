@@ -38,7 +38,11 @@ export const hash = (() => {
 })();
 let urlSetter;
 export const url = (() => {
-  const { subscribe, set: set_, update } = writable(new URL(window.location.href));
+  const {
+    subscribe,
+    set: set_,
+    update
+  } = writable(new URL(window.location.href));
   urlSetter = (u) => {
     const sset = u.searchParams.set;
     const sdel = u.searchParams.delete;
@@ -79,9 +83,12 @@ export const oldUrl = readable(new URL(window.location.href), (set) => {
 get(oldUrl);
 export const searchParams = derived(url, (x) => x.searchParams);
 let matchSetter;
-export let match = readable(void 0, (set) => {
-  matchSetter = set;
-});
+export let match = readable(
+  void 0,
+  (set) => {
+    matchSetter = set;
+  }
+);
 get(match);
 let params_ = {};
 let paramsSetter;
@@ -129,11 +136,13 @@ window?.addEventListener("load", (event) => {
     let targetElement = event2.target;
     while (targetElement && targetElement !== document.body) {
       if (targetElement.tagName.toLowerCase() === "a") {
-        event2.preventDefault();
         const href = targetElement.getAttribute("href");
-        if (href)
-          url.set(new URL(href, window.location.href));
-        return;
+        if (href && !href.startsWith("http")) {
+          event2.preventDefault();
+          if (href)
+            url.set(new URL(href, window.location.href));
+          return;
+        }
       }
       targetElement = targetElement.parentElement || document.body;
     }
@@ -159,7 +168,9 @@ else if (typeof route === "string") {
   if (route.indexOf("/:") >= 0) {
     route = RegExp(
       route.split("/").map(
-        (x) => x.startsWith(":") ? `(?<${regExpEscape(x.slice(1, x.length))}>[a-zA-Z][a-zA-Z0-9_-]*)` : regExpEscape(x)
+        (x) => x.startsWith(":") ? `(?<${regExpEscape(
+          x.slice(1, x.length)
+        )}>[a-zA-Z][a-zA-Z0-9_-]*)` : regExpEscape(x)
       ).join(`\\/`)
     );
   }

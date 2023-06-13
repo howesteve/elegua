@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { getContext, setContext } from 'svelte';
+	import { afterUpdate, getContext, onMount, setContext, tick } from 'svelte';
 	import { derived, get, readable } from 'svelte/store';
 	import { writable, type Subscriber } from 'svelte/store';
 	let current = writable(0);
@@ -86,7 +86,6 @@
 			update,
 		};
 	})();
-
 	// A writable store for the current path. If url is changed, subscribers will be notified;
 	// if store value is set, current url will change as well and path will be resolved.
 	let oldUrlSetter: Subscriber<URL>;
@@ -149,6 +148,8 @@
 		if (href instanceof URL) href = href.toString();
 		url.set(new URL(href, window.location.href));
 	}
+	// just re-resolve the current path manually
+  export const refresh = () => goto(get(path));
 
 	window?.addEventListener('load', (event) => {
 		// setting the URL for the first time
@@ -171,9 +172,10 @@
 			let targetElement = event.target as HTMLElement;
 			while (targetElement && targetElement !== document.body) {
 				if (targetElement.tagName.toLowerCase() === 'a') {
-					const href = targetElement.getAttribute('href');
-					if (href && !href.startsWith('http')) {
-  					event.preventDefault();
+					const href = targetElement.getAttribute('href') || '';
+					// handling external links
+					if (!/^http?s\:\/\//.test(href)) {
+						event.preventDefault();
 						if (href) url.set(new URL(href, window.location.href));
 						return;
 					}

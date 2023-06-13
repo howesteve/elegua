@@ -1,6 +1,6 @@
 {
 	"name": "elegua",
-	"version": "1.0.1",
+	"version": "1.0.3",
 	"private": false,
 	"homepage": "https://github.com/howesteve/elegua",
 	"bugs": {
@@ -30,7 +30,8 @@
 	"prettier": {
 		"singleQuote": true,
 		"tabWidth": 2,
-		"useTabs": true
+		"useTabs": true,
+		"print-width": 120
 	},
 	"files": [
 		"dist/**",
