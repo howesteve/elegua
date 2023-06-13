@@ -3,6 +3,8 @@
 </script>
 
 <h1>This is the home page.</h1>
+<p><b>This is the demo application for <a href="https://github.com/howesteve/elegua">Elegua</a>, a Svelte SPA router component.</b></p>
+
 <p>This is a static route.</p>
 
 <p>Error route (<code>route="*"</code> - non-existing path); should display error page:</p>

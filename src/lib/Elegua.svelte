@@ -27,7 +27,7 @@
 				url.set(u);
 				return set(x);
 			},
-			update
+			update,
 		};
 	})();
 
@@ -44,13 +44,17 @@
 				url.set(u);
 				return set(x);
 			},
-			update
+			update,
 		};
 	})();
 
 	let urlSetter: (u: URL) => void;
 	export const url = (() => {
-		const { subscribe, set: set_, update } = writable(new URL(window.location.href));
+		const {
+			subscribe,
+			set: set_,
+			update,
+		} = writable(new URL(window.location.href));
 		urlSetter = (u: URL) => {
 			const sset = u.searchParams.set;
 			const sdel = u.searchParams.delete;
@@ -79,7 +83,7 @@
 				resolve(u.pathname);
 				urlSetter(u);
 			},
-			update
+			update,
 		};
 	})();
 
@@ -97,9 +101,12 @@
 
 	let matchSetter: Subscriber<RegExpExecArray | undefined>;
 	// A read-only store that will always be reflecting the current url's RegExp match array
-	export let match = readable<RegExpExecArray | undefined>(undefined, (set: typeof matchSetter) => {
-		matchSetter = set;
-	});
+	export let match = readable<RegExpExecArray | undefined>(
+		undefined,
+		(set: typeof matchSetter) => {
+			matchSetter = set;
+		}
+	);
 	get(match);
 
 	let params_: { [key: string]: string } = {};
@@ -110,7 +117,8 @@
 	export let params = readable(params_, (set) => {
 		paramsSetter = set;
 	});
-	const regExpEscape = (s: string) => s.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&');
+	const regExpEscape = (s: string) =>
+		s.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&');
 
 	// Resolves the route. The matching component will be rendered.
 	export function resolve(path: string) {
@@ -163,10 +171,12 @@
 			let targetElement = event.target as HTMLElement;
 			while (targetElement && targetElement !== document.body) {
 				if (targetElement.tagName.toLowerCase() === 'a') {
-					event.preventDefault();
 					const href = targetElement.getAttribute('href');
-					if (href) url.set(new URL(href, window.location.href));
-					return;
+					if (href && !href.startsWith('http')) {
+  					event.preventDefault();
+						if (href) url.set(new URL(href, window.location.href));
+						return;
+					}
 				}
 				targetElement = targetElement.parentElement || document.body;
 			}
@@ -176,9 +186,9 @@
 
 <script lang="ts">
 	// The route/path to point to (ex: '/about' or /[a-z+]/)
-  export let route: string | RegExp;
+	export let route: string | RegExp;
 	// Router options
-  export let options: RouteOptions | undefined = undefined;
+	export let options: RouteOptions | undefined = undefined;
 	let id = (_id += 1);
 	const parent = getContext<ChildSetter>('parent');
 	const children = new Set<number>();
@@ -198,7 +208,9 @@
 					.split('/')
 					.map((x) =>
 						x.startsWith(':')
-							? `(?<${regExpEscape(x.slice(1, x.length))}>[a-zA-Z][a-zA-Z0-9\_\-]*)`
+							? `(?<${regExpEscape(
+									x.slice(1, x.length)
+							  )}>[a-zA-Z][a-zA-Z0-9\_\-]*)`
 							: regExpEscape(x)
 					)
 					.join(`\\/`)
