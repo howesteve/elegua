@@ -13,3 +13,4 @@ vite.config.ts.timestamp-*
 pnpm-lock.yaml
 .vscode/settings.json
 pnpm-lock.yaml
+todo.txt
