@@ -26,6 +26,7 @@ export declare let params: import("svelte/store").Readable<{
 }>;
 export declare function resolve(path: string): void;
 export declare function goto(href: string | URL, data?: any): void;
+export declare const refresh: () => void;
 declare const __propDef: {
     props: {
         route: string | RegExp;

@@ -9,10 +9,10 @@ Online: [https://elegua.netlify.app/](https://elegua.netlify.app/)
 ... or run yourself:
 
 ```sh
-$ git clone http://github.com/howesteve/elegua
-$ cd elegua/src/test
-$ pnpm install
-$ pnpm run dev
+git clone http://github.com/howesteve/elegua
+cd elegua/src/test
+pnpm install
+pnpm run dev
 ```
 
 ## Features
@@ -127,11 +127,11 @@ Every time the current browser's url changes, [Elegua](https://github.com/howest
 ### $path
 
 A writable store that reflects the current url's path. If you load `http://localhost/blog`, `$path` will be set as `"/blog"`.
- If you call `path.set("/")`, the browser load home route (similar to `goto("/")`).
+If you call `path.set("/")`, the browser load home route (similar to `goto("/")`).
 
 ```svelte
 <script lang="ts">
-	import Router, { hash } from 'elegua';
+  import Router, { hash } from 'elegua';
 </script>
 
 <h1>Your are now in the {$path} page.</h1>
@@ -146,7 +146,7 @@ You can inspect/use `url.pathname`, `url.hash`, `url.searchParams`, etc.
 
 ```svelte
 <script lang="ts">
-	import { url } from 'elegua';
+  import { url } from 'elegua';
 </script>
 
 Current page: {$url.pathname}
@@ -159,12 +159,12 @@ Using `$url` you can handle anything you want. For instance, loading a post by h
 
 ```svelte
 <script lang="ts">
-	import { url } from 'elegua';
-	let post: Post;
-	url.subscribe(async (u) => {
-		// Loading post by hash
-		post = await getPost(u.hash);
-	});
+  import { url } from 'elegua';
+  let post: Post;
+  url.subscribe(async (u) => {
+  // Loading post by hash
+  post = await getPost(u.hash);
+});
 </script>
 
 <Post data={post} />
@@ -176,7 +176,7 @@ A writable store that will always be reflecting the current url's hash. If you l
 
 ```svelte
 <script lang="ts">
-	import Router, { hash } from 'elegua';
+  import Router, { hash } from 'elegua';
 </script>
 
 <h1>The current hash is: {$hash}</h1>
@@ -198,7 +198,7 @@ Loading post by hash (async):
 
 ### $searchParams
 
-This readable store is a [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) object for the current url. For instance, if you load:`http://localhost/blog?x=1` and call `$searchParams.get('x')`, you'll get `"1"` (yes, a string). For changing a `searchParam` value, call `$searchParams.set("x", "1")`. Check the [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) for other methods.
+This readable store is a [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) object for the current url. For instance, if you load:`http://localhost/blog?x=1` and call `$searchParams.get('x')`, you'll get `"1"` (yes, a string). For changing a `searchParam` value, call `$searchParams.set("x", "1")`. Check the [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) reference for other methods.
 
 [Elegua](http://github.com/howesteve/elegua) has reactive `searchParams.set()` and `searchParams.delete()` methods; if you use them, the current browser's url and [history](https://developer.mozilla.org/en-US/docs/Web/API/History) will automatically be updated.
 
@@ -220,9 +220,9 @@ Setting a `searchParam` value (reactive):
 
 ```svelte
 <button
-	on:click|preventDefault={() => {
-		$searchParams.set('x', '1');
-	}}>Set x</button
+  on:click|preventDefault={() => {
+    $searchParams.set('x', '1');
+  }}>Set x</button
 >
 ```
 
@@ -230,9 +230,9 @@ Removing a `searchParam` (reactive):
 
 ```svelte
 <button
-	on:click|preventDefault={() => {
-		$searchParams.delete('x');
-	}}>Remove x</button
+  on:click|preventDefault={() => {
+    $searchParams.delete('x');
+  }}>Remove x</button
 >
 ```
 
@@ -272,7 +272,7 @@ A store for the old (previous) url before the last browser change.
 
 ```svelte
 <script lang="ts">
-	import Router, { hash } from 'elegua';
+  import Router, { hash } from 'elegua';
 </script>
 
 <h1>Your are now in the {$path} page, coming from {$oldUrl.pathname}.</h1>
@@ -311,10 +311,10 @@ Just set the route property for the exact path:
 
 ```svelte
 <Route route="/">
-	<Home />
+  <Home />
 </Route>
 <Route route="/about">
-	<About />
+  <About />
 </Route>
 ```
 
@@ -326,7 +326,7 @@ Paths can also be nested. It doesn't matter for [Elegua](http://github.com/howes
 
 ```svelte
 <Route route="/about/authors/steve">
-	<Steve />
+  <Steve />
 </Route>
 ```
 
@@ -336,12 +336,12 @@ If no other routes are matched, the Route marked with a `route="*"` will be matc
 
 ```svelte
 <script lang="ts">
-	import Router, { path } from 'elegua';
+  import Router, { path } from 'elegua';
 </script>
 
 <Route route="*">
-	<h1>Error</h1>
-	<p>No such path: {$path}</p>
+<h1>Error</h1>
+  <p>No such path: {$path}</p>
 </Route>
 ```
 
@@ -351,11 +351,11 @@ Named routes are routes that can have named variable path sets, such as `/blog/:
 
 ```svelte
 <script lang="ts">
-	import Router, { path } from 'elegua';
+  import Router, { path } from 'elegua';
 </script>
 
 <Route route="/blog/:slug">
-	This blog's slug is {$params["slug"]}
+  This blog's slug is {$params["slug"]}
 </Route>
 ```
 
@@ -390,17 +390,17 @@ Use the `$hash` store.
 
 ```svelte
 <script lang="ts">
-	import Router, { hash } from 'elegua';
+  import Router, { hash } from 'elegua';
 </script>
 
 <Route route="/blog">
-	{#if $hash === 'tab1'}
-		Tab1
-	{:else if $hash === 'tab2'}
-		Tab2
-	{:else if $hash === 'tab2'}
-		Tab2
-	{/if}
+  {#if $hash === 'tab1'}
+    Tab1
+  :else if $hash === 'tab2'}
+    Tab2
+  {:else if $hash === 'tab2'}
+    Tab2
+  {/if}
 </Route>
 ```
 
@@ -435,19 +435,19 @@ In this case, just set a dynamic class inspecting [$path](#path):
 
 ```svelte
 <script lang="ts">
-	import { path } from 'elegua';
+  import { path } from 'elegua';
 </script>
 
 <nav>
-	<a href={'/blog'} class:selected={$path === '/blog'}>BLOG </a>
-	<a href={'/orders'} class:selected={$path === '/orders'}>ORDERS </a>
-	<a href={'/about'} class:selected={$path === '/about'}>ABOUT </a>
+  <a href={'/blog'} class:selected={$path === '/blog'}>BLOG </a>
+  <a href={'/orders'} class:selected={$path === '/orders'}>ORDERS </a>
+  <a href={'/about'} class:selected={$path === '/about'}>ABOUT </a>
 </nav>
 
 <style>
-	.selected {
-		font-weight: bold;
-	}
+  .selected {
+    font-weight: bold;
+  }
 </style>
 ```
 
@@ -478,10 +478,11 @@ I would have implemented this better, but [Vite](https://vitejs.dev/) only allow
 
 ```ts
 await Promise.all(
-	// '/src/posts' is fixed below because vite only accepts literals.
-	// If posts dir gets moved, it has to be updated accordingly
-	Object.entries(import.meta.glob('/src/posts/**/*.md')).map(async ([path, resolver]) => {
-    // ... handle path/resolver, vite style
+  // '/src/posts' is fixed below because vite only accepts literals.
+  // If posts dir gets moved, it has to be updated accordingly
+  Object.entries(import.meta.glob('/src/posts/**/*.md')).map(
+  async ([path, resolver]) => {
+  // ... handle path/resolver, vite style
   })
 );
 ```
@@ -502,9 +503,11 @@ No \<Link\> objects in lib: just use your plain \<a\> tag. It will be handled au
 
 Of course. That's the point about this lib.
 
-## I need to route using search parameters, i.e. http://xxx.com/x=1
+## I need to route using search parameters
 
 Just use [$searchParams](#searchparams):
+
+Ex: routing using `http://xxx.com/x=1`:
 
 ```svelte
 <Router route="/blog?post_id=1&mode=plain">

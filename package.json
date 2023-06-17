@@ -1,6 +1,6 @@
 {
 	"name": "elegua",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"private": false,
 	"homepage": "https://github.com/howesteve/elegua",
 	"bugs": {
@@ -10,10 +10,10 @@
 		"dev": "echo Starting demo application... && vite dev",
 		"build:page": "vite build --outDir build",
 		"build:component": "svelte-package -i src/lib -o dist",
-    "build": "pnpm run build:component;pnpm run build:component",
-    "clean:page": "rm -fr page",
-    "clean:dist": "rm -fr dist",
-    "clean": "pnpm run clean:dist;pnpm run clean:page",
+		"build": "pnpm run build:component;pnpm run build:component",
+		"clean:page": "rm -fr page",
+		"clean:dist": "rm -fr dist",
+		"clean": "pnpm run clean:dist;pnpm run clean:page",
 		"preview": "vite preview",
 		"test": "playwright test",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -40,7 +40,12 @@
 		"CHANGELOG.md",
 		"LICENSE"
 	],
-  "keywords": ["svelte", "route", "routing", "pwa"],
+	"keywords": [
+		"svelte",
+		"route",
+		"routing",
+		"pwa"
+	],
 	"readme": "README.md",
 	"repository": {
 		"type": "git",
@@ -48,12 +53,12 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.1.0",
-		"@sveltejs/kit": "^1.20.2",
+		"@sveltejs/kit": "^1.20.4",
 		"@sveltejs/package": "^2.0.2",
 		"@sveltejs/vite-plugin-svelte": "^2.4.1",
-		"@typescript-eslint/eslint-plugin": "^5.59.9",
-		"@typescript-eslint/parser": "^5.59.9",
-		"eslint": "^8.42.0",
+		"@typescript-eslint/eslint-plugin": "^5.59.11",
+		"@typescript-eslint/parser": "^5.59.11",
+		"eslint": "^8.43.0",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"prettier": "^2.8.8",

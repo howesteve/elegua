@@ -1,4 +1,4 @@
-<script context="module">import { getContext, setContext } from "svelte";
+<script context="module">import { afterUpdate, getContext, onMount, setContext, tick } from "svelte";
 import { derived, get, readable } from "svelte/store";
 import { writable } from "svelte/store";
 let current = writable(0);
@@ -120,6 +120,7 @@ export function goto(href, data = void 0) {
     href = href.toString();
   url.set(new URL(href, window.location.href));
 }
+export const refresh = () => goto(get(path));
 window?.addEventListener("load", (event) => {
   urlSetter(new URL(document.location.href));
   resolve(get(path));
@@ -136,8 +137,8 @@ window?.addEventListener("load", (event) => {
     let targetElement = event2.target;
     while (targetElement && targetElement !== document.body) {
       if (targetElement.tagName.toLowerCase() === "a") {
-        const href = targetElement.getAttribute("href");
-        if (href && !href.startsWith("http")) {
+        const href = targetElement.getAttribute("href") || "";
+        if (!/^http?s\:\/\//.test(href)) {
           event2.preventDefault();
           if (href)
             url.set(new URL(href, window.location.href));
