@@ -532,6 +532,17 @@ or:
 </Route>
 ```
 
+## I'm getting 404 errors when refreshing urls pointing to paths
+
+Your server must redirect all requests to `/index.html` so that [Elegua](https://github.com/howesteve/elegua) gets loaded and handle the routing; otherwise, the server will route it directly and you'll probably not get what you were hoping for.
+For instance, if you load `/blog` without setting up the server to load `/index.html`, it will reply with a `404` error.
+
+In netlify, where the [demo](https://elegua.netlify.app/) is located, this is done by [adding a `_redirect` file with the following contents](https://www.netlify.com/blog/2019/01/16/redirect-rules-for-all-how-to-configure-redirects-for-your-static-site/):
+
+```text
+/* /index.html 200
+```
+
 ## Benchmarks
 
 No, I'm not benchmarking a client router. However if you care to see the source code, you'll see it's very fast.

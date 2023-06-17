@@ -8,7 +8,7 @@
 	},
 	"scripts": {
 		"dev": "echo Starting demo application... && vite dev",
-		"build:page": "vite build --outDir build",
+		"build:page": "vite build --outDir build; echo \"/* /index.html 200\" > build/_redirects",
 		"build:component": "svelte-package -i src/lib -o dist",
 		"build": "pnpm run build:component;pnpm run build:component",
 		"clean:page": "rm -fr page",
