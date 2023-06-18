@@ -73,7 +73,7 @@
 			oldUrlSetter(get(url));
 			set_(u);
 			if (get(path) !== u.pathname) pathSetter(u.pathname);
-			if (get(hash) !== u.hash) hashSetter(u.hash);
+			if (get(hash) !== u.hash) hashSetter(u.hash.slice(1, u.hash.length));
 		};
 		return {
 			subscribe,
