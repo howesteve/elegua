@@ -31,15 +31,16 @@ pnpm run dev
 
 ## Why?
 
-- Existing dynamic routers for Svelte are too large, complicated, buggy, unmanteined, and/or not satisfying me.
-- Elegua is designed for SPA/PWA applications
+- In my opinion, existing dynamic routers for Svelte are too large, complicated, buggy, unmainteined, and/or not satisfying me.
+- Designed for SPA/PWA applications
 - I absolutely hated what they did to [SvelteKit](https://kit.svelte.dev/) and it's "file-based router". Things like:
   - `src/routes/blog/[slug]/+page.js`
   - `src/routes/blog/page/[page]/+page.js`
   - `src/routes/blog/page/[page]/+page.server.js`
   - `src/routes/blog/category/[category]/page/[page]/+page.server.js`
     ... then all the boilerplate to make it work, just make me sick. Pages and pages and pages of docs just to learn how to re-learn routing! Shoot me. I have no patience.
-- I actually use this on my projects and thought about sharing.
+- I had to justify my boss (i.e., my gf) I was actuallky doing something all these hours on the computer.
+- I actually use this on some of my projects and thought about sharing.
 
 ## Homepage
 
@@ -155,7 +156,7 @@ Current page: {$url.pathname}
 <br />Current searchParams: {$url.searchParams}
 ```
 
-Using `$url` you can handle anything you want. For instance, loading a post by hash using `$url`:
+Using `$url`, you can handle anything you want. For instance, loading a post by hash using `$url`:
 
 ```svelte
 <script lang="ts">
@@ -305,7 +306,7 @@ Options for the router. Currently there is just a `keepMatching` option that all
 
 ## Howto's/Recipes/FAQ
 
-## Matching exact/fixed paths
+### Matching exact/fixed paths
 
 Just set the route property for the exact path:
 
@@ -320,7 +321,7 @@ Just set the route property for the exact path:
 
 Fixed path routes are very fast; they are matched using a hash function (`Map.get()`)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map].
 
-## Nesting
+### Nesting
 
 Paths can also be nested. It doesn't matter for [Elegua](http://github.com/howesteve/elegua). Just provide a valid child and it will work:
 
@@ -330,7 +331,7 @@ Paths can also be nested. It doesn't matter for [Elegua](http://github.com/howes
 </Route>
 ```
 
-## Fallback route/404/error page
+### Fallback route/404/error page
 
 If no other routes are matched, the Route marked with a `route="*"` will be matched. You can inspect [$path](#path), [$params](#params), [$url](#url), etc, to show an error page and provide the user with more info.
 
@@ -345,7 +346,7 @@ If no other routes are matched, the Route marked with a `route="*"` will be matc
 </Route>
 ```
 
-## Named routes
+### Named routes
 
 Named routes are routes that can have named variable path sets, such as `/blog/:slug`:
 
@@ -363,7 +364,7 @@ The [$params](#params) store will reflect the params by name. Internally, this i
 
 If the last routing did not use named routes/or regexp matching (i.e. a hash match), [$params](#params) will be empty.
 
-## Regexp routes
+### Regexp routes
 
 Sometimes you might want a route to match only on certain specific path patterns; ex: `/users/123`. Use a regexp as route:
 
@@ -384,7 +385,7 @@ You could use other patterns in the same way. Ex:
 
 The downsize of regexp routes compared to hash routes is that they are slower and must to be matched sequentially. However, it should be fast enough anyway even for hundreds of paths.
 
-## Hash routes
+### Hash routes
 
 Use the `$hash` store.
 
@@ -424,7 +425,7 @@ hash.set('tab1');
 goto('#tab1');
 ```
 
-## Nav menu highlighting
+### Nav menu highlighting
 
 Sometimes you want to highlight a nav menu item when you are on a page, so that the user can see at a glance where they are. For instance, if you are in `"/about"` and your nav menu has the following links:
 
@@ -451,11 +452,11 @@ In this case, just set a dynamic class inspecting [$path](#path):
 </style>
 ```
 
-## How do I handle any other kind of url changes?
+### How do I handle any other kind of url changes?
 
 Subscribe to [url](#url). It's the DOM [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL) object for the current browser's url. Then you can do anything you want with it.
 
-## Redirects
+### Redirects
 
 No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just use `\<meta refresh="url..."\>`:
 
@@ -468,11 +469,11 @@ No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just u
 </Route>
 ```
 
-## How do I render \<Link\>s?
+### How do I render \<Link\>s?
 
 There is no `<Link>` objects in [Elegua](https://github.com/howesteve/elegua); just use your plain `\<a\>` tag. It will be handled automatically. Are you coming from other routers?...
 
-## File system dynamic routes, like Sveltekit?
+### File system dynamic routes, like Sveltekit?
 
 I would have implemented this better, but [Vite](https://vitejs.dev/) only allows string literals in `import.meta.glob()` calls, so this has has to be manual.
 
@@ -489,7 +490,7 @@ await Promise.all(
 
 There is an example of this on the demo page.
 
-## How to change url but not really triggering page changes and all these store updates?
+### How to change url but not really triggering page changes and all these store updates?
 
 DOM's [`history`](https://developer.mozilla.org/en-US/docs/Web/API/History) is still your friend. Just use `history.replaceState()`:
 
@@ -499,11 +500,11 @@ history.replaceState({}, '', '/blog');
 
 No \<Link\> objects in lib: just use your plain \<a\> tag. It will be handled automatically. Are you coming from other Routers?...
 
-## If I change the url manually in the browser, will all these stores get updated accordingly?
+### If I change the url manually in the browser, will all these stores get updated accordingly?
 
 Of course. That's the point about this lib.
 
-## I need to route using search parameters
+### I need to route using search parameters
 
 Just use [$searchParams](#searchparams):
 
@@ -532,7 +533,7 @@ or:
 </Route>
 ```
 
-## I'm getting 404 errors when refreshing urls pointing to paths
+### I'm getting 404 errors when refreshing urls pointing to paths
 
 Your server must redirect all requests to `/index.html` so that [Elegua](https://github.com/howesteve/elegua) gets loaded and handle the routing; otherwise, the server will route it directly and you'll probably not get what you were hoping for.
 For instance, if you load `/blog` without setting up the server to load `/index.html`, it will reply with a `404` error.
@@ -543,11 +544,11 @@ In netlify, where the [demo](https://elegua.netlify.app/) is located, this is do
 /* /index.html 200
 ```
 
-## Benchmarks
+### Benchmarks
 
 No, I'm not benchmarking a client router. However if you care to see the source code, you'll see it's very fast.
 
-## Why is this called "Elegua"?
+### Why is this called "Elegua"?
 
 That is the Yoruba deity of the paths, directions, and crossroads. Elegua controls the routes.
 
