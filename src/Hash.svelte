@@ -9,7 +9,7 @@
 	let items = [
 		{ label: 'Tab 1', value: 1, component: Tab1 },
 		{ label: 'Tab 2', value: 2, component: Tab2 },
-		{ label: 'Tab 3', value: 3, component: Tab3 }
+		{ label: 'Tab 3', value: 3, component: Tab3 },
 	];
 </script>
 
@@ -20,15 +20,20 @@
 <h1>Hash demo using Tabs</h1>
 <p>As you click the tabs, see url's hash is changing accordingly.</p>
 <p>
-	This is reactive: if you change the url manually to a valid tab number, it will change the tab as
-	well.
+	This is reactive: if you change the url manually to a valid tab number, it
+	will change the tab as well.
+</p>
+
+<p>
+	If you change to another tab and reload (F5) the page, the selected tab/hash will be kept.
 </p>
 
 <h2>$hash() testing</h2>
 <p>Current $hash: #{$hash}</p>
 
 set $hash:<button
-	on:click|preventDefault={() => hash.set(Math.floor(Math.random() * 1000).toString())}
+	on:click|preventDefault={() =>
+		hash.set(Math.floor(Math.random() * 1000).toString())}
 	>$hash=random()</button
 >
 <Tabs {items} />
