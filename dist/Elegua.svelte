@@ -63,7 +63,7 @@ export const url = (() => {
     if (get(path) !== u.pathname)
       pathSetter(u.pathname);
     if (get(hash) !== u.hash)
-      hashSetter(u.hash);
+      hashSetter(u.hash.slice(1, u.hash.length));
   };
   return {
     subscribe,
@@ -95,6 +95,7 @@ let paramsSetter;
 export let params = readable(params_, (set) => {
   paramsSetter = set;
 });
+get(params);
 const regExpEscape = (s) => s.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, "\\$&");
 export function resolve(path2) {
   const res = hashes.get(path2);

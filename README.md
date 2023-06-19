@@ -173,7 +173,7 @@ Using `$url`, you can handle anything you want. For instance, loading a post by 
 
 ### $hash
 
-A writable store that will always be reflecting the current url's hash. If you load `http://localhost/#xxx`, `$hash` will be set as `"xxx"`. If you call `hash.set('xxx')`, `hash` will be set to `'xxx'`. 
+A writable store that will always be reflecting the current url's hash. If you load `http://localhost/#xxx`, `$hash` will be set as `"xxx"`. If you call `hash.set('xxx')`, `hash` will be set to `'xxx'`.
 
 **IMPORTANT**: the `#` symbol is **not** part of the `hash` string, i.e. `$hash` will be `myhash` instead of `$myhash`.
 

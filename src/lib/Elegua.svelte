@@ -116,6 +116,8 @@
 	export let params = readable(params_, (set) => {
 		paramsSetter = set;
 	});
+	// making sure paramsSetter gets set
+	get(params);
 	const regExpEscape = (s: string) =>
 		s.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&');
 
