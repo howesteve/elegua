@@ -321,7 +321,7 @@ Just set the route property for the exact path:
 </Route>
 ```
 
-Fixed path routes are very fast; they are matched using a hash function (`Map.get()`)[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map].
+Fixed path routes are very fast; they are matched using a hash function [Map.get()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
 
 ### Nesting
 

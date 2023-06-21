@@ -121,7 +121,7 @@ export function goto(href, data = void 0) {
     href = href.toString();
   url.set(new URL(href, window.location.href));
 }
-export const refresh = () => goto(get(path));
+export const refresh = () => resolve(get(path));
 window?.addEventListener("load", (event) => {
   urlSetter(new URL(document.location.href));
   resolve(get(path));

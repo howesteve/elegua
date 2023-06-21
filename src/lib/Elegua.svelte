@@ -151,7 +151,7 @@
 		url.set(new URL(href, window.location.href));
 	}
 	// just re-resolve the current path manually
-  export const refresh = () => goto(get(path));
+  export const refresh = () => resolve(get(path));
 
 	window?.addEventListener('load', (event) => {
 		// setting the URL for the first time

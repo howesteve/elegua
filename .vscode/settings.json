@@ -1,6 +1,7 @@
 {
 	"files.exclude": {
 		"dest": true,
-    "dist": true
+    "dist": true,
+    "build": true,
 	}
 }
