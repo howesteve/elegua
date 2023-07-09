@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { path, resolve } from './lib/Elegua';
+  import { path } from './lib/Elegua';
 </script>
 
 <h1>RegExp routing</h1>

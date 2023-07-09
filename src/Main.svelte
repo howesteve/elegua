@@ -46,6 +46,7 @@
     <RegExp />
   <!-- A regexp match using resolve() -->
   {:else if resolve($path, /users\/(?<user_id>[0-9]+)/)}
+    <h1>URL: {$url.toString()}</h1>
     <h2>User by $match:</h2>
     <p>{$match && $match[1]}</p>
     <h2>User by $params (regexp named group):</h2>

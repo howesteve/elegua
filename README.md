@@ -1,3 +1,6 @@
+<!-- markdownlint-disable-next-line -->
+[![Netlify Status](https://api.netlify.com/api/v1/badges/078adfcb-8470-4e63-b972-13367eb5f6e7/deploy-status)](https://app.netlify.com/sites/elegua/deploys)
+
 # What is Elegua?
 
 Elegua: the best Svelte client router you'll ever see in 140 LoC.
