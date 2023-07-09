@@ -434,7 +434,7 @@ You could use other patterns in the same way. Ex:
 - `resolve($path, '\/users\/(howe|steve)')` => $match[1] will match `"/users/howe"` or `"/users/steve"`
 - `resolve($path, '\/users\/([a-zA-Z\_\\])*')` => inspect $match[1], $match[2]
 
-Named groups work as expected, and captured groups will be reflects in [`$params`](#params):
+Named groups work as expected, and captured groups will be reflects in [`$params`](#params). After (and _only_ after ) [`resolve()`](#resolve) is called, [`$match`](#match) and [`$params`](#params) will be redefined.
 
 ```svelte
 {#if resolve($path, /users\/(?<user_id>[0-9]+)/)}
@@ -442,8 +442,6 @@ Named groups work as expected, and captured groups will be reflects in [`$params
   <p>User by $param: {$param['user_id']</p>
 {/if}
 ```
-
-After (and _only_ after ) [`resolve()`](#resolve) is called, [`$match`](#match) and [`$params`](#params) will be redefined.
 
 ### Nav menu highlighting
 
@@ -584,7 +582,7 @@ In netlify, where the [demo](https://elegua.netlify.app/) is hosted, this is don
 
 ### Upgrading from 1.0
 
-Version 1.x used a \<Route\> component; this version routese using [`resolve()`](#resolve) and [`$path`](#path), which is much cleaner and more flexible.
+Version 1.x used a `<Route>` component; this version routese using [`resolve()`](#resolve) and [`$path`](#path), which is much cleaner and more flexible.
 
 ### Benchmarks
 
