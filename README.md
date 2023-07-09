@@ -163,6 +163,7 @@ Use {#if} blocks for routing using [`$path`](#path):
 ```
 
 > **Note**
+>
 > Routing using [`$path`](#path) as stated above (e.g.`$path === '/blog'`) works fine, but [`$match`](#match) and [`$params`](#params) will be unchanged and might be reflecting the values from a previous [`resolve()`](#resolve) call. If that's not what you want, route static paths using [`resolve()`](#resolve):
 
 ```svelte
@@ -364,7 +365,8 @@ The (`resolve(route)`)[#resolve] function is [Elegua](https://github.com/howeste
 {/if}
 ```
 
-**Note:** Implementatioin detail. One might wonder why I left a `$path` param in the (`resolve(route)`)[#resolve] api - it might seem cumbersome. It's because otherwise svelte wouldn't know it has to re-render the template containing the resolve block:
+> **Note:**
+> Implementatioin detail. One might wonder why I left a `$path` param in the (`resolve(route)`)[#resolve] api - it might seem cumbersome. It's because otherwise svelte wouldn't know it has to re-render the template containing the resolve block:
 
 ```svelte
 {#if resolve('/')}
