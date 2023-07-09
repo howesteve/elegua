@@ -32,7 +32,7 @@ pnpm run dev
 
 ## Why?
 
-- [Elegua](http://github.com/howesteve/elegua) has a very different approach from other routers. Other routers I know of introduce new components such as `\<Route\>` or `\<Link\>`, or complicated filesystem logic. I wanted to get rid of those and just use plain Svelte logic blocks for routing.
+- [Elegua](http://github.com/howesteve/elegua) has a very different approach from other routers. Other routers I know of introduce new components such as `<Route>` or `<Link>`, or complicated filesystem logic. I wanted to get rid of those and just use plain Svelte logic blocks for routing.
 - In my opinion, existing PWA routers for Svelte are too large, complicated, buggy, restricting, unmainteined, full of hacks, and/or just not satisfying me.
 - [Elegua](http://github.com/howesteve/elegua) is designed specifically for SPA/PWA applications
 - I absolutely hated what they did to [SvelteKit](https://kit.svelte.dev/) and it's "file-based router". Things like:
@@ -40,7 +40,7 @@ pnpm run dev
   - `src/routes/blog/page/[page]/+page.js`
   - `src/routes/blog/page/[page]/+page.server.js`
   - `src/routes/blog/category/[category]/page/[page]/+page.server.js`
-    ... then all the boilerplate to make it work, just make me sick. Pages and pages and pages of docs just to learn how to re-learn routing! Shoot me. I have no patience.
+  ... then all the boilerplate to make it work, just make me sick. Pages and pages and pages of docs just to learn how to re-learn routing! Shoot me. I have no patience.
 - I had to justify my boss (i.e., my gf) I was actuallky doing something all these hours on the computer.
 - I actually use this on some of my projects and thought about sharing.
 
@@ -581,6 +581,10 @@ In netlify, where the [demo](https://elegua.netlify.app/) is hosted, this is don
 /* /index.html 200
 ```
 
+### Upgrading from 1.0
+
+Version 1.x used a \<Route\> component; this version routese using [`resolve()`](#resolve) and [`$path`](#path), which is much cleaner and more flexible.
+
 ### Benchmarks
 
 No, I'm not benchmarking a client router. However if you care to see the source code, you'll see it's very fast.
@@ -588,10 +592,6 @@ No, I'm not benchmarking a client router. However if you care to see the source 
 ### Why is this called "Elegua"?
 
 That is the Yoruba deity of the paths, directions, and crossroads. Elegua controls the routes.
-
-### Changelog
-
-Version 1.x used a \<Router\> component; this version routese using [`resolve()`](#resolve) and `$path`, which is much cleaner and more flexible.
 
 ## License
 

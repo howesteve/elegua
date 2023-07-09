@@ -1,8 +1,5 @@
-import { SvelteComponentTyped } from "svelte";
+/// <reference types="svelte" />
 import { type Subscriber } from 'svelte/store';
-export interface RouteOptions {
-    keepMatching?: boolean;
-}
 export declare const path: {
     subscribe: (this: void, run: Subscriber<string>, invalidate?: import("svelte/store").Invalidator<string> | undefined) => import("svelte/store").Unsubscriber;
     set: (x: string) => void;
@@ -24,24 +21,6 @@ export declare let match: import("svelte/store").Readable<RegExpExecArray | unde
 export declare let params: import("svelte/store").Readable<{
     [key: string]: string;
 }>;
-export declare function resolve(path: string): void;
+export declare function namedPath(route: string): RegExp;
+export declare function resolve(path: string, route: string | RegExp): boolean;
 export declare function goto(href: string | URL, data?: any): void;
-export declare const refresh: () => void;
-declare const __propDef: {
-    props: {
-        route: string | RegExp;
-        options?: RouteOptions | undefined;
-    };
-    events: {
-        [evt: string]: CustomEvent<any>;
-    };
-    slots: {
-        default: {};
-    };
-};
-export type EleguaProps = typeof __propDef.props;
-export type EleguaEvents = typeof __propDef.events;
-export type EleguaSlots = typeof __propDef.slots;
-export default class Elegua extends SvelteComponentTyped<EleguaProps, EleguaEvents, EleguaSlots> {
-}
-export {};
