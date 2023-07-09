@@ -129,7 +129,6 @@ export function resolve(path: string, route: string | RegExp): boolean {
       } else return false;
     }
   }
-  console.log('route:', typeof route, route);
   // trying a regexp match
   const m = (route as RegExp).exec(path);
   if (m) {

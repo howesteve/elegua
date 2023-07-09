@@ -286,7 +286,7 @@ Removing a `searchParam` (reactive - browser url will change):
 
 ### $match
 
-This store will be set after a match operation (i.e. after a match on [named](#named-routes) or [regexp](#regexp-routes) routes). For instance, if you load `http://localhost/blog/my-post` or `http://localhost/authors/howe`:
+This readable store will be set after a [`resolve()`](#resolve) call using [named](#named-routes) or [regexp](#regexp-routes) routes. It is the return from the [`regexp.exec().groups()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#return_value) called internally - so, it's number indexed. For instance, if you load `http://localhost/blog/my-post` or `http://localhost/authors/howe`:
 
 ```svelte
 <script lang="ts">
@@ -300,11 +300,13 @@ This store will be set after a match operation (i.e. after a match on [named](#n
 {/if}
 ```
 
-**Important:** [$match](#match) is only updated after a [`resolve()`](#resolve) call. Specifically, `$path` based routing will **not** update these stores.
+> **Important**
+>
+> [$match](#match) is only updated after a [`resolve()`](#resolve) call. Specifically, [`$path`](#path)-based routing will **not** update these stores.
 
 ### $params
 
-This store contains the [named](#named-routes) (variable) parts of a match; is kinda similar to [$match](#match), but expects strings.
+This store contains the [named](#named-routes) (variable) parts of a match, after a [`resolve`](#resolve) call; is kinda similar to [$match](#match), but whereas [$match](#match) is indexed by number, [`$params`](#params) expects strings.
 
 ```svelte
 <script lang="ts">
@@ -366,7 +368,7 @@ The []`resolve(route)`](#resolve) function is [Elegua](https://github.com/howest
 {/if}
 ```
 
-> **Note:**
+> **Note**
 >
 > Implementatioin detail. One might wonder why I left a `$path` param in the []`resolve(route)`](#resolve) api - it might seem cumbersome, why not using just `resolve('/')`. It's because otherwise Svelte wouldn't know it has to re-render the template containing the resolve block. With `$path` explicitly appearing in template block, Svelte will re-render it every time [`$path`](#path) changes.
 
