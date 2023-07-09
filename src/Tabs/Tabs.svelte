@@ -1,8 +1,7 @@
 <!-- tabs design was adapted from https://svelte.dev/repl/cf05bd4a4ca14fb8ace8b6cdebbb58da?version=3.17.0 -->
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { hash } from '../lib/Elegua.svelte';
-  import { get } from 'svelte/store';
+	import { hash } from '../lib/Elegua';
 	export let items: Array<{
 		label: string;
 		value: number;
@@ -19,7 +18,6 @@
 		if (tab) activeTabValue = tab;
 	});
   onMount(()=>{
-		console.log('fuck', $hash)
     const tab = parseInt($hash);
 		if (tab) activeTabValue = tab;
   })

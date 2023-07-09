@@ -10,7 +10,7 @@
 <p>This is a static route</p>
 
 <h2>Posts</h2>
-<p>These will be matched using dynamic routes, i.e. <code>/blog/:slug</code>:</p>
+<p>These will be matched using named routes, i.e. <code>/blog/:slug</code>:</p>
 <ul>
 	{#each posts as post}
 		<li>{post.date.toLocaleDateString()} • <a href={'/blog/' + post.slug}>{post.slug}</a></li>

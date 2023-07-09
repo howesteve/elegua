@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { goto, path, resolve, url } from './lib/Elegua.svelte';
+	import { goto, path, url } from './lib/Elegua';
 </script>
 
 <h1>This is the home page.</h1>
-<p><b>This is the demo application for <a href="https://github.com/howesteve/elegua">Elegua</a>, a Svelte SPA router component.</b></p>
+<p><b>This is the demo application for <a href="https://github.com/howesteve/elegua">Elegua</a>, a Svelte SPA router library.</b></p>
 
 <p>This is a static route.</p>
 
@@ -14,11 +14,6 @@
 <p>Current $path is: {$path}</p>
 <button on:click|preventDefault={() => ($path = '/blog')}>Set $path='/blog'</button>
 
-<h2>goto() testing</h2>
-<button on:click|preventDefault={() => goto('/blog')}>goto("/blog")</button>
-<button on:click|preventDefault={() => goto('/about')}>goto("/about")</button>
-<button on:click|preventDefault={() => goto('/invalid_route')}>goto("/invalid_route")</button>
-
 <h2>$url.set() testing - goto to '/blog'</h2>
 <button
 	on:click|preventDefault={() => {
@@ -27,6 +22,11 @@
 		url.set(u);
 	}}>url.set()</button
 >
+
+<h2>goto() testing</h2>
+<button on:click|preventDefault={() => goto('/blog')}>goto("/blog")</button>
+<button on:click|preventDefault={() => goto('/about')}>goto("/about")</button>
+<button on:click|preventDefault={() => goto('/invalid_route')}>goto("/invalid_route")</button>
 
 <h2>history.replaceState() testing</h2>
 <p>
