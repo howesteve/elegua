@@ -93,7 +93,7 @@ Every time the current browser's url changes, [Elegua](https://github.com/howest
 
 > :warning: WARNING: It's best to define routes in your main application's page and not in subpages that are lazily loaded, otherwise routes might not be defined when you think they are, and that could lead to unexpected results.
 
-This is a bigger example of how routing looks like in [Elegua](https://github.com/howesteve/elegua):
+A more comprehensive example of how routing looks like in [Elegua](https://github.com/howesteve/elegua):
 
 ```svelte
 <script lang="ts">
@@ -146,7 +146,7 @@ If you set [`$path`](#path) using `path.set("/")` or `$path = "/"`, it will upda
 <button on:click|preventDefault={() => ($path = '/blog')}>Set $path='/blog'</button>
 ```
 
-You can route using [`$path`](#path):
+Use {#if} blocks for routing using [`$path`](#path):
 
 ```svelte
 <script lang="ts">
@@ -162,9 +162,8 @@ You can route using [`$path`](#path):
 {/if}
 ```
 
-{% note %}
-:important: **IMPORTANT:** Routing using [`$path`](#path) as stated above (e.g.`$path === '/blog'`) works fine, but `$match` and `$params` will be unchanged and might be reflecting the values from a previous [`resolve()`](#resolve) call. If that's not what you want, route static paths using [`resolve()`](#resolve):
-{% endnote %}
+> **Note**
+> Routing using [`$path`](#path) as stated above (e.g.`$path === '/blog'`) works fine, but [`$match`](#match) and [`$params`](#params) will be unchanged and might be reflecting the values from a previous [`resolve()`](#resolve) call. If that's not what you want, route static paths using [`resolve()`](#resolve):
 
 ```svelte
 <script lang="ts">
@@ -178,7 +177,7 @@ You can route using [`$path`](#path):
 
 ### $url
 
-This writable store is a [URL](https://developer.mozilla.org/pt-BR/docs/Web/API/URL) object for the current loaded url. Anytime the browser's url changes, [`$url`](#url) will be updated. And if you instead update [`$url`](#url), the current browser's url will change to reflect it as well.
+This writable store is a [URL](https://developer.mozilla.org/pt-BR/docs/Web/API/URL) object for the current loaded url. Anytime the browser's url changes, [`$url`](#url) will be updated. And if you update [`$url`](#url), the current browser's url will change to reflect it as well.
 You can inspect/use [`url.pathname`](https://developer.mozilla.org/en-US/docs/Web/API/URL/pathname), [`url.hash`](https://developer.mozilla.org/en-US/docs/Web/API/URL/hash), [`url.searchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams), etc.
 
 ```svelte
@@ -209,9 +208,10 @@ Using [`$url`](#url), you can handle any kind of routing. For instance, loading 
 
 ### $hash
 
-A writable store that will always be reflecting the current url's hash. If you load `http://localhost/#xxx`, [`$hash`](#hash) will be set as `"xxx"`. If you call `hash.set('xxx')`, [`$hash`](#hash) will be set to `'xxx'`.
+A writable store that reflects the current url's hash. If you load `http://localhost/#xxx`, [`$hash`](#hash) will be set as `"xxx"`. If you call `hash.set('xxx')`, [`$hash`](#hash) will be set to `'xxx'`.
 
-**IMPORTANT**: [Elegua](http://github.com/howesteve/elegua) strips the `#` symbol is from the `hash` string, i.e. on url `http://localhost/blog#myhash`, `$hash` will be `myhash` instead of `#myhash`.
+> **Important**
+> [Elegua](http://github.com/howesteve/elegua) strips the `#` symbol is from the `hash` string, i.e. on url `http://localhost/blog#myhash`, `$hash` will be `myhash` instead of `#myhash`.
 
 ```svelte
 <script lang="ts">

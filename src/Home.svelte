@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { goto, path, url } from './lib/Elegua';
+  import * as package_json from"../package.json"
 </script>
 
 <h1>This is the home page.</h1>
-<p><b>This is the demo application for <a href="https://github.com/howesteve/elegua">Elegua</a>, a Svelte SPA router library.</b></p>
+<p><b>This is the demo application for <a href="https://github.com/howesteve/elegua">Elegua v{package_json.version}</a>, a Svelte SPA router library.</b></p>
 
 <p>This is a static route.</p>
 
