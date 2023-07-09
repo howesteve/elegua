@@ -212,6 +212,7 @@ Using [`$url`](#url), you can handle any kind of routing. For instance, loading 
 A writable store that reflects the current url's hash. If you load `http://localhost/#xxx`, [`$hash`](#hash) will be set as `"xxx"`. If you call `hash.set('xxx')`, [`$hash`](#hash) will be set to `'xxx'`.
 
 > **Important**
+>
 > [Elegua](http://github.com/howesteve/elegua) strips the `#` symbol is from the `hash` string, i.e. on url `http://localhost/blog#myhash`, `$hash` will be `myhash` instead of `#myhash`.
 
 ```svelte
@@ -346,7 +347,7 @@ A store for the old (previous) url before the last browser change.
 
 `resolve($path, route)`
 
-The (`resolve(route)`)[#resolve] function is [Elegua](https://github.com/howesteve/elegua)'s core route resolver. It accepts plain string, [named](#named-routes) or [regExp](#regexp-routes) params, and resolves against the current `$path`:
+The []`resolve(route)`](#resolve) function is [Elegua](https://github.com/howesteve/elegua)'s core route resolver. It accepts plain string, [named](#named-routes) or [regExp](#regexp-routes) params, and resolves against the `$path` argument:
 
 ```svelte
 <!-- fixed route -->
@@ -366,19 +367,12 @@ The (`resolve(route)`)[#resolve] function is [Elegua](https://github.com/howeste
 ```
 
 > **Note:**
-> Implementatioin detail. One might wonder why I left a `$path` param in the (`resolve(route)`)[#resolve] api - it might seem cumbersome. It's because otherwise svelte wouldn't know it has to re-render the template containing the resolve block:
-
-```svelte
-{#if resolve('/')}
-  <h1>Home page</h2>
-{/if}
-```
-
-With `$path` explicitly appearing in the API, svelte will re-render all template logic every time `$path` changes. If I had used an API such as `resolve('/')`, it wouldn't know it has to re-route when `$path` changes.
+>
+> Implementatioin detail. One might wonder why I left a `$path` param in the []`resolve(route)`](#resolve) api - it might seem cumbersome, why not using just `resolve('/')`. It's because otherwise Svelte wouldn't know it has to re-render the template containing the resolve block. With `$path` explicitly appearing in template block, Svelte will re-render it every time [`$path`](#path) changes.
 
 ## goto()
 
-The `goto()` method navigates to some url/path. Internally, it uses [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState). Calls to goto will trigger updates in all the reactive stores: [$path](#path), [$url](#url), [$hash](#hash), [$oldUrl](#oldurl), etc.
+The [`goto()`](#goto) method navigates to some url/path. Internally, it uses [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState). Calls to goto will trigger updates in all the reactive stores: [$path](#path), [$url](#url), [$hash](#hash), [$oldUrl](#oldurl), etc. - and will update the current browser's url.
 
 ## Howto's/Recipes/FAQ
 
