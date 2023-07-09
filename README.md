@@ -286,7 +286,7 @@ Removing a `searchParam` (reactive - browser url will change):
 
 ### $match
 
-This readable store will be set after a [`resolve()`](#resolve) call using [named](#named-routes) or [regexp](#regexp-routes) routes. It is the return from the [`regexp.exec().groups()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#return_value) called internally - so, it's number indexed. For instance, if you load `http://localhost/blog/my-post` or `http://localhost/authors/howe`:
+This readable store will be set after a [`resolve()`](#resolve) call using [named](#named-routes) or [regexp](#regexp-routes) routes. It is the return from the [`regexp.exec().groups()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#return_value) called internally to resolve the route - so, it's number indexed. For instance, if you load `http://localhost/blog/my-post` or `http://localhost/authors/howe`:
 
 ```svelte
 <script lang="ts">
@@ -302,7 +302,7 @@ This readable store will be set after a [`resolve()`](#resolve) call using [name
 
 > **Important**
 >
-> [$match](#match) is only updated after a [`resolve()`](#resolve) call. Specifically, [`$path`](#path)-based routing will **not** update these stores.
+> [$match](#match) is only updated after a [`resolve()`](#resolve) call. Specifically, [`$path`](#path)-based routing will **not** update this store.
 
 ### $params
 
@@ -330,12 +330,13 @@ This store contains the [named](#named-routes) (variable) parts of a match, afte
 {/if}
 ```
 
-
-**Important:** [$params](#params) is only updated after a [`resolve()`](#resolve) call.
+> **Important**
+>
+> Just as with [$match](#match), [`$params`](#params) is only updated after a [`resolve()`](#resolve) call. Specifically, [`$path`](#path)-based routing will **not** update these stores.
 
 ### $oldUrl
 
-A store for the old (previous) url before the last browser change.
+A store for the old (previous) url before the last change.
 
 ```svelte
 <script lang="ts">
@@ -347,9 +348,9 @@ A store for the old (previous) url before the last browser change.
 
 ## resolve()
 
-`resolve($path, route)`
+`resolve(path: string, route: string|RegExp)`
 
-The []`resolve(route)`](#resolve) function is [Elegua](https://github.com/howesteve/elegua)'s core route resolver. It accepts plain string, [named](#named-routes) or [regExp](#regexp-routes) params, and resolves against the `$path` argument:
+The [`resolve(path, route)`](#resolve) function is [Elegua](https://github.com/howesteve/elegua)'s core route resolver. It accepts plain string, [named](#named-routes) or [regExp](#regexp-routes) route param, and while in a template block, it's designed to be used with the [`$path`](#path) argument to be called reactively whenever the url changes:
 
 ```svelte
 <!-- fixed route -->
@@ -370,11 +371,13 @@ The []`resolve(route)`](#resolve) function is [Elegua](https://github.com/howest
 
 > **Note**
 >
-> Implementatioin detail. One might wonder why I left a `$path` param in the []`resolve(route)`](#resolve) api - it might seem cumbersome, why not using just `resolve('/')`. It's because otherwise Svelte wouldn't know it has to re-render the template containing the resolve block. With `$path` explicitly appearing in template block, Svelte will re-render it every time [`$path`](#path) changes.
+> Implementation detail. One might wonder why I left a [`$path`](#path) param in the [`resolve(path, route)`](#resolve) api - it might seem cumbersome, why not using just `resolve('/')`? It's because otherwise Svelte wouldn't know it has to re-render the template containing the resolve block. With [`$path`](#path) explicitly appearing in template block, Svelte will re-render it every time [`$path`](#path) changes, and [`resolve()`](#resolve) gets called. Otherwise, path changes would not be perceived.
 
 ## goto()
 
-The [`goto()`](#goto) method navigates to some url/path. Internally, it uses [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState). Calls to goto will trigger updates in all the reactive stores: [$path](#path), [$url](#url), [$hash](#hash), [$oldUrl](#oldurl), etc. - and will update the current browser's url.
+`goto(href: string|URL)`
+
+The [`goto(path)`](#goto) method navigates to some url/path programmatically. Internally, it uses [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState). Calls to [`goto(path)`](#goto) will trigger updates in all the reactive stores: [$path](#path), [$url](#url), [$hash](#hash), [$oldUrl](#oldurl), etc. - and will update the current browser's url.
 
 ## Howto's/Recipes/FAQ
 
