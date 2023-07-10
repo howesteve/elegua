@@ -121,7 +121,6 @@ export function resolve(path, route) {
                 return false;
         }
     }
-    console.log('route:', typeof route, route);
     // trying a regexp match
     const m = route.exec(path);
     if (m) {

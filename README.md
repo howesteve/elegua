@@ -22,7 +22,7 @@ pnpm run dev
 
 - Dependency free (except for Svelte, of course)
 - No `<Route>`, `<Link>` or any other components. Uses regular `{#if}/{:else}` blocks from Svelte to control routing/rendering.
-- A single file/component (1.8Kb gzipped)
+- A single file (<2Kb gzipped)
 - Fully reactive: changes to api reflect the browser's url, and vice versa.
 - History API only (who uses hash paths nowawdays?)
 - Regular \<a\> links supported out of the box. No need for \<Link\> additional components.
@@ -86,7 +86,8 @@ It's hopefully very straighforward: there are no components, just some stores re
 {:else if resolve($path, '/blog/:slug')}
   <Post slug={$params('slug')}
 {:else}
-  <h1>Not found: {$path}</h1>
+  <h1>404</h1>
+  <p>Not found: {$path}</p>
 {/if}
 ```
 

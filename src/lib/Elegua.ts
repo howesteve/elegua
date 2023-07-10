@@ -16,7 +16,6 @@ export const path = (() => {
     update
   };
 })();
-const path_ = path;
 
 let hashSetter: Subscriber<string>;
 // A store for the previous full url
