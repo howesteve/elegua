@@ -584,6 +584,10 @@ In netlify, where the [demo](https://elegua.netlify.app/) is hosted, this is don
 /* /index.html 200
 ```
 
+## Can I use this in Sveltekit?
+
+Yes - see [here](https://kit.svelte.dev/docs/single-page-apps).
+
 ### Upgrading from 1.0
 
 Version 1.x used a `<Route>` component; this version routese using [`resolve()`](#resolve) and [`$path`](#path), which is much cleaner and more flexible.
