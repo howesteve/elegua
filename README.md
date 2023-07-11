@@ -84,7 +84,7 @@ It's hopefully very straighforward: there are no components, just some stores re
 {:else if $path === '/about'}
   <h1>About page</h1>
 {:else if resolve($path, '/blog/:slug')}
-  <Post slug={$params('slug')}
+  <Post slug={$params('slug')}/>
 {:else}
   <h1>404</h1>
   <p>Not found: {$path}</p>
@@ -397,6 +397,64 @@ A store for the old (previous) url before the last change.
 ```
 
 ## Howto's/Recipes/FAQ
+
+### How to start a project from scratch
+
+```sh
+$ pnpm create vite@latest elegua-test --template svelte
+$ cd elegua-test
+$ pnpm install -D elegua
+```
+
+Then, edit `src/App.svelte` (i.e. `code .` if you use vscode) and replace it with something like:
+
+```svelte
+<script>
+  import { path } from "elegua";
+</script>
+
+<header>
+  <nav>
+    <ul id="menu">
+      <li><a href="/" class:selected={$path === "/"}>Home</a></li>
+      <li><a href="/about" class:selected={$path === "/about"}>About</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  {#if $path === "/"}
+    <h1>Home page</h1>
+  {:else if $path === "/about"}
+    <h1>About page</h1>
+  {:else}
+    <h1>Error 404</h1>
+    <p>Not found</p>
+  {/if}
+</main>
+
+<style>
+  a {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  a:visited {
+    color: inherit;
+  }
+  .selected {
+    font-weight: bolder;
+  }
+  ul#menu li {
+    display: inline;
+    margin-right: 1em;
+  }
+  header {
+    font-size: large;
+  }
+</style>
+```
 
 ### Fallback route/404/error page
 

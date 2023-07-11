@@ -21,7 +21,7 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"publish": "pnpm publish --access public --no-git-checks",
-		"release:pre": "wc -c src/lib/Elegua.svelte",
+		"release:pre": "wc -c src/lib/Elegua.ts",
 		"release": "pnpm run clean;pnpm run release:pre && pnpm run build && pnpm run publish"
 	},
 	"publishConfig": {
@@ -68,8 +68,8 @@
 	},
 	"exports": {
 		".": {
-			"types": "./dist/Elegua.d.ts",
-			"svelte": "./dist/Elegua.js"
+			"import": "./dist/Elegua.js",
+      "types": "./dist/Elegua.d.ts"
 		}
 	},
 	"type": "module"
