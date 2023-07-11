@@ -133,7 +133,7 @@ A more comprehensive example of how routing looks like in [Elegua](https://githu
 </main>
 ```
 
-## Methods, stores and objects
+## Methods
 
 ## resolve()
 
@@ -167,6 +167,14 @@ See below for examples:
 > **Note**
 >
 > Implementation detail. One might wonder why I left a [`$path`](#path) param in the [`resolve(path, route)`](#resolve) api - it might seem cumbersome, why not using just `resolve('/')`? It's because otherwise Svelte wouldn't know it has to re-render the template containing the resolve block. With [`$path`](#path) explicitly appearing in template block, Svelte will re-render it every time [`$path`](#path) changes, and [`resolve()`](#resolve) gets called. Otherwise, path changes would not be perceived.
+
+## goto()
+
+`goto(href: string|URL)`
+
+The [`goto(href)`](#goto) method navigates to some url/path programmatically. Internally, it uses [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState). Calls to [`goto(href)`](#goto) will trigger updates in all the expected reactive stores: [$path](#path), [$url](#url), [$hash](#hash), [$oldUrl](#oldurl), etc. - and also will update the current browser's url.
+
+## Stores
 
 ### $path
 
@@ -388,12 +396,6 @@ A store for the old (previous) url before the last change.
 <h1>Your are now in the {$path} page, coming from {$oldUrl.pathname}.</h1>
 ```
 
-## goto()
-
-`goto(href: string|URL)`
-
-The [`goto(path)`](#goto) method navigates to some url/path programmatically. Internally, it uses [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState). Calls to [`goto(path)`](#goto) will trigger updates in all the reactive stores: [$path](#path), [$url](#url), [$hash](#hash), [$oldUrl](#oldurl), etc. - and will update the current browser's url.
-
 ## Howto's/Recipes/FAQ
 
 ### Fallback route/404/error page
@@ -414,11 +416,11 @@ Just use regular Svelte `if` blocks. When nothing else matches, show your error 
 
 ### Named routes
 
-Named routes are routes that can have named variable path sets, such as `/blog/:slug`:
+Named routes are routes that can have named variables, prefixed with `:`, such as `/blog/:slug`:
 
 ```svelte
 <script lang="ts">
-  import Router, { path } from 'elegua';
+  import { resolve } from 'elegua';
 </script>
 
 {#if resolve('/blog/:slug')}
@@ -428,11 +430,31 @@ Named routes are routes that can have named variable path sets, such as `/blog/:
 
 The [$params](#params) store will reflect the params by name. Internally, this is implemented using a [RegExp route](#regexp-routes).
 
-If the last routing did not use named routes/or regexp matching (i.e. a hash match), [$params](#params) will be empty.
+If the last [`resolve()`](#resolve) call did not use named routes/or regexp matching (i.e. a hash match), [$params](#params) will be empty.
+
+A named route will resolve with *any* string. If you need more control of what's matched by a named route, you should either be using [regexp routes](#regexp-routes) or a more specialized subrouting:
+
+```svelte
+<script lang="ts">
+  import { resolve } from 'elegua';
+</script>
+
+{#if resolve('/blog/:slug')}
+  {#if $params['slug'] == "1"}
+    <Post1/>
+  {:else if $params['slug'] == "2"}
+    <Post2/>
+  {:else if $params['slug'] == "3"}
+    <Post3/>
+  {:else}  
+    <h1>Post not found</h1>
+  {/if}
+{/if}
+```
 
 ### Regexp routes
 
-Sometimes you might want a route to match only on certain specific path patterns; ex: `/users/123`. Use a regexp as route in the `resolve()` method:
+Sometimes you might want a route to match only on certain specific path patterns; ex: `/users/123`. For that, use [regexp routes](#regexp-routes) by passing a regexp as route in the `resolve(path, route)` method:
 
 ```svelte
 {#if resolve($path, /\/users/([0-9]+)/)}
@@ -440,21 +462,21 @@ Sometimes you might want a route to match only on certain specific path patterns
 {/if}
 ```
 
-- `\/users` will _not_ match this route.
-- `\/users\/howe` will _not_ match this route.
-- `\/users\/123` _will_ match this route, and `$match[1]` will be `123`
+- `\/users` will *not* match this route.
+- `\/users\/howe` will *not* match this route.
+- `\/users\/123` *will* match this route, and `$match[1]` will be `123`
 
 You could use other patterns in the same way. Ex:
 
 - `resolve($path, '\/users\/(howe|steve)')` => $match[1] will match `"/users/howe"` or `"/users/steve"`
 - `resolve($path, '\/users\/([a-zA-Z\_\\])*')` => inspect $match[1], $match[2]
 
-Named groups work as expected, and captured groups will be reflects in [`$params`](#params). After (and _only_ after ) [`resolve()`](#resolve) is called, [`$match`](#match) and [`$params`](#params) will be redefined.
+Named groups work as expected, and captured groups will be reflected in [`$params`](#params). After (and *only* after ) [`resolve()`](#resolve) is called, [`$match`](#match) and [`$params`](#params) will be redefined.
 
 ```svelte
 {#if resolve($path, /users\/(?<user_id>[0-9]+)/)}
   <p>User by $match: {$match && $match[1]}</p>
-  <p>User by $param: {$param['user_id']</p>
+  <p>User by $param: {$param['user_id']}</p>
 {/if}
 ```
 
@@ -488,7 +510,6 @@ In this case, just set a dynamic class inspecting [`$path`](#path):
 Now when you are on `/about`, nva menu will show something as:
 
 `BLOG | ORDERS | *ABOUT*`
-
 
 ### How do I handle any other kind of url changes?
 
