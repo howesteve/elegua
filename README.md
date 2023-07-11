@@ -567,7 +567,7 @@ In this case, just set a dynamic class inspecting [`$path`](#path):
 
 Now when you are on `/about`, nav menu will show something as:
 
-<code>BLOG | ORDERS | <b>ABOUT</b>`</code>
+<code>BLOG | ORDERS | <b>ABOUT</b></code>
 
 ### How do I handle any other kind of url changes?
 
