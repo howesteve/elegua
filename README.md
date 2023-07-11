@@ -565,9 +565,9 @@ In this case, just set a dynamic class inspecting [`$path`](#path):
 </style>
 ```
 
-Now when you are on `/about`, nva menu will show something as:
+Now when you are on `/about`, nav menu will show something as:
 
-`BLOG | ORDERS | *ABOUT*`
+<code>BLOG | ORDERS | <b>ABOUT</b>`</code>
 
 ### How do I handle any other kind of url changes?
 
