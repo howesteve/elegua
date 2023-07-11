@@ -1,5 +1,4 @@
-import { derived, get, readable } from 'svelte/store';
-import { writable, type Subscriber } from 'svelte/store';
+import { derived, get, readable, writable, type Subscriber } from 'svelte/store';
 
 let pathSetter: Subscriber<string>;
 export const path = (() => {
@@ -169,7 +168,7 @@ window?.addEventListener('load', (ev) => {
 
   // <a> tag click hook; let Elegua handle it
   addEventListener('click', (event) => {
-    // handling Ctrl/Shift clicks, which will open another tab/window
+    // preventing handling of Ctrl/Shift + clicks, which shall open another tab/window
     if (!lastKbdEv?.ctrlKey && !lastKbdEv?.shiftKey) {
       let targetElement = event.target as HTMLElement;
       while (targetElement && targetElement !== document.body) {
