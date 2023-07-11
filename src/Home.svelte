@@ -36,17 +36,3 @@
 <button on:click|preventDefault={() => history.replaceState('', '', '/blog')}
 	>history.replaceState('', "", "/blog")</button
 >
-
-<style>
-	div {
-		margin-top: 2em;
-		box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-		padding-top: 1em;
-		background-color: lightgrey;
-		border-radius: 0.5em;
-		padding-top: 0.2em;
-		padding-left: 1em;
-		padding-right: 1em;
-		padding-bottom: 1em;
-	}
-</style>

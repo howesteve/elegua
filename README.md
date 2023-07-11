@@ -133,12 +133,47 @@ A more comprehensive example of how routing looks like in [Elegua](https://githu
 </main>
 ```
 
-## Stores, methods and objects
+## Methods, stores and objects
+
+## resolve()
+
+`resolve(path: string, route: string|RegExp)`
+
+The [`resolve(path, route)`](#resolve) function is [Elegua](https://github.com/howesteve/elegua)'s core route resolver. It accepts plain string, [named](#named-routes) or [regExp](#regexp-routes) route param, and while in a template block, it's designed to be used with the [`$path`](#path) argument to be called reactively whenever the url changes
+
+- If `route` is a plain string, [`$match`](#match) and [`$params`](#params) will be empty.  
+- If `route` is a [named params route](#named-routes), [`$match`](#match) will be empty but [`$params`](#params) will have each named param set.
+- If `route` is a [regexp route](#regexp-routes), [`$match`](#match) and [`$params`](#params) will both be set.
+
+See below for examples:
+
+```svelte
+<!-- fixed route -->
+{#if resolve($path, '/')}
+  <h1>Home page</h2>
+<!-- named params route -->
+{:else if resolve($path, '/blog/:post_id')}
+  <Post id={params["post_id"]}/>
+<!-- regexp route -->
+{:else if resolve($path, /users\/([a-zA-Z])+/)}
+  <p>This is the page for user {$match[1]}
+{:else}
+  <!-- None of the above matched? Render the error route -->
+  <h1>Error 404</h1>
+  <p>Page {$path} not found</p>
+{/if}
+```
+
+> **Note**
+>
+> Implementation detail. One might wonder why I left a [`$path`](#path) param in the [`resolve(path, route)`](#resolve) api - it might seem cumbersome, why not using just `resolve('/')`? It's because otherwise Svelte wouldn't know it has to re-render the template containing the resolve block. With [`$path`](#path) explicitly appearing in template block, Svelte will re-render it every time [`$path`](#path) changes, and [`resolve()`](#resolve) gets called. Otherwise, path changes would not be perceived.
 
 ### $path
 
 A writable store that reflects the current url's path. If you load `http://localhost/blog`, `$path` will be set as `"/blog"`.
 If you set [`$path`](#path) using `path.set("/")` or `$path = "/"`, it will update the value store and the browser will load home route (similar to using [`goto("/")`](#goto)).
+
+This is used very often for simple, fixed routings.
 
 ```svelte
 <script lang="ts">
@@ -150,7 +185,7 @@ If you set [`$path`](#path) using `path.set("/")` or `$path = "/"`, it will upda
 <button on:click|preventDefault={() => ($path = '/blog')}>Set $path='/blog'</button>
 ```
 
-Use {#if} blocks for routing using [`$path`](#path):
+Use Svelte's `{#if}`` blocks for routing using [`$path`](#path):
 
 ```svelte
 <script lang="ts">
@@ -168,7 +203,7 @@ Use {#if} blocks for routing using [`$path`](#path):
 
 > **Note**
 >
-> Routing using [`$path`](#path) as stated above (e.g.`$path === '/blog'`) works fine, but [`$match`](#match) and [`$params`](#params) will be unchanged and might be reflecting the values from a previous [`resolve()`](#resolve) call. If that's not what you want, route static paths using [`resolve()`](#resolve):
+> Routing using [`$path`](#path) as stated above (e.g.`$path === '/blog'`) works fine, but [`$match`](#match) and [`$params`](#params) will be unchanged and might be reflecting the values from the latest previous [`resolve()`](#resolve) call. If that's not what you want, route static paths using [`resolve()`](#resolve):
 
 ```svelte
 <script lang="ts">
@@ -213,7 +248,7 @@ Using [`$url`](#url), you can handle any kind of routing. For instance, loading 
 
 ### $hash
 
-A writable store that reflects the current url's hash. If you load `http://localhost/#xxx`, [`$hash`](#hash) will be set as `"xxx"`. If you call `hash.set('xxx')`, [`$hash`](#hash) will be set to `'xxx'`.
+A writable store that reflects the current url's hash. If you load `http://localhost/#xxx`, [`$hash`](#hash) will be set as `"xxx"`. If you call `hash.set('xxx')`, [`$hash`](#hash) will be set to `'xxx'`, and the browser url will be updated.
 
 > **Important**
 >
@@ -290,7 +325,10 @@ Removing a `searchParam` (reactive - browser url will change):
 
 ### $match
 
-This readable store will be set after a [`resolve()`](#resolve) call using [named](#named-routes) or [regexp](#regexp-routes) routes. It is the return from the [`regexp.exec().groups()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#return_value) called internally to resolve the route - so, it's number indexed. For instance, if you load `http://localhost/blog/my-post` or `http://localhost/authors/howe`:
+This readable store will be set after a [`resolve(path, route)`](#resolve) call. If the route is a [regexp route](#regexp-routes), `match[x]` will have all matching results.
+
+[`$match`](#match) is just the return from the [`regexp.exec().groups()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec#return_value) called internally to resolve the route - so, it's number indexed.
+For instance, when loading `http://localhost/blog/my-post` or `http://localhost/users/my-user`
 
 ```svelte
 <script lang="ts">
@@ -299,8 +337,8 @@ This readable store will be set after a [`resolve()`](#resolve) call using [name
 
 {#if resolve($path, '/blog/:slug')}
   Blog post {match[1]} (="my-post")
-{:else if resolve($path, /users\/([a-zA-Z])+/)}
-  User: {match[1]} (="howe")
+{:else if resolve($path, /users\/([a-zA-Z\-])+/)}
+  User: {match[1]} (="my-user")
 {/if}
 ```
 
@@ -349,33 +387,6 @@ A store for the old (previous) url before the last change.
 
 <h1>Your are now in the {$path} page, coming from {$oldUrl.pathname}.</h1>
 ```
-
-## resolve()
-
-`resolve(path: string, route: string|RegExp)`
-
-The [`resolve(path, route)`](#resolve) function is [Elegua](https://github.com/howesteve/elegua)'s core route resolver. It accepts plain string, [named](#named-routes) or [regExp](#regexp-routes) route param, and while in a template block, it's designed to be used with the [`$path`](#path) argument to be called reactively whenever the url changes:
-
-```svelte
-<!-- fixed route -->
-{#if resolve($path, '/')}
-  <h1>Home page</h2>
-<!-- named route -->
-{:else if resolve($path, '/blog/:post_id')}
-  <Post id={params["post_id"]}/>
-<!-- regexp route -->
-{:else if resolve($path, /users\/([a-zA-Z])+/)}
-  <p>This is the page for user {$match[1]}
-{:else}
-  <!-- None of the above matched? Render the error route -->
-  <h1>Error 404</h1>
-  <p>Page {$path} not found</p>
-{/if}
-```
-
-> **Note**
->
-> Implementation detail. One might wonder why I left a [`$path`](#path) param in the [`resolve(path, route)`](#resolve) api - it might seem cumbersome, why not using just `resolve('/')`? It's because otherwise Svelte wouldn't know it has to re-render the template containing the resolve block. With [`$path`](#path) explicitly appearing in template block, Svelte will re-render it every time [`$path`](#path) changes, and [`resolve()`](#resolve) gets called. Otherwise, path changes would not be perceived.
 
 ## goto()
 
@@ -449,7 +460,7 @@ Named groups work as expected, and captured groups will be reflects in [`$params
 
 ### Nav menu highlighting
 
-Sometimes you want to highlight a nav menu item when you are on a page, so that the user can see at a glance where they are. For instance, if you are in `"/about"` and your nav menu has the following links:
+Sometimes you want to highlight a nav menu item when user is on that page, so that he can see at a glance where they are. For instance, if you are in `"/about"` and your nav menu has the following links:
 
 `BLOG | ORDERS | ABOUT`
 
@@ -473,6 +484,11 @@ In this case, just set a dynamic class inspecting [`$path`](#path):
   }
 </style>
 ```
+
+Now when you are on `/about`, nva menu will show something as:
+
+`BLOG | ORDERS | *ABOUT*`
+
 
 ### How do I handle any other kind of url changes?
 
