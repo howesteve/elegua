@@ -146,12 +146,14 @@ export function goto(href: string | URL, data: any = undefined) {
   url.set(new URL(href, window.location.href));
 }
 
+// first time url assignment
 urlSetter(new URL(document.location.href));
-window?.addEventListener('load', (event) => {
+// event handlers
+window?.addEventListener('load', (ev) => {
   // setting the URL for the first time
   urlSetter(new URL(document.location.href));
   // forwaring hash changed events
-  addEventListener('hashchange', (event: HashChangeEvent) => {
+  addEventListener('hashchange', (ev: HashChangeEvent) => {
     // hashSetter({ new: event.newURL, old: event.oldURL });
     urlSetter(new URL(window.location.href));
   });
@@ -160,21 +162,28 @@ window?.addEventListener('load', (event) => {
     urlSetter(u);
     event.preventDefault();
   });
+  
+  let lastKbdEv: KeyboardEvent|undefined
+  addEventListener('keydown', (ev: KeyboardEvent) =>  lastKbdEv = ev);
+  addEventListener('keyup', (ev: KeyboardEvent) =>  lastKbdEv = undefined);
 
   // <a> tag click hook; let Elegua handle it
   addEventListener('click', (event) => {
-    let targetElement = event.target as HTMLElement;
-    while (targetElement && targetElement !== document.body) {
-      if (targetElement.tagName.toLowerCase() === 'a') {
-        const href = targetElement.getAttribute('href') || '';
-        // handling external links
-        if (!/^http?s\:\/\//.test(href)) {
-          event.preventDefault();
-          if (href) url.set(new URL(href, window.location.href));
-          return;
+    // handling Ctrl/Shift clicks, which will open another tab/window
+    if (!lastKbdEv?.ctrlKey && !lastKbdEv?.shiftKey) {
+      let targetElement = event.target as HTMLElement;
+      while (targetElement && targetElement !== document.body) {
+        if (targetElement.tagName.toLowerCase() === 'a') {
+          const href = targetElement.getAttribute('href') || '';
+          // handling external links or Ctrl/Shift clicks
+          if (!/^http?s\:\/\//.test(href)) {
+            event.preventDefault();
+            if (href) url.set(new URL(href, window.location.href));
+            return;
+          }
         }
+        targetElement = targetElement.parentElement || document.body;
       }
-      targetElement = targetElement.parentElement || document.body;
     }
   });
 });

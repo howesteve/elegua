@@ -3,7 +3,7 @@
 
 # What is Elegua?
 
-Elegua: the best Svelte client router you'll ever see in 140 LoC.
+Elegua: the best Svelte client router you'll ever see in under 150 LoC.
 
 ## Demo
 
