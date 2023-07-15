@@ -53,7 +53,7 @@ pnpm run dev
 
 ## About this repository
 
-Most of this repository is a demo applicaion for [Elegua](http://github.com/howesteve/elegua). The component itself is a [single file](https://github.com/howesteve/elegua/tree/master/src/lib).
+Most of this repository is a demo applicaion for [Elegua](http://github.com/howesteve/elegua). But [Elegua](http://github.com/howesteve/elegua) itself is a [single file](https://github.com/howesteve/elegua/tree/master/src/lib).
 
 ## Documentation
 
@@ -406,7 +406,7 @@ $ cd elegua-test
 $ pnpm install -D elegua
 ```
 
-Then, edit `src/App.svelte` (i.e. `code .` if you use vscode) and replace it with something like:
+Then, edit `src/App.svelte` (i.e. `"code ."` if you use vscode) and replace it with something like:
 
 ```svelte
 <script>
@@ -474,7 +474,7 @@ Just use regular Svelte `if` blocks. When nothing else matches, show your error 
 
 ### Named routes
 
-Named routes are routes that can have named variables, prefixed with `:`, such as `/blog/:slug`:
+Named routes are routes that can have named variables, prefixed with `":"`, such as `/blog/:slug`:
 
 ```svelte
 <script lang="ts">
@@ -575,7 +575,7 @@ Subscribe to [url](#url). It's the DOM [URL](https://developer.mozilla.org/en-US
 
 ### Redirects
 
-No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just use `\<meta refresh="url..."\>`:
+No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just use `<meta refresh="url...">`:
 
 ```svelte
 <script lang="ts">
@@ -601,10 +601,6 @@ No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just u
   });
 </script>
 ```
-
-### How do I render \<Link\>s?
-
-There is no `<Link>` objects in [Elegua](https://github.com/howesteve/elegua); just use your plain `\<a\>` tag. It will be handled automatically. Are you coming from other routers?...
 
 ### File system dynamic routes, like Sveltekit?
 
