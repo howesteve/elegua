@@ -102,17 +102,14 @@ const regExpEscape = (s: string) => s.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, 
 export function namedPath(route: string): RegExp {
   // checking for named component paths
   return RegExp(
-    route
-      .split('/')
-      .map((x) =>
-        x.startsWith(':') ? `(?<${regExpEscape(x.slice(1, x.length))}>[a-zA-Z][a-zA-Z0-9\_\-]*)` : regExpEscape(x)
-      )
-      .join(`\\/`)
+    route.split('/').map((x) =>
+        x.startsWith(':') ? `(?<${regExpEscape(x.slice(1, x.length))}>[a-zA-Z0-9][a-zA-Z0-9\_\-]*)` : regExpEscape(x)
+      ).join(`\\/`)
   );
 }
 
 // Core route function; resolves a path.
-// @param {string} route - a string (fixed or dynamic) route, or a regexp route. If '/:' is found in the route, it's considered a dynamic route.
+// @param {string} route - a string (fixed or dynamic) route, or a regexp route. If '/:' is found in the route, it's considered a named route.
 // @param {string} path - an optional param for providing a path to resolve to. Defaults to $path
 export function resolve(path: string, route: string | RegExp): boolean {
   if (typeof route === 'string') {
