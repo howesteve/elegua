@@ -13,7 +13,7 @@ Online: [https://elegua.netlify.app/](https://elegua.netlify.app/)
 
 ```sh
 git clone http://github.com/howesteve/elegua
-cd elegua/src/test
+cd elegua
 pnpm install
 pnpm run dev
 ```
