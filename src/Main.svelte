@@ -35,7 +35,7 @@
   <!-- Home page - a fixed route -->
   {#if $path === '/'}
     <Home />
-  <!-- Another fixed route -->
+<!-- Another fixed route -->
   {:else if $path === '/about'}
     <About />
   <!-- Fixed route again, but now using resolve() -->
@@ -70,6 +70,11 @@
   {:else}
     <Error />
   {/if}
+  <h2>Native data routing (skips Elegua)</h2>
+  <p>To prevent <a href="https://github.com/howesteve/elegua">Elegua</a> from handling 
+  a link, and let the native browser route it, set the <code>data-native-router</code> attribute in the anchor:
+  <p><code>&lt;a href="/blog" <b>data-native-router</b>&gt;Blog&lt/a&gt;</code></p>
+  <p>Example: <a href="/blog" data-native-router>Blog </a></p>
 </main>
 
 <footer>
@@ -92,12 +97,13 @@
   }
   a {
     text-decoration: none;
+    color: blue;
   }
   a:hover {
     text-decoration: underline;
   }
   a:visited {
-    color: inherit;
+    color: purple;
   }
   .selected {
     font-weight: bolder;

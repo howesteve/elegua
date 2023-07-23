@@ -160,18 +160,19 @@ window?.addEventListener('load', (ev) => {
   });
   
   let lastKbdEv: KeyboardEvent|undefined
-  addEventListener('keydown', (ev: KeyboardEvent) =>  lastKbdEv = ev);
-  addEventListener('keyup', (ev: KeyboardEvent) =>  lastKbdEv = undefined);
+  addEventListener('keydown', (ev: KeyboardEvent) => lastKbdEv = ev);
+  addEventListener('keyup', (ev: KeyboardEvent) => lastKbdEv = undefined);
 
   // <a> tag click hook; let Elegua handle it
   addEventListener('click', (event) => {
     // preventing handling of Ctrl/Shift + clicks, which shall open another tab/window
     if (!lastKbdEv?.ctrlKey && !lastKbdEv?.shiftKey) {
       let targetElement = event.target as HTMLElement;
+      if (targetElement.hasAttribute('data-native-router')) return;
       while (targetElement && targetElement !== document.body) {
         if (targetElement.tagName.toLowerCase() === 'a') {
           const href = targetElement.getAttribute('href') || '';
-          // handling external links or Ctrl/Shift clicks
+          // handling external links
           if (!/^http?s\:\/\//.test(href)) {
             event.preventDefault();
             if (href) url.set(new URL(href, window.location.href));

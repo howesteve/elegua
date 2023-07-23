@@ -664,6 +664,16 @@ Sure:
 {/if}
 ```
 
+### Native browser routing
+
+If you want, you can let the browser route the <a> links natively, skipping [Elegua](http://github.com/howesteve/elegua). Just add the `data-native-router` attribute to attribute to the <a> link:
+
+```svelte
+<a href="/blog" data-native-router>Blog</a>
+```
+
+When you can click such links, you can see the browser's "refresh" animation active, indicating the link was loaded from server, skipping [Elegua](http://github.com/howesteve/elegua).
+
 ### I'm getting 404 errors when refreshing urls pointing to paths
 
 Your server must redirect all requests to `/index.html` so that [Elegua](https://github.com/howesteve/elegua) gets loaded and handle the routing by itself; otherwise, the server will try to route and you'll probably not get what you were hoping for.
