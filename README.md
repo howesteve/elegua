@@ -691,7 +691,7 @@ Yes - see [here](https://kit.svelte.dev/docs/single-page-apps).
 
 ### Upgrading from 1.0
 
-Version 1.x used a `<Route>` component; this version routese using [`resolve()`](#resolve) and [`$path`](#path), which is much cleaner and more flexible.
+Version 1.x used a `<Route>` component; this version routes using [`resolve()`](#resolve) and [`$path`](#path), which is much cleaner and more flexible.
 
 ### Benchmarks
 

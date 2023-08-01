@@ -158,10 +158,12 @@ window?.addEventListener('load', (ev) => {
         // preventing handling of Ctrl/Shift + clicks, which shall open another tab/window
         if (!lastKbdEv?.ctrlKey && !lastKbdEv?.shiftKey) {
             let targetElement = event.target;
+            if (targetElement.hasAttribute('data-native-router'))
+                return;
             while (targetElement && targetElement !== document.body) {
                 if (targetElement.tagName.toLowerCase() === 'a') {
                     const href = targetElement.getAttribute('href') || '';
-                    // handling external links or Ctrl/Shift clicks
+                    // handling external links
                     if (!/^http?s\:\/\//.test(href)) {
                         event.preventDefault();
                         if (href)
