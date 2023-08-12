@@ -30,14 +30,15 @@ declare module '$env/static/private' {
 	export const npm_command: string;
 	export const LSCOLORS: string;
 	export const SESSION_MANAGER: string;
-	export const WINDOWID: string;
 	export const COLORTERM: string;
+	export const npm_package_scripts_generate_types: string;
 	export const XDG_CONFIG_DIRS: string;
 	export const npm_package_devDependencies__types_node: string;
 	export const LESS: string;
 	export const XDG_SESSION_PATH: string;
 	export const XDG_MENU_PREFIX: string;
 	export const npm_package_repository_url: string;
+	export const TERM_PROGRAM_VERSION: string;
 	export const npm_package_devDependencies_marked: string;
 	export const npm_package_exports___hooks_import: string;
 	export const GNOME_KEYRING_CONTROL: string;
@@ -50,6 +51,7 @@ declare module '$env/static/private' {
 	export const SSH_AUTH_SOCK: string;
 	export const npm_package_dependencies_mime: string;
 	export const npm_package_devDependencies_dts_buddy: string;
+	export const WEZTERM_EXECUTABLE: string;
 	export const npm_package_peerDependencies_svelte: string;
 	export const DESKTOP_SESSION: string;
 	export const LC_MONETARY: string;
@@ -58,7 +60,6 @@ declare module '$env/static/private' {
 	export const npm_package_scripts_test_unit: string;
 	export const GTK_MODULES: string;
 	export const XDG_SEAT: string;
-	export const npm_package_devDependencies__types_marked: string;
 	export const npm_package_dependencies_sade: string;
 	export const PWD: string;
 	export const npm_package_devDependencies_vite: string;
@@ -66,6 +67,7 @@ declare module '$env/static/private' {
 	export const XDG_SESSION_DESKTOP: string;
 	export const QT_QPA_PLATFORMTHEME: string;
 	export const XDG_SESSION_TYPE: string;
+	export const PANEL_GDK_CORE_DEVICE_EVENTS: string;
 	export const PNPM_HOME: string;
 	export const _: string;
 	export const XAUTHORITY: string;
@@ -81,6 +83,7 @@ declare module '$env/static/private' {
 	export const LANG: string;
 	export const LC_PAPER: string;
 	export const npm_package_devDependencies_typescript: string;
+	export const WEZTERM_UNIX_SOCKET: string;
 	export const LS_COLORS: string;
 	export const XDG_CURRENT_DESKTOP: string;
 	export const npm_package_version: string;
@@ -105,7 +108,6 @@ declare module '$env/static/private' {
 	export const npm_package_scripts_test_cross_platform_dev: string;
 	export const npm_package_scripts_format: string;
 	export const PSQL_PAGER: string;
-	export const ALACRITTY_SOCKET: string;
 	export const npm_lifecycle_script: string;
 	export const npm_package_description: string;
 	export const XDG_SESSION_CLASS: string;
@@ -116,6 +118,7 @@ declare module '$env/static/private' {
 	export const ZSH: string;
 	export const npm_package_type: string;
 	export const USER: string;
+	export const npm_config_frozen_lockfile: string;
 	export const npm_package_devDependencies_vitest: string;
 	export const npm_package_exports___types: string;
 	export const npm_package_dependencies_undici: string;
@@ -163,7 +166,6 @@ declare module '$env/static/private' {
 	export const PATH: string;
 	export const npm_package_dependencies_devalue: string;
 	export const npm_config_node_gyp: string;
-	export const ALACRITTY_LOG: string;
 	export const npm_package_exports___hooks_types: string;
 	export const npm_package_devDependencies__playwright_test: string;
 	export const DBUS_SESSION_BUS_ADDRESS: string;
@@ -172,13 +174,15 @@ declare module '$env/static/private' {
 	export const MAIL: string;
 	export const npm_config_registry: string;
 	export const npm_package_repository_directory: string;
-	export const ALACRITTY_WINDOW_ID: string;
 	export const npm_node_execpath: string;
 	export const npm_config_engine_strict: string;
 	export const LC_NUMERIC: string;
+	export const WEZTERM_PANE: string;
 	export const OLDPWD: string;
 	export const npm_package_types: string;
 	export const npm_package_engines_node: string;
+	export const TERM_PROGRAM: string;
+	export const WEZTERM_EXECUTABLE_DIR: string;
 }
 
 /**
@@ -212,14 +216,15 @@ declare module '$env/dynamic/private' {
 		npm_command: string;
 		LSCOLORS: string;
 		SESSION_MANAGER: string;
-		WINDOWID: string;
 		COLORTERM: string;
+		npm_package_scripts_generate_types: string;
 		XDG_CONFIG_DIRS: string;
 		npm_package_devDependencies__types_node: string;
 		LESS: string;
 		XDG_SESSION_PATH: string;
 		XDG_MENU_PREFIX: string;
 		npm_package_repository_url: string;
+		TERM_PROGRAM_VERSION: string;
 		npm_package_devDependencies_marked: string;
 		npm_package_exports___hooks_import: string;
 		GNOME_KEYRING_CONTROL: string;
@@ -232,6 +237,7 @@ declare module '$env/dynamic/private' {
 		SSH_AUTH_SOCK: string;
 		npm_package_dependencies_mime: string;
 		npm_package_devDependencies_dts_buddy: string;
+		WEZTERM_EXECUTABLE: string;
 		npm_package_peerDependencies_svelte: string;
 		DESKTOP_SESSION: string;
 		LC_MONETARY: string;
@@ -240,7 +246,6 @@ declare module '$env/dynamic/private' {
 		npm_package_scripts_test_unit: string;
 		GTK_MODULES: string;
 		XDG_SEAT: string;
-		npm_package_devDependencies__types_marked: string;
 		npm_package_dependencies_sade: string;
 		PWD: string;
 		npm_package_devDependencies_vite: string;
@@ -248,6 +253,7 @@ declare module '$env/dynamic/private' {
 		XDG_SESSION_DESKTOP: string;
 		QT_QPA_PLATFORMTHEME: string;
 		XDG_SESSION_TYPE: string;
+		PANEL_GDK_CORE_DEVICE_EVENTS: string;
 		PNPM_HOME: string;
 		_: string;
 		XAUTHORITY: string;
@@ -263,6 +269,7 @@ declare module '$env/dynamic/private' {
 		LANG: string;
 		LC_PAPER: string;
 		npm_package_devDependencies_typescript: string;
+		WEZTERM_UNIX_SOCKET: string;
 		LS_COLORS: string;
 		XDG_CURRENT_DESKTOP: string;
 		npm_package_version: string;
@@ -287,7 +294,6 @@ declare module '$env/dynamic/private' {
 		npm_package_scripts_test_cross_platform_dev: string;
 		npm_package_scripts_format: string;
 		PSQL_PAGER: string;
-		ALACRITTY_SOCKET: string;
 		npm_lifecycle_script: string;
 		npm_package_description: string;
 		XDG_SESSION_CLASS: string;
@@ -298,6 +304,7 @@ declare module '$env/dynamic/private' {
 		ZSH: string;
 		npm_package_type: string;
 		USER: string;
+		npm_config_frozen_lockfile: string;
 		npm_package_devDependencies_vitest: string;
 		npm_package_exports___types: string;
 		npm_package_dependencies_undici: string;
@@ -345,7 +352,6 @@ declare module '$env/dynamic/private' {
 		PATH: string;
 		npm_package_dependencies_devalue: string;
 		npm_config_node_gyp: string;
-		ALACRITTY_LOG: string;
 		npm_package_exports___hooks_types: string;
 		npm_package_devDependencies__playwright_test: string;
 		DBUS_SESSION_BUS_ADDRESS: string;
@@ -354,13 +360,15 @@ declare module '$env/dynamic/private' {
 		MAIL: string;
 		npm_config_registry: string;
 		npm_package_repository_directory: string;
-		ALACRITTY_WINDOW_ID: string;
 		npm_node_execpath: string;
 		npm_config_engine_strict: string;
 		LC_NUMERIC: string;
+		WEZTERM_PANE: string;
 		OLDPWD: string;
 		npm_package_types: string;
 		npm_package_engines_node: string;
+		TERM_PROGRAM: string;
+		WEZTERM_EXECUTABLE_DIR: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}

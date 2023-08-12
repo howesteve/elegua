@@ -100,13 +100,17 @@
     color: blue;
   }
   a:hover {
-    text-decoration: underline;
+    font-weight: bold;
   }
   a:visited {
     color: purple;
   }
+  nav a:visited {
+    color: inherit;
+  }
   .selected {
     font-weight: bolder;
+    border-bottom: 2px solid;
   }
   ul#menu li {
     display: inline;
