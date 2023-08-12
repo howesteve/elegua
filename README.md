@@ -193,7 +193,7 @@ This is used very often for simple, fixed routings.
 <button on:click|preventDefault={() => ($path = '/blog')}>Set $path='/blog'</button>
 ```
 
-Use Svelte's `{#if}`` blocks for routing using [`$path`](#path):
+Use Svelte's `{#if}` blocks for routing using [`$path`](#path):
 
 ```svelte
 <script lang="ts">

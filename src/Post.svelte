@@ -8,6 +8,9 @@
 </script>
 
 <div class="post">
+  <p>This was load using a named param:</p>
+  <code>{`{#if resolve($path, '/blog/:post')}`}</code>
+  <br><code>{`<Post id={$params['post']}`}</code>
   {#if post}
     <h2>{post.slug}</h2>
     <b>$params: {JSON.stringify($params)}</b>

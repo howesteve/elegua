@@ -54,7 +54,7 @@
   <!-- Another regexp match using resolve() -->
   {:else if resolve($path, /authors\/([a-zA-Z\ 0-9]+)/)}
     <h1>Author {$match && $match[1]}</h1>
-  <!-- Named params -->
+  <!-- Loads posts using named params -->
   {:else if resolve($path, '/blog/:post')}
     <Post id={$params['post']} />
   <!-- Hash routing -->
@@ -70,11 +70,6 @@
   {:else}
     <Error />
   {/if}
-  <h2>Native data routing (skips Elegua)</h2>
-  <p>To prevent <a href="https://github.com/howesteve/elegua">Elegua</a> from handling 
-  a link, and let the native browser route it, set the <code>data-native-router</code> attribute in the anchor:
-  <p><code>&lt;a href="/blog" <b>data-native-router</b>&gt;Blog&lt/a&gt;</code></p>
-  <p>Example: <a href="/blog" data-native-router>Blog </a></p>
 </main>
 
 <footer>
