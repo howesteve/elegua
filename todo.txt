@@ -1,1 +1,8 @@
 - Add a sed script that updates LoC and kb/gziped
++ Add page change lock/hooking
+- Support view transitions API?
+- Support a link event blocking on condition
+- Support map routing (in the docs?)
+  - forEach
+- Port docs to docusaurus?
+- Port demo to a better looking css 

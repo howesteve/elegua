@@ -10,6 +10,7 @@
   import StaticFiles from './StaticFiles.svelte';
   import Hash from './Hash.svelte';
   import SearchParams from './SearchParams.svelte';
+  import PreventChange from './PreventChange.svelte';
   let staticPages: Array<{ path: string; html: () => Promise<string> }> = [];
 </script>
 
@@ -24,6 +25,9 @@
         <a href="/searchparams" class:selected={$path === '/searchparams'}>Search Params</a>
       </li>
       <li>
+        <a href="/preventchange" class:selected={$path === '/preventchange'}>Prevent Change</a>
+      </li>
+      <li>
         <a href="/filesystem" class:selected={$path === '/filesystem'}>Static files</a>
       </li>
       <li><a href="/about" class:selected={$path === '/about'}>About</a></li>
@@ -35,38 +39,41 @@
   <!-- Home page - a fixed route -->
   {#if $path === '/'}
     <Home />
-<!-- Another fixed route -->
+    <!-- Another fixed route -->
   {:else if $path === '/about'}
     <About />
-  <!-- Fixed route again, but now using resolve() -->
+    <!-- Fixed route again, but now using resolve() -->
   {:else if resolve($path, '/blog')}
     <Blog posts={$posts} />
-  <!-- Fixed route -->
+    <!-- Fixed route -->
   {:else if $path === '/regexp'}
     <RegExp />
-  <!-- A regexp match using resolve() -->
+    <!-- A regexp match using resolve() -->
   {:else if resolve($path, /users\/(?<user_id>[0-9]+)/)}
     <h1>URL: {$url.toString()}</h1>
     <h2>User by $match:</h2>
     <p>{$match && $match[1]}</p>
     <h2>User by $params (regexp named group):</h2>
     <p>{$params['user_id']}</p>
-  <!-- Another regexp match using resolve() -->
+    <!-- Another regexp match using resolve() -->
   {:else if resolve($path, /authors\/([a-zA-Z\ 0-9]+)/)}
     <h1>Author {$match && $match[1]}</h1>
-  <!-- Loads posts using named params -->
+    <!-- Loads posts using named params -->
   {:else if resolve($path, '/blog/:post')}
     <Post id={$params['post']} />
-  <!-- Hash routing -->
+    <!-- Hash routing -->
   {:else if $path === '/hash'}
     <Hash />
-  <!-- Search params -->
+    <!-- Search params -->
   {:else if $path === '/searchparams'}
     <SearchParams />
-  <!-- Filesystem/static routing. Uses startsWith() to easy routing, but is not needed. -->
+    <!-- Filesystem/static routing. Uses startsWith() to easy routing, but is not needed. -->
   {:else if $path.startsWith('/filesystem')}
     <StaticFiles pages={staticPages} />
-  <!-- Fallback route - will be displayed if nothing else matches -->
+    <!-- Prevent changing -->
+  {:else if resolve($path, '/preventchange')}
+    <PreventChange />
+    <!-- Fallback route - will be displayed if nothing else matches -->
   {:else}
     <Error />
   {/if}

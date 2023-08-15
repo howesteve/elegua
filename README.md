@@ -174,6 +174,29 @@ See below for examples:
 
 The [`goto(href)`](#goto) method navigates to some url/path programmatically. Internally, it uses [`history.pushState()`](https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState). Calls to [`goto(href)`](#goto) will trigger updates in all the expected reactive stores: [$path](#path), [$url](#url), [$hash](#hash), [$oldUrl](#oldurl), etc. - and also will update the current browser's url.
 
+## preventChange()
+
+`preventChange : (()=> boolean|undefined) | undefined`
+
+This function allows setting a callback for preventing page changes from either clicking \<a\> links or using [`goto()`](goto). If the callback function returns `true`, the link change will be blocked. If it returns anything else, it's allowed. For instance, for preventing going away from a form has been changed:
+
+```ts
+preventChange(() => {
+  if (formIsDirty) {
+    alert('Please save or cancel changes before navigating away.');
+    return true;
+  }
+});
+```
+
+To unset the callback, just call [`preventChange()`](preventchange) without arguments:
+
+```ts
+preventChange()
+```
+
+For a more useful example, check [our demo app](https://elegua.netlify.app/preventchange) and [it's source](https://github.com/howesteve/elegua/blob/master/src/PreventChange.svelte).
+
 ## Stores
 
 ### $path

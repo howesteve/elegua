@@ -108,6 +108,18 @@ export function namedPath(route: string): RegExp {
   );
 }
 
+let preventChange_ : (()=> boolean|undefined) | undefined;
+// Global hook function for allowing or not changes. Use this to prevent routing 
+// changes using either goto() or <a> clicking on undesirable situations, ex. 
+// when a form is dirty and you want the user to save changes before 
+// leaving the form.
+// @param {()=> boolean) | undefined} f - the function to be called to allow or not 
+//   routing. If this function is defined and returns true, routing request will be ignored. 
+//   See docs for usage example.
+export function preventChange(f?: typeof preventChange_) {
+  preventChange_ = f
+}
+
 // Core route function; resolves a path.
 // @param {string} route - a string (fixed or dynamic) route, or a regexp route. If '/:' is found in the route, it's considered a named route.
 // @param {string} path - an optional param for providing a path to resolve to. Defaults to $path
@@ -138,6 +150,8 @@ export function resolve(path: string, route: string | RegExp): boolean {
 // @param {string} href - the href/path to to go, ex: '/blog'
 // @param {any} data - not used right now
 export function goto(href: string | URL, data: any = undefined) {
+  // preventing changes 
+  if (preventChange_ && (preventChange_()===true)) return;
   if (href instanceof URL) href = href.toString();
   url.set(new URL(href, window.location.href));
 }
@@ -163,24 +177,23 @@ window?.addEventListener('load', (ev) => {
   addEventListener('keydown', (ev: KeyboardEvent) => lastKbdEv = ev);
   addEventListener('keyup', (ev: KeyboardEvent) => lastKbdEv = undefined);
 
-  // <a> tag click hook; let Elegua handle it
+  // <a> tags click hook; let Elegua handle them
   addEventListener('click', (event) => {
-    // preventing handling of Ctrl/Shift + clicks, which shall open another tab/window
-    if (!lastKbdEv?.ctrlKey && !lastKbdEv?.shiftKey) {
+    // Ctrl/Shift + clicks should open another tab/window
       let targetElement = event.target as HTMLElement;
       while (targetElement && targetElement !== document.body) {
         if (targetElement.tagName.toLowerCase() === 'a') {
-      if (targetElement.hasAttribute('data-native-router')) return;
-          const href = targetElement.getAttribute('href') || '';
-          // handling external links
-          if (!/^http?s\:\/\//.test(href)) {
-            event.preventDefault();
-            if (href) url.set(new URL(href, window.location.href));
-            return;
+          if (lastKbdEv?.ctrlKey || lastKbdEv?.shiftKey) return;
+          if (preventChange_ && (preventChange_()===true)) return event.preventDefault();
+          if (targetElement.hasAttribute('data-native-router')) return;
+            const href = targetElement.getAttribute('href') || '';
+            // do not handle external links
+            if (!/^http?s\:\/\//.test(href)) {
+              if (href) url.set(new URL(href, window.location.href));
+              return event.preventDefault();
           }
         }
         targetElement = targetElement.parentElement || document.body;
       }
-    }
   });
 });
