@@ -16,10 +16,14 @@
     value = initValue;
   }
 
+  let locked = false;
   onMount(() => {
     preventChange(() => {
       if (isDirty_) {
         alert('Please save or cancel changes before navigating away');
+        return true;
+      } else if (locked) {
+        alert("Locked! Can't go away");
         return true;
       }
     });
@@ -32,20 +36,20 @@
 </script>
 
 <svelte:head>
-  <title>preventChange() testing</title>
+  <title>preventChange()</title>
 </svelte:head>
 
 <h1>preventChange()</h1>
 <p>
   Sometimes you need to prevent the user from leaving the current route; for instance, a form might be dirty and needs
-  to be saved. The <a href="https://github.com/howesteve/elegua#prevent_change"><code>preventChange()</code></a> 
+  to be saved. The <a href="https://github.com/howesteve/elegua#prevent_change"><code>preventChange()</code></a>
   method allows controlling that behaviour. Here is an example of how to use it.
 </p>
 
 <p>
   If you change the input below, <a href="https://github.com/howesteve/elegua">Elegua</a>
-  will not allow you to navigate to any other links until you either save the form. 
-  Try changing the value and navigating to any links, and you'll see you can't. 
+  will not allow you to navigate to any other links until you either save the form. Try changing the value and navigating
+  to any links, and you'll see you can't.
 </p>
 
 <form on:submit|preventDefault>
@@ -71,6 +75,9 @@
     preventChange();
   {'}'});
 </pre>
+
+<p>You can also use the checkbox below for locking yourself into the current page:</p>
+<input type="checkbox" bind:checked={locked} /> Lock into this form
 
 <p>
   See <a href="https://github.com/howesteve/elegua/blob/master/src/PreventChange.svelte"

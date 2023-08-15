@@ -25,7 +25,7 @@
         <a href="/searchparams" class:selected={$path === '/searchparams'}>Search Params</a>
       </li>
       <li>
-        <a href="/preventchange" class:selected={$path === '/preventchange'}>Prevent Change</a>
+        <a href="/preventchange" class:selected={$path === '/preventchange'}>Prevent Changes</a>
       </li>
       <li>
         <a href="/filesystem" class:selected={$path === '/filesystem'}>Static files</a>
