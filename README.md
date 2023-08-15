@@ -182,7 +182,7 @@ The [`goto(href)`](#goto) method navigates to some url/path programmatically. In
 
 `preventChange : (()=> boolean|undefined) | undefined`
 
-This function allows setting a callback for preventing exiting a page from either clicking \<a\> links or using [`goto()`](goto). If the callback function returns `true`, the link change will be blocked. If it returns anything else, it's allowed. For instance, for preventing going away from a form has been changed:
+This function allows setting a callback for preventing exiting a route/page from either clicking `<a\`` links or using [`goto()`](goto). If the callback function returns `true`, the link change will be blocked. If it returns anything else, it will be allowed. For instance, for preventing going away from a form has been changed:
 
 ```ts
 preventChange(() => {
@@ -199,7 +199,7 @@ To unset the callback, just call [`preventChange()`](preventchange) without argu
 preventChange()
 ```
 
-For a more useful example, check [our demo app](https://elegua.netlify.app/preventchange) and [it's source](https://github.com/howesteve/elegua/blob/master/src/PreventChange.svelte).
+For a more useful example of calling [`preventChange()`](preventchange) inside the `onMount()`/`onDestroy()` handlers, check [our demo app](https://elegua.netlify.app/preventchange) and [it's source](https://github.com/howesteve/elegua/blob/master/src/PreventChange.svelte).
 
 > **Note**
 >
@@ -207,9 +207,9 @@ For a more useful example, check [our demo app](https://elegua.netlify.app/preve
 
 ## preventUnload()
 
-Although this is not a part of the routing *per se*, I think it's a nice addition to Elegua. This is an action that will prevent the user from closing the current window if a condition is met.
+Although this is not a part of the routing system *per se*, I think it's a nice addition to Elegua. This is a svelte action that will prevent the user from closing the current window if a condition is met.
 
-This action can be used in set with [`preventChange`](#preventchange) to prevent the user from closing or naviuganting away from changed forms.
+This action can be used in set with [`preventChange`](#preventchange) to prevent the user from closing or navigating away from the changed forms.
 
 ```svelte
 <svelte:window use:preventUnload={() => formIsdirty()} />
@@ -236,11 +236,11 @@ The [`dynamic()`](dynamic) method is a very special one; it allows dynamic routi
   import Error from './Error404.svelte';
 </script> 
 
+<!-- You can pass optional props that will be passed to the component such as in the '/blog/:post' route below -->
 <svelte:component this={dynamic($path, [
   ['/', Home],
   ['/about', About],
   ['/blog', Blog],
-  <!-- You can pass optional props that will be passed to the component -->
   ['/blog/:post', Post, {id: $params['post']}],
 ], Error)} />
 ```
