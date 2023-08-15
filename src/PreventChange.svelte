@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
-  import { preventChange as preventChange } from './lib/Elegua';
+  import { preventChange as preventChange, preventUnload } from './lib/Elegua';
   let initValue = '';
   let value = initValue;
 
@@ -35,21 +35,37 @@
   });
 </script>
 
+<svelte:window use:preventUnload={() => isDirty_} />
+
 <svelte:head>
-  <title>preventChange()</title>
+  <title>preventChange() and preventUnload()</title>
 </svelte:head>
 
 <h1>preventChange()</h1>
 <p>
-  Sometimes you need to prevent the user from leaving the current route; for instance, a form might be dirty and needs
-  to be saved. The <a href="https://github.com/howesteve/elegua#prevent_change"><code>preventChange()</code></a>
-  method allows controlling that behaviour. Here is an example of how to use it.
+  Sometimes you need to prevent the user from leaving the current route; for instance, a form might has been changed and
+  needs to be saved before the user forgets about it. The <a href="https://github.com/howesteve/elegua#preventchange"
+    ><code>preventChange()</code></a
+  >
+  method allows implementing that.
 </p>
 
+<h1>preventUnload()</h1>
 <p>
-  If you change the input below, <a href="https://github.com/howesteve/elegua">Elegua</a>
+  Also, there are situations where you want to prevent the current window from being closed - for instance, also when a
+  form has changed. The <a href="https://github.com/howesteve/elegua#preventunload"><code>preventUnload()</code></a>
+  action is very handy for that.
+</p>
+
+<h2>Demo</h2>
+<p>
+  So here is an example of how to use both: If you change the input below, <a href="https://github.com/howesteve/elegua"
+    >Elegua</a
+  >
   will not allow you to navigate to any other links until you either save the form. Try changing the value and navigating
-  to any links, and you'll see you can't.
+  to any links, and you'll see you can't. Also, since
+  <a href="https://github.com/howesteve/elegua#preventunload"><code>preventUnload()</code></a>
+  is used, if you try to close the window (e.g. Ctrl-W), the browser will ask for confirmation.
 </p>
 
 <form on:submit|preventDefault>
@@ -58,9 +74,10 @@
   <button on:click={cancel} disabled={!isDirty_}>Cancel</button>
 </form>
 
-<p>This is the handler used on this page:</p>
+<p>Thsee are the handlers used on this very page:</p>
 
 <pre>
+  &lt;script lang="ts"&gt;
   onMount(() =&gt; {'{'}
     preventChange(() = &gt; {'{'}
       if (isDirty_) {'{'}
@@ -74,19 +91,19 @@
     // reset handler
     preventChange();
   {'}'});
+&lt;/script&gt;
+<pre>&lt;svelte:window use:preventUnload={'{'}() => isDirty_{'}'} /=&gt;</pre>
+
 </pre>
 
-<p>You can also use the checkbox below for locking yourself into the current page:</p>
+<p>
+  You can also use the checkbox below for locking yourself into the current page (can't navigate away, nor close the
+  window):
+</p>
 <input type="checkbox" bind:checked={locked} /> Lock into this form
 
 <p>
   See <a href="https://github.com/howesteve/elegua/blob/master/src/PreventChange.svelte"
     >this page's source code for more details.</a
   >
-</p>
-
-<p>
-  Obs: this will not prevent window reloads (i.e. browser pressing F5); for that, handle the <a
-    href="https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event">beforeunload event</a
-  >.
 </p>

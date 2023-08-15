@@ -3,7 +3,7 @@
 
 # What is Elegua?
 
-Elegua: the best Svelte client router you'll ever see in under 150 LoC.
+Elegua: the best Svelte client router you'll ever see in under 180 LoC.
 
 ## Demo
 
@@ -21,22 +21,26 @@ pnpm run dev
 ## Features
 
 - Dependency free (except for Svelte, of course)
-- No `<Route>`, `<Link>` or any other components. Uses regular `{#if}/{:else}` blocks from Svelte to control routing/rendering.
-- A single file (<2Kb gzipped)
+- Easy api, feeels very natural and intuitive.
+- It's all in a single file (**2.2KB** gzipped/**6.5KB** unpacked)
 - Fully reactive: changes to api reflect the browser's url, and vice versa.
+- No `<Route>`, `<Link>` or any other components. Uses regular `{#if}/{:else}` blocks from Svelte to control routing/rendering.
 - History API only (who uses hash paths nowawdays?)
+- Dynamic routing
 - Regular \<a\> links supported out of the box. No need for \<Link\> additional components.
-- Really fast.
+- No extra components. It's all stores/functions.
+- Can prevent route changes on conditions (e.g. prevent exit from changed form)
 - Route types supported:
   - Fixed path routes, i.e. `/`
   - Variable routes (`/xxx/:group/:id`) (yes, they can be nested)
   - Regexp routes: any rule you could imagine if it can be expressed by a RegExp expression (ex: `/id/[0-9]+\.json`)
   - Fallback/error routes
+- Really fast.
 
 ## Why?
 
 - [Elegua](http://github.com/howesteve/elegua) has a very different approach from other routers. Other routers I know of introduce new components such as `<Route>` or `<Link>`, or complicated filesystem logic. I wanted to get rid of those and just use plain Svelte logic blocks for routing.
-- In my opinion, existing PWA routers for Svelte are too large, complicated, buggy, restricting, unmainteined, full of hacks, and/or just not satisfying me.
+- In my opinion, existing PWA routers for Svelte are too large, complicated, buggy, restricting, unmainteined, unfeatured, full of hacks, and/or just not satisfying me.
 - [Elegua](http://github.com/howesteve/elegua) is designed specifically for SPA/PWA applications
 - I absolutely hated what they did to [SvelteKit](https://kit.svelte.dev/) and it's "file-based router". Things like:
   - `src/routes/blog/[slug]/+page.js`
@@ -178,7 +182,7 @@ The [`goto(href)`](#goto) method navigates to some url/path programmatically. In
 
 `preventChange : (()=> boolean|undefined) | undefined`
 
-This function allows setting a callback for preventing page changes from either clicking \<a\> links or using [`goto()`](goto). If the callback function returns `true`, the link change will be blocked. If it returns anything else, it's allowed. For instance, for preventing going away from a form has been changed:
+This function allows setting a callback for preventing exiting a page from either clicking \<a\> links or using [`goto()`](goto). If the callback function returns `true`, the link change will be blocked. If it returns anything else, it's allowed. For instance, for preventing going away from a form has been changed:
 
 ```ts
 preventChange(() => {
@@ -196,6 +200,64 @@ preventChange()
 ```
 
 For a more useful example, check [our demo app](https://elegua.netlify.app/preventchange) and [it's source](https://github.com/howesteve/elegua/blob/master/src/PreventChange.svelte).
+
+> **Note**
+>
+> This method will not prevent the user from closing the window/reloading the page. That is accomplished by handiling the [beforeload event](https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event). But check the [`preventUnload` action](#preventunload) for a nice wrapper.
+
+## preventUnload()
+
+Although this is not a part of the routing *per se*, I think it's a nice addition to Elegua. This is an action that will prevent the user from closing the current window if a condition is met.
+
+This action can be used in set with [`preventChange`](#preventchange) to prevent the user from closing or naviuganting away from changed forms.
+
+```svelte
+<svelte:window use:preventUnload={() => formIsdirty()} />
+...
+</svelte:window>
+```
+
+- Check [the preventChange](https://elegua.netlify.app/preventchange) page for a demo (it will both prevent exiting the page and closing the window)
+- Check [it's source](https://github.com/howesteve/elegua/blob/master/src/PreventChange.svelte)
+
+### dynamic()
+
+`dynamic(path: string, routes: DynamicRoute[], defaultRoute?: ComponentType): ComponentType|undefined`
+`type DynamicRoute = [string | RegExp, ComponentType, any?]`
+
+The [`dynamic()`](dynamic) method is a very special one; it allows dynamic routing using [Elegua](http://github.com/howesteve/elegua):
+
+```svelte
+<script lang="ts">
+  import {dynamic} from 'elegua';
+  import Home from './Home.svelte';
+  import About from './About.svelte';
+  import Blog from './Blog.svelte';
+  import Error from './Error404.svelte';
+</script> 
+
+<svelte:component this={dynamic($path, [
+  ['/', Home],
+  ['/about', About],
+  ['/blog', Blog],
+  <!-- You can pass optional props that will be passed to the component -->
+  ['/blog/:post', Post, {id: $params['post']}],
+], Error)} />
+```
+
+Sometimes you might have a lot of static routes that point to components and don't want to define them one by one in `{$if}` blocks, or you just don't know the routes beforehand. For such cases, [`dynamic()`](dynamic) is very handy.
+
+The arguments are:
+
+- `path`: the current [`$path`](#path)
+- `routes`: the defined routes, i.e. an Array\<DynamicRoute\>:
+  - [0] `route`: a string or regexp; the same you'd use in a [`resolve()`](#resolve) call
+  - [1] component: The component to render. Any Svelte component is valid
+  - [2] props?: An optional props property that will be passed to \svelte:component\> upon rendering.
+- `defaultRoute`: an optional default route that will be rendered if no other route matches. This is typically used for displaying 404/error pages.
+
+- See it working [in our demo](https://elegua.netlify.app/dynamic)
+- See the demo's [source code](https://github.com/howesteve/elegua/tree/master/src/Dynamic)
 
 ## Stores
 

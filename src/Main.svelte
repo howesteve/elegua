@@ -11,6 +11,7 @@
   import Hash from './Hash.svelte';
   import SearchParams from './SearchParams.svelte';
   import PreventChange from './PreventChange.svelte';
+  import Dynamic from './Dynamic/index.svelte';
   let staticPages: Array<{ path: string; html: () => Promise<string> }> = [];
 </script>
 
@@ -27,6 +28,10 @@
       <li>
         <a href="/preventchange" class:selected={$path === '/preventchange'}>Prevent Changes</a>
       </li>
+      <li>
+        <a href="/dynamic" class:selected={$path.startsWith('/dynamic')}>Dynamic</a>
+      </li>
+
       <li>
         <a href="/filesystem" class:selected={$path === '/filesystem'}>Static files</a>
       </li>
@@ -64,6 +69,11 @@
     <!-- Hash routing -->
   {:else if $path === '/hash'}
     <Hash />
+    <!-- Dynamic routing: forward all requests to the dynamic page. 
+    Forwaring is needed here for demo purposes, but typically won't 
+    be on a real site -->
+  {:else if $path.startsWith('/dynamic')}
+    <Dynamic />
     <!-- Search params -->
   {:else if $path === '/searchparams'}
     <SearchParams />

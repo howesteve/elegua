@@ -1,3 +1,4 @@
+import type { ComponentType } from 'svelte';
 import { derived, get, readable, writable, type Subscriber } from 'svelte/store';
 
 let pathSetter: Subscriber<string>;
@@ -97,7 +98,10 @@ get(params);
 
 const regExpEscape = (s: string) => s.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&');
 
-// compiles a named path such as /blog/:slug into a RegExp
+// compiles a named path such as /blog/:slug into a RegExp. 
+// Usually this will not be needed to be called directly since resolve() 
+// will detect named paths automatically and call this internally, but
+// it's exported in case you want to use it.
 // @param {string} route - a route to be compiled into regexp, ex: '/blog/:id'.
 export function namedPath(route: string): RegExp {
   // checking for named component paths
@@ -108,8 +112,21 @@ export function namedPath(route: string): RegExp {
   );
 }
 
+// Dynamic routing
+// <svelte:component this={dynamic([routes], error)} />
+// If no route among [routes] is resolved, return the "defaultRoute" route. 
+// If defaultRoute is not defined, undefined is returned.
+export type DynamicRoute = [string | RegExp, ComponentType, any?];
+export function dynamic(path: string, routes: DynamicRoute[], defaultRoute?: ComponentType): ComponentType|undefined {
+  for (let i=0;i<routes.length;i++) {
+    const [route, component] = routes[i];
+    if (resolve(path, route)) return component;
+  }
+  return defaultRoute;
+}
+
 let preventChange_ : (()=> boolean|undefined) | undefined;
-// Global hook function for allowing or not changes. Use this to prevent routing 
+// Global hook function for preventing routing/page changes. Use this to prevent routing 
 // changes using either goto() or <a> clicking on undesirable situations, ex. 
 // when a form is dirty and you want the user to save changes before 
 // leaving the form.
@@ -159,12 +176,9 @@ export function goto(href: string | URL, data: any = undefined) {
 // first time url assignment
 urlSetter(new URL(document.location.href));
 // event handlers
-window?.addEventListener('load', (ev) => {
-  // setting the URL for the first time
-  urlSetter(new URL(document.location.href));
-  // forwaring hash changed events
-  addEventListener('hashchange', (ev: HashChangeEvent) => {
-    // hashSetter({ new: event.newURL, old: event.oldURL });
+window?.addEventListener('load', () => {
+  // forwarding hash change events
+  addEventListener('hashchange', () => {
     urlSetter(new URL(window.location.href));
   });
   addEventListener('popstate', (event: PopStateEvent) => {
@@ -197,3 +211,32 @@ window?.addEventListener('load', (ev) => {
       }
   });
 });
+
+// Bonus: svelte action for preventing unloading/focus changing
+// If callback returns true, unfocusing is prevented.
+// If callback returns a string, unfocusing is prevented and message is returned.
+// However, message display is browser-dependent and usually ignored.
+export function preventUnload(node: HTMLElement, callback: () => boolean | string) {
+	const handler = (ev: BeforeUnloadEvent) => {
+		const res = callback();
+		if (res === true) {
+			// If callback returns a truthy value, show the browser's default
+			// confirmation message to ask the user if they want to leave the page.
+			ev.preventDefault();
+			ev.returnValue = '';
+			return '';
+		} else if (typeof res === 'string') {
+			// if callback returns a string, send it to the browser. However as exposed, 
+      // it's usually ignored by browsers.
+      ev.preventDefault();
+			ev.returnValue = res;
+			return res;
+		}
+	};
+	node.addEventListener('beforeunload', handler, { capture: true });
+	return {
+  		destroy() {
+			node.removeEventListener('beforeunload', handler);
+		}
+	};
+}

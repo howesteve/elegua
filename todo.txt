@@ -1,8 +1,34 @@
-- Add a sed script that updates LoC and kb/gziped
-+ Add page change lock/hooking
 - Support view transitions API?
-- Support a link event blocking on condition
-- Support map routing (in the docs?)
-  - forEach
-- Port docs to docusaurus?
+- Port docs to sveltepress?
 - Port demo to a better looking css 
+- Add use:preventUnload
+- Add tests
+  import { playwright } from '@playwright/test';
+
+  const test = async () => {
+    // Open a new browser window.
+    const browser = await playwright.chromium.launch();
+    const context = await browser.newContext();
+    const page = await context.newPage();
+
+    // Navigate to the home page.
+    await page.goto('http://localhost:3000');
+
+    // Check that the title of the page is "Home".
+    const title = await page.title();
+    expect(title).toBe('Home');
+
+    // Click on the "About" link.
+    await page.click('a[href="/about"]');
+
+    // Check that the title of the page is now "About".
+    title = await page.title();
+    expect(title).toBe('About');
+
+    // Close the browser window.
+    await context.close();
+    await browser.close();
+  };
+
+  // Run the test suite.
+  await test();
