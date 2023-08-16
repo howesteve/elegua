@@ -216,7 +216,7 @@ window?.addEventListener('load', () => {
 // If callback returns true, unfocusing is prevented.
 // If callback returns a string, unfocusing is prevented and message is returned.
 // However, message display is browser-dependent and usually ignored.
-export function preventUnload(node: HTMLElement, callback: () => boolean | string) {
+export function preventUnload(node: HTMLElement, callback: () => boolean | string| undefined) {
 	const handler = (ev: BeforeUnloadEvent) => {
 		const res = callback();
 		if (res === true) {

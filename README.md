@@ -182,7 +182,7 @@ The [`goto(href)`](#goto) method navigates to some url/path programmatically. In
 
 `preventChange : (()=> boolean|undefined) | undefined`
 
-This function allows setting a callback for preventing exiting a route/page from either clicking \<a\> links or using [`goto()`](goto). If the callback function returns `true`, the link change will be blocked. If it returns anything else, it will be allowed. For instance, for preventing going away from a form has been changed:
+This function allows setting a callback for preventing exiting a route/page from either clicking `<a>` links or using [`goto()`](goto). If the callback function returns `true`, the link change will be blocked. If it returns anything else, it will be allowed. For instance, for preventing going away from a form has been changed:
 
 ```ts
 preventChange(() => {
@@ -206,6 +206,8 @@ For a more useful example of calling [`preventChange()`](preventchange) inside t
 > This method will not prevent the user from closing the window/reloading the page. That is accomplished by handiling the [beforeload event](https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event). But check the [`preventUnload` action](#preventunload) for a nice wrapper.
 
 ## preventUnload()
+
+`preventUnload(callback: () => boolean | string| undefined)`
 
 Although this is not a part of the routing system *per se*, I think it's a nice addition to Elegua. This is a svelte action that will prevent the user from closing the current window if a condition is met.
 
