@@ -22,7 +22,7 @@ pnpm run dev
 
 - Dependency free (except for Svelte, of course)
 - Easy api, feeels very natural and intuitive.
-- It's all in a single file (**2.2KB** gzipped/**6.5KB** unpacked)
+- Minimalist: it's all in a single file (**2.2KB** gzipped/**6.5KB** unpacked)
 - Fully reactive: changes to api reflect the browser's url, and vice versa.
 - No `<Route>`, `<Link>` or any other components. Uses regular `{#if}/{:else}` blocks from Svelte to control routing/rendering.
 - History API only (who uses hash paths nowawdays?)
@@ -182,7 +182,7 @@ The [`goto(href)`](#goto) method navigates to some url/path programmatically. In
 
 `preventChange : (()=> boolean|undefined) | undefined`
 
-This function allows setting a callback for preventing exiting a route/page from either clicking `<a\`` links or using [`goto()`](goto). If the callback function returns `true`, the link change will be blocked. If it returns anything else, it will be allowed. For instance, for preventing going away from a form has been changed:
+This function allows setting a callback for preventing exiting a route/page from either clicking \<a\> links or using [`goto()`](goto). If the callback function returns `true`, the link change will be blocked. If it returns anything else, it will be allowed. For instance, for preventing going away from a form has been changed:
 
 ```ts
 preventChange(() => {
