@@ -40,8 +40,15 @@ export const url = (() => {
   urlSetter = (u: URL) => {
     const sset = u.searchParams.set;
     const sdel = u.searchParams.delete;
+    const sapp = u.searchParams.append;
     u.searchParams.set = (name, value) => {
       const res = sset.call(u.searchParams, name, value);
+      set_(u);
+      history.pushState({}, '', u.toString());
+      return res;
+    };
+    u.searchParams.append = (name, value) => {
+      const res = sapp.call(u.searchParams, name, value);
       set_(u);
       history.pushState({}, '', u.toString());
       return res;

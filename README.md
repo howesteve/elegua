@@ -35,6 +35,7 @@ pnpm run dev
   - Variable routes (`/xxx/:group/:id`) (yes, they can be nested)
   - Regexp routes: any rule you could imagine if it can be expressed by a RegExp expression (ex: `/id/[0-9]+\.json`)
   - Fallback/error routes
+- Unique features such as [`preventUnload()`](#preventunload) and [`preventChange()`](#preventchange).
 - Really fast.
 
 ## Why?
@@ -205,19 +206,21 @@ For a more useful example of calling [`preventChange()`](preventchange) inside t
 >
 > This method will not prevent the user from closing the window/reloading the page. That is accomplished by handiling the [beforeload event](https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event). But check the [`preventUnload` action](#preventunload) for a nice wrapper.
 
+I don't know of any other routers that have this feature.
+
 ## preventUnload()
 
 `preventUnload(callback: () => boolean | string| undefined)`
 
-Although this is not a part of the routing system *per se*, I think it's a nice addition to Elegua. This is a svelte action that will prevent the user from closing the current window if a condition is met.
-
-This action can be used in set with [`preventChange`](#preventchange) to prevent the user from closing or navigating away from the changed forms.
+This is a svelte action that will prevent the user from closing the current window if a condition is met. It can be used in set with [`preventChange`](#preventchange) to prevent the user from closing or navigating away from the changed forms.
 
 ```svelte
 <svelte:window use:preventUnload={() => formIsdirty()} />
 ...
 </svelte:window>
 ```
+
+Although this is not a part of the routing system *per se*, I think it's a nice addition to Elegua. Same as with [`preventChange`](#preventchange), I don't know about any other routers that have this feature.
 
 - Check [the preventChange](https://elegua.netlify.app/preventchange) page for a demo (it will both prevent exiting the page and closing the window)
 - Check [it's source](https://github.com/howesteve/elegua/blob/master/src/PreventChange.svelte)
@@ -363,7 +366,7 @@ Internally, it works by monitoring both [popstate](https://developer.mozilla.org
 
 This readable store is a [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) object for the current url. For instance, if you load:`http://localhost/blog?x=1` and call `$searchParams.get('x')`, you'll get `"1"` (yes, a string). For changing a [`searchParams`](#searchparams) value, call `$searchParams.set("x", "1")`. Check the [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) reference for other methods.
 
-[Elegua](http://github.com/howesteve/elegua) has reactive `searchParams.set()` and `searchParams.delete()` methods for convenience; if you use them, the current browser's url and [history](https://developer.mozilla.org/en-US/docs/Web/API/History) will automatically be updated, and if you change the url values, [`searchParams`](#searchparams) will reflect them.
+[Elegua](http://github.com/howesteve/elegua) has reactive `searchParams.set()` and `searchParams.delete()` and `searchParams.append()`methods for convenience; if you use them, the current browser's url and [history](https://developer.mozilla.org/en-US/docs/Web/API/History) will automatically be updated, and if you change the url values, [`searchParams`](#searchparams) will reflect them.
 
 Reading from [`searchParams`](#searchparams):
 
@@ -417,6 +420,19 @@ Removing a `searchParam` (reactive - browser url will change):
   }}>Remove x</button
 >
 ```
+
+Appending a `searchParam` (reactive - browser url will change):
+
+```svelte
+<button
+  on:click|preventDefault={() => {
+    $searchParams.append('y', 1);
+  }}>Append('y', 1)</button
+>
+```
+
+> **Note**
+> `searchParam.append()` will perform exactly as [`URLSearchParam.append()`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/append), i.e. if you call it multiple times, it will append params multiple times.
 
 ### $match
 

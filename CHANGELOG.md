@@ -4,6 +4,12 @@
 
 All notable changes to [Elegua](http://github.com/howesteve/elegua) will be documented in this file.
 
+## [v2.21] - 2023-09-11
+
+### Added
+
+- searchParams.append() is reactive like the set()/delete methods
+
 ## [v2.20] - 2023-08-15
 
 ### Added

@@ -74,6 +74,7 @@ declare module '$env/static/private' {
 	export const npm_package_exports___node_import: string;
 	export const npm_package_dependencies_cookie: string;
 	export const npm_package_dependencies_sirv: string;
+	export const npm_package_dependencies_tiny_glob: string;
 	export const npm_package_bugs_url: string;
 	export const npm_package_exports___node_types: string;
 	export const npm_package_exports___vite_types: string;
@@ -260,6 +261,7 @@ declare module '$env/dynamic/private' {
 		npm_package_exports___node_import: string;
 		npm_package_dependencies_cookie: string;
 		npm_package_dependencies_sirv: string;
+		npm_package_dependencies_tiny_glob: string;
 		npm_package_bugs_url: string;
 		npm_package_exports___node_types: string;
 		npm_package_exports___vite_types: string;

@@ -14,7 +14,7 @@
 <br /><b>($searchParams.get("y")):</b>
 {$searchParams.get('y')}
 
-<p>As you click the buttons, see $searchParams and the browser url changing accordingly.</p>
+<p>As you click the buttons, see what happens with $searchParams and the browser url changing accordingly.</p>
 <p>If you change the values directly in the url, they will be updated below as well.</p>
 
 <button
@@ -38,3 +38,11 @@
     $searchParams.delete('y');
   }}>Remove y</button
 >
+<button
+  on:click|preventDefault={() => {
+    $searchParams.append('x', '1');
+  }}
+  >Append(x, 1)
+</button>
+
+
