@@ -115,7 +115,7 @@ export function namedPath(route: string): RegExp {
   return RegExp(
     route.split('/').map((x) =>
       x.startsWith(':') ? `(?<${regExpEscape(x.slice(1, x.length))}>[a-zA-Z0-9][a-zA-Z0-9\_\-]*)` : regExpEscape(x)
-    ).join(`\\/`)
+    ).join(`\\/`) + '$' 
   );
 }
 

@@ -105,7 +105,7 @@ const regExpEscape = (s) => s.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&');
 // @param {string} route - a route to be compiled into regexp, ex: '/blog/:id'.
 export function namedPath(route) {
     // checking for named component paths
-    return RegExp(route.split('/').map((x) => x.startsWith(':') ? `(?<${regExpEscape(x.slice(1, x.length))}>[a-zA-Z0-9][a-zA-Z0-9\_\-]*)` : regExpEscape(x)).join(`\\/`));
+    return RegExp(route.split('/').map((x) => x.startsWith(':') ? `(?<${regExpEscape(x.slice(1, x.length))}>[a-zA-Z0-9][a-zA-Z0-9\_\-]*)` : regExpEscape(x)).join(`\\/`) + '$');
 }
 export function dynamic(path, routes, defaultRoute) {
     for (let i = 0; i < routes.length; i++) {

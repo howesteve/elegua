@@ -66,6 +66,9 @@
     <!-- Loads posts using named params -->
   {:else if resolve($path, '/blog/:post')}
     <Post id={$params['post']} />
+    <!-- Loads posts using nested named params (both $params['post'] and $params['id']) will be set -->
+  {:else if resolve($path, '/blog/:post/:id')}
+    <Post id={$params['post']} />
     <!-- Hash routing -->
   {:else if $path === '/hash'}
     <Hash />

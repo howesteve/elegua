@@ -40,7 +40,7 @@ pnpm run dev
 - Dependency free (except for Svelte, of course)
 - Easy api, feels very natural and intuitive.
 - Minimalist: it's all in a single file (**2.2KB** gzipped/**6.7KB** unpacked)
-  - It's tree-shakable, could end up smaller than that
+  - It's tree-shakable, could end up smaller than that depending on what you use.
 - Fully reactive: changes to api reflect the browser's url, and vice versa.
 - No `<Route>`, `<Link>` or any other components. Uses regular `{#if}/{:else}` blocks from Svelte to control routing/rendering. It's all stores/functions.
 - History API only (who uses hash paths nowawdays?)
@@ -48,10 +48,11 @@ pnpm run dev
 - Regular \<a\> links supported out of the box. No need for \<Link\> additional components.
 - Can [prevent route changes](#preventchange) on conditions (e.g. prevent exit from changed form)
 - Route types supported:
-  - [Fixed path](#path) routes, i.e. `/`
+  - [Fixed path](#path) routes, i.e. `/` or `/blog`
   - [Variable routes](#resolve) (`/xxx/:group/:id`) (yes, they can be nested)
   - [Regexp routes](#regexp-routes): any rule you could imagine if it can be expressed by a RegExp expression (ex: `/id/[0-9]+\.json`)
   - Fallback/error routes
+- Elegua doesn't get into your way, giving full flexibility (I prize that one a lot).
 - Unique features such as [`preventUnload()`](#preventunload) and [`preventChange()`](#preventchange).
 - Really fast.
 
