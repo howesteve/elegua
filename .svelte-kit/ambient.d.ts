@@ -36,10 +36,10 @@ declare module '$env/static/private' {
 	export const npm_package_devDependencies__types_node: string;
 	export const LESS: string;
 	export const XDG_SESSION_PATH: string;
+	export const NVM_INC: string;
 	export const XDG_MENU_PREFIX: string;
 	export const npm_package_repository_url: string;
 	export const TERM_PROGRAM_VERSION: string;
-	export const npm_package_devDependencies_marked: string;
 	export const npm_package_exports___hooks_import: string;
 	export const GNOME_KEYRING_CONTROL: string;
 	export const NODE: string;
@@ -49,7 +49,6 @@ declare module '$env/static/private' {
 	export const LC_NAME: string;
 	export const npm_package_exports___node_polyfills_types: string;
 	export const SSH_AUTH_SOCK: string;
-	export const npm_package_dependencies_mime: string;
 	export const npm_package_devDependencies_dts_buddy: string;
 	export const WEZTERM_EXECUTABLE: string;
 	export const npm_package_peerDependencies_svelte: string;
@@ -69,7 +68,6 @@ declare module '$env/static/private' {
 	export const XDG_SESSION_TYPE: string;
 	export const PANEL_GDK_CORE_DEVICE_EVENTS: string;
 	export const PNPM_HOME: string;
-	export const _: string;
 	export const XAUTHORITY: string;
 	export const npm_package_exports___node_import: string;
 	export const npm_package_dependencies_cookie: string;
@@ -111,6 +109,7 @@ declare module '$env/static/private' {
 	export const PSQL_PAGER: string;
 	export const npm_lifecycle_script: string;
 	export const npm_package_description: string;
+	export const NVM_DIR: string;
 	export const XDG_SESSION_CLASS: string;
 	export const npm_package_peerDependencies_vite: string;
 	export const LC_IDENTIFICATION: string;
@@ -125,13 +124,13 @@ declare module '$env/static/private' {
 	export const npm_package_dependencies_undici: string;
 	export const npm_package_exports___package_json: string;
 	export const npm_package_homepage: string;
-	export const npm_package_devDependencies__types_mime: string;
 	export const npm_package_dependencies_set_cookie_parser: string;
 	export const npm_package_dependencies__types_cookie: string;
 	export const npm_package_exports___node_polyfills_import: string;
 	export const DISPLAY: string;
 	export const npm_lifecycle_event: string;
 	export const SHLVL: string;
+	export const NVM_CD_FLAGS: string;
 	export const npm_package_dependencies_magic_string: string;
 	export const CHROME_EXECUTABLE: string;
 	export const PAGER: string;
@@ -142,6 +141,7 @@ declare module '$env/static/private' {
 	export const npm_package_devDependencies__types_sade: string;
 	export const XDG_SESSION_ID: string;
 	export const npm_config_user_agent: string;
+	export const npm_package_dependencies_mrmime: string;
 	export const npm_package_scripts_lint: string;
 	export const DIRHISTORY_SIZE: string;
 	export const PNPM_SCRIPT_SRC_DIR: string;
@@ -173,6 +173,7 @@ declare module '$env/static/private' {
 	export const npm_package_license: string;
 	export const npm_package_scripts_postinstall: string;
 	export const MAIL: string;
+	export const NVM_BIN: string;
 	export const npm_config_registry: string;
 	export const npm_package_repository_directory: string;
 	export const npm_node_execpath: string;
@@ -184,6 +185,7 @@ declare module '$env/static/private' {
 	export const npm_package_engines_node: string;
 	export const TERM_PROGRAM: string;
 	export const WEZTERM_EXECUTABLE_DIR: string;
+	export const _: string;
 }
 
 /**
@@ -223,10 +225,10 @@ declare module '$env/dynamic/private' {
 		npm_package_devDependencies__types_node: string;
 		LESS: string;
 		XDG_SESSION_PATH: string;
+		NVM_INC: string;
 		XDG_MENU_PREFIX: string;
 		npm_package_repository_url: string;
 		TERM_PROGRAM_VERSION: string;
-		npm_package_devDependencies_marked: string;
 		npm_package_exports___hooks_import: string;
 		GNOME_KEYRING_CONTROL: string;
 		NODE: string;
@@ -236,7 +238,6 @@ declare module '$env/dynamic/private' {
 		LC_NAME: string;
 		npm_package_exports___node_polyfills_types: string;
 		SSH_AUTH_SOCK: string;
-		npm_package_dependencies_mime: string;
 		npm_package_devDependencies_dts_buddy: string;
 		WEZTERM_EXECUTABLE: string;
 		npm_package_peerDependencies_svelte: string;
@@ -256,7 +257,6 @@ declare module '$env/dynamic/private' {
 		XDG_SESSION_TYPE: string;
 		PANEL_GDK_CORE_DEVICE_EVENTS: string;
 		PNPM_HOME: string;
-		_: string;
 		XAUTHORITY: string;
 		npm_package_exports___node_import: string;
 		npm_package_dependencies_cookie: string;
@@ -298,6 +298,7 @@ declare module '$env/dynamic/private' {
 		PSQL_PAGER: string;
 		npm_lifecycle_script: string;
 		npm_package_description: string;
+		NVM_DIR: string;
 		XDG_SESSION_CLASS: string;
 		npm_package_peerDependencies_vite: string;
 		LC_IDENTIFICATION: string;
@@ -312,13 +313,13 @@ declare module '$env/dynamic/private' {
 		npm_package_dependencies_undici: string;
 		npm_package_exports___package_json: string;
 		npm_package_homepage: string;
-		npm_package_devDependencies__types_mime: string;
 		npm_package_dependencies_set_cookie_parser: string;
 		npm_package_dependencies__types_cookie: string;
 		npm_package_exports___node_polyfills_import: string;
 		DISPLAY: string;
 		npm_lifecycle_event: string;
 		SHLVL: string;
+		NVM_CD_FLAGS: string;
 		npm_package_dependencies_magic_string: string;
 		CHROME_EXECUTABLE: string;
 		PAGER: string;
@@ -329,6 +330,7 @@ declare module '$env/dynamic/private' {
 		npm_package_devDependencies__types_sade: string;
 		XDG_SESSION_ID: string;
 		npm_config_user_agent: string;
+		npm_package_dependencies_mrmime: string;
 		npm_package_scripts_lint: string;
 		DIRHISTORY_SIZE: string;
 		PNPM_SCRIPT_SRC_DIR: string;
@@ -360,6 +362,7 @@ declare module '$env/dynamic/private' {
 		npm_package_license: string;
 		npm_package_scripts_postinstall: string;
 		MAIL: string;
+		NVM_BIN: string;
 		npm_config_registry: string;
 		npm_package_repository_directory: string;
 		npm_node_execpath: string;
@@ -371,6 +374,7 @@ declare module '$env/dynamic/private' {
 		npm_package_engines_node: string;
 		TERM_PROGRAM: string;
 		WEZTERM_EXECUTABLE_DIR: string;
+		_: string;
 		[key: `PUBLIC_${string}`]: undefined;
 		[key: `${string}`]: string | undefined;
 	}

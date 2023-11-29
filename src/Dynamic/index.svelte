@@ -6,11 +6,12 @@
   import DynamicDefault from './Default.svelte';
   import Param from './Params.svelte';
   import RegExp from './RegExp.svelte';
-
+  let lazy = import('./Dynamic1.svelte')
   let routes: Array<DynamicRoute> = [
     ['/dynamic', DynamicDefault],
     ['/dynamic/dynamic1', Dynamic1],
     ['/dynamic/dynamic2', Dynamic2],
+    ['/dynamic/lazy', lazy],
     ['/dynamic/params/:param', Param],
     [/dynamic\/re[0-9]+/, RegExp]
   ];
@@ -31,7 +32,7 @@
 {#each routes as route}
   {@const p = route[0]}
   <code>
-    &nbsp;&nbsp;[{typeof p === 'string' ? `"${p}"` : p}, {route[1].name}],<br />
+    <!-- &nbsp;&nbsp;[{typeof p === 'string' ? `"${p}"` : p}, {route[1].name}],<br /> -->
   </code>
 {/each}
 ];

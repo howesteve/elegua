@@ -114,8 +114,8 @@ export function namedPath(route: string): RegExp {
   // checking for named component paths
   return RegExp(
     route.split('/').map((x) =>
-        x.startsWith(':') ? `(?<${regExpEscape(x.slice(1, x.length))}>[a-zA-Z0-9][a-zA-Z0-9\_\-]*)` : regExpEscape(x)
-      ).join(`\\/`)
+      x.startsWith(':') ? `(?<${regExpEscape(x.slice(1, x.length))}>[a-zA-Z0-9][a-zA-Z0-9\_\-]*)` : regExpEscape(x)
+    ).join(`\\/`)
   );
 }
 
@@ -132,7 +132,8 @@ export function dynamic(path: string, routes: DynamicRoute[], defaultRoute?: Com
   return defaultRoute;
 }
 
-let preventChange_ : (()=> boolean|undefined) | undefined;
+let preventChange_: (() => boolean | undefined) | undefined;
+
 // Global hook function for preventing routing/page changes. Use this to prevent routing 
 // changes using either goto() or <a> clicking on undesirable situations, ex. 
 // when a form is dirty and you want the user to save changes before 
@@ -175,7 +176,7 @@ export function resolve(path: string, route: string | RegExp): boolean {
 // @param {any} data - not used right now
 export function goto(href: string | URL, data: any = undefined) {
   // preventing changes 
-  if (preventChange_ && (preventChange_()===true)) return;
+  if (preventChange_ && (preventChange_() === true)) return;
   if (href instanceof URL) href = href.toString();
   url.set(new URL(href, window.location.href));
 }
@@ -193,29 +194,29 @@ window?.addEventListener('load', () => {
     urlSetter(u);
     event.preventDefault();
   });
-  
-  let lastKbdEv: KeyboardEvent|undefined
+
+  let lastKbdEv: KeyboardEvent | undefined
   addEventListener('keydown', (ev: KeyboardEvent) => lastKbdEv = ev);
   addEventListener('keyup', (ev: KeyboardEvent) => lastKbdEv = undefined);
 
   // <a> tags click hook; let Elegua handle them
   addEventListener('click', (event) => {
     // Ctrl/Shift + clicks should open another tab/window
-      let targetElement = event.target as HTMLElement;
-      while (targetElement && targetElement !== document.body) {
-        if (targetElement.tagName.toLowerCase() === 'a') {
-          if (lastKbdEv?.ctrlKey || lastKbdEv?.shiftKey) return;
-          if (preventChange_ && (preventChange_()===true)) return event.preventDefault();
-          if (targetElement.hasAttribute('data-native-router')) return;
-            const href = targetElement.getAttribute('href') || '';
-            // do not handle external links
-            if (!/^http?s\:\/\//.test(href)) {
-              if (href) url.set(new URL(href, window.location.href));
-              return event.preventDefault();
-          }
+    let targetElement = event.target as HTMLElement;
+    while (targetElement && targetElement !== document.body) {
+      if (targetElement.tagName.toLowerCase() === 'a') {
+        if (lastKbdEv?.ctrlKey || lastKbdEv?.shiftKey) return;
+        if (preventChange_ && (preventChange_() === true)) return event.preventDefault();
+        if (targetElement.hasAttribute('data-native-router')) return;
+        const href = targetElement.getAttribute('href') || '';
+        // do not handle external links
+        if (!/^http?s\:\/\//.test(href)) {
+          if (href) url.set(new URL(href, window.location.href));
+          return event.preventDefault();
         }
-        targetElement = targetElement.parentElement || document.body;
       }
+      targetElement = targetElement.parentElement || document.body;
+    }
   });
 });
 
@@ -223,27 +224,27 @@ window?.addEventListener('load', () => {
 // If callback returns true, unfocusing is prevented.
 // If callback returns a string, unfocusing is prevented and message is returned.
 // However, message display is browser-dependent and usually ignored.
-export function preventUnload(node: HTMLElement, callback: () => boolean | string| undefined) {
-	const handler = (ev: BeforeUnloadEvent) => {
-		const res = callback();
-		if (res === true) {
-			// If callback returns a truthy value, show the browser's default
-			// confirmation message to ask the user if they want to leave the page.
-			ev.preventDefault();
-			ev.returnValue = '';
-			return '';
-		} else if (typeof res === 'string') {
-			// if callback returns a string, send it to the browser. However as exposed, 
+export function preventUnload(node: HTMLElement, callback: () => boolean | string | undefined) {
+  const handler = (ev: BeforeUnloadEvent) => {
+    const res = callback();
+    if (res === true) {
+      // If callback returns a truthy value, show the browser's default
+      // confirmation message to ask the user if they want to leave the page.
+      ev.preventDefault();
+      ev.returnValue = '';
+      return '';
+    } else if (typeof res === 'string') {
+      // if callback returns a string, send it to the browser. However as exposed, 
       // it's usually ignored by browsers.
       ev.preventDefault();
-			ev.returnValue = res;
-			return res;
-		}
-	};
-	node.addEventListener('beforeunload', handler, { capture: true });
-	return {
-  		destroy() {
-			node.removeEventListener('beforeunload', handler);
-		}
-	};
+      ev.returnValue = res;
+      return res;
+    }
+  };
+  node.addEventListener('beforeunload', handler, { capture: true });
+  return {
+    destroy() {
+      node.removeEventListener('beforeunload', handler);
+    }
+  };
 }

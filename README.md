@@ -3,7 +3,24 @@
 
 # What is Elegua?
 
-Elegua: the best Svelte client router you'll ever see in under 180 LoC.
+Elegua: the best Svelte client router you'll ever see in under 190 LoC.
+
+## Small example
+
+It's hopefully very straighforward: there are no components, just some stores reflecting current path/parts of url, and a [`resolve()`](#resolve) function for more complex (regexp/named routes) routings. The rest is just your plain Svelte logical blocks.
+
+```svelte
+{#if $path === '/'}
+  <h1>Home page</h1>
+{:else if $path === '/about'}
+  <h1>About page</h1>
+{:else if resolve($path, '/blog/:slug')}
+  <Post slug={$params('slug')}/>
+{:else}
+  <h1>404</h1>
+  <p>Not found: {$path}</p>
+{/if}
+```
 
 ## Demo
 
@@ -21,19 +38,19 @@ pnpm run dev
 ## Features
 
 - Dependency free (except for Svelte, of course)
-- Easy api, feeels very natural and intuitive.
-- Minimalist: it's all in a single file (**2.2KB** gzipped/**6.5KB** unpacked)
+- Easy api, feels very natural and intuitive.
+- Minimalist: it's all in a single file (**2.2KB** gzipped/**6.7KB** unpacked)
+  - It's tree-shakable, could end up smaller than that
 - Fully reactive: changes to api reflect the browser's url, and vice versa.
-- No `<Route>`, `<Link>` or any other components. Uses regular `{#if}/{:else}` blocks from Svelte to control routing/rendering.
+- No `<Route>`, `<Link>` or any other components. Uses regular `{#if}/{:else}` blocks from Svelte to control routing/rendering. It's all stores/functions.
 - History API only (who uses hash paths nowawdays?)
-- Dynamic routing
+- [Dynamic routing](#dynamic)
 - Regular \<a\> links supported out of the box. No need for \<Link\> additional components.
-- No extra components. It's all stores/functions.
-- Can prevent route changes on conditions (e.g. prevent exit from changed form)
+- Can [prevent route changes](#preventchange) on conditions (e.g. prevent exit from changed form)
 - Route types supported:
-  - Fixed path routes, i.e. `/`
-  - Variable routes (`/xxx/:group/:id`) (yes, they can be nested)
-  - Regexp routes: any rule you could imagine if it can be expressed by a RegExp expression (ex: `/id/[0-9]+\.json`)
+  - [Fixed path](#path) routes, i.e. `/`
+  - [Variable routes](#resolve) (`/xxx/:group/:id`) (yes, they can be nested)
+  - [Regexp routes](#regexp-routes): any rule you could imagine if it can be expressed by a RegExp expression (ex: `/id/[0-9]+\.json`)
   - Fallback/error routes
 - Unique features such as [`preventUnload()`](#preventunload) and [`preventChange()`](#preventchange).
 - Really fast.
@@ -81,22 +98,7 @@ Here it goes.
 
 ## Usage
 
-It's hopefully very straighforward: there are no components, just some stores reflecting current path/parts of url, and a [`resolve()`](#resolve) function for more complex (regexp/named routes) routings. The rest is just your plain Svelte logical blocks:
-
-```svelte
-{#if $path === '/'}
-  <h1>Home page</h1>
-{:else if $path === '/about'}
-  <h1>About page</h1>
-{:else if resolve($path, '/blog/:slug')}
-  <Post slug={$params('slug')}/>
-{:else}
-  <h1>404</h1>
-  <p>Not found: {$path}</p>
-{/if}
-```
-
-[Elegua](https://github.com/howesteve/elegua)'s routing is designed expecting routes are mainly guided by `path`, of course. However, you can route by [hash](#hash), [searchParams](#searchparams), [url](#url) or anything else you want.
+[Elegua](https://github.com/howesteve/elegua)'s routing is designed expecting routes are mainly guided by [`path`](#path), of course. However, you can route by [hash](#hash), [searchParams](#searchparams), [url](#url) or anything else you want.
 
 Every time the current browser's url changes, [Elegua](https://github.com/howesteve/elegua) will update its stores and your routing logic will do the rest.
 
@@ -225,7 +227,7 @@ Although this is not a part of the routing system *per se*, I think it's a nice 
 - Check [the preventChange](https://elegua.netlify.app/preventchange) page for a demo (it will both prevent exiting the page and closing the window)
 - Check [it's source](https://github.com/howesteve/elegua/blob/master/src/PreventChange.svelte)
 
-### dynamic()
+## dynamic()
 
 `dynamic(path: string, routes: DynamicRoute[], defaultRoute?: ComponentType): ComponentType|undefined`
 `type DynamicRoute = [string | RegExp, ComponentType, any?]`

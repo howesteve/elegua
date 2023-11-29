@@ -28,7 +28,7 @@ declare let preventChange_: (() => boolean | undefined) | undefined;
 export declare function preventChange(f?: typeof preventChange_): void;
 export declare function resolve(path: string, route: string | RegExp): boolean;
 export declare function goto(href: string | URL, data?: any): void;
-export declare function preventUnload(node: HTMLElement, callback: () => boolean | string): {
+export declare function preventUnload(node: HTMLElement, callback: () => boolean | string | undefined): {
     destroy(): void;
 };
 export {};
