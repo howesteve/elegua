@@ -3,7 +3,7 @@
 
 # What is Elegua?
 
-Elegua: the best Svelte client router you'll ever see in under 190 LoC.
+Elegua: the best Svelte micro client router you'll ever see.
 
 ## Small example
 
