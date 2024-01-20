@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD024 -->
 
-# Change Log
+# Changelog
 
 All notable changes to [Elegua](http://github.com/howesteve/elegua) will be documented in this file.
 

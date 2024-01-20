@@ -1,7 +1,7 @@
-- Support view transitions API?
 - Port docs to sveltepress?
 - Port demo to a better looking css 
-- Add use:preventUnload
+- Support CLoseWatcher?
+  - https://twitter.com/bramus/status/1730325130033697278/photo/1
 - Add tests
   import { playwright } from '@playwright/test';
 
