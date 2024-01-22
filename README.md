@@ -161,7 +161,7 @@ See below for examples:
   <h1>Home page</h2>
 <!-- named params route -->
 {:else if resolve($path, '/blog/:post_id')}
-  <Post id={params["post_id"]}/>
+  <Post id={$params["post_id"]}/>
 <!-- regexp route -->
 {:else if resolve($path, /users\/([a-zA-Z])+/)}
   <p>This is the page for user {$match[1]}
@@ -482,7 +482,7 @@ This store contains the [named](#named-routes) (variable) parts of a match, afte
 </script>
 
 {#if resolve($path, /\/blog\/(?<slug>[a-zA-Z0-9]+)/)}
-  You are rendering the {params['slug']} blog post.
+  You are rendering the {$params['slug']} blog post.
 {/if}
 ```
 
