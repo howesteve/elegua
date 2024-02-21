@@ -126,7 +126,7 @@ export function namedPath(route: string): RegExp {
 export type DynamicRoute = [string | RegExp, ComponentType, any?];
 export function dynamic(path: string, routes: DynamicRoute[], defaultRoute?: ComponentType): ComponentType|undefined {
   for (let i=0;i<routes.length;i++) {
-    const [route, component] = routes[i];
+    const [route, component, params] = routes[i];
     if (resolve(path, route)) return component;
   }
   return defaultRoute;

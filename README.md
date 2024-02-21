@@ -244,12 +244,11 @@ The [`dynamic()`](dynamic) method is a very special one; it allows dynamic routi
   import Error from './Error404.svelte';
 </script> 
 
-<!-- You can pass optional props that will be passed to the component such as in the '/blog/:post' route below -->
 <svelte:component this={dynamic($path, [
   ['/', Home],
   ['/about', About],
   ['/blog', Blog],
-  ['/blog/:post', Post, {id: $params['post']}],
+  ['/blog/:post', Post],
 ], Error)} />
 ```
 
@@ -260,9 +259,26 @@ The arguments are:
 - `path`: the current [`$path`](#path)
 - `routes`: the defined routes, i.e. an Array\<DynamicRoute\>:
   - [0] `route`: a string or regexp; the same you'd use in a [`resolve()`](#resolve) call
-  - [1] component: The component to render. Any Svelte component is valid
-  - [2] props?: An optional props property that will be passed to \svelte:component\> upon rendering.
+  - [1] component: The component to render. Any Svelte component is valid.
 - `defaultRoute`: an optional default route that will be rendered if no other route matches. This is typically used for displaying 404/error pages.
+
+If you need to inspect any [Elegua](http://github.com/howesteve/elegua) variables inside your dynamically rendered component, please do it from inside the component. For instance, in the example above, the `Post` component could be implemented as:
+
+```svelte
+<p>This is post id {$params["post"]}</p>
+```
+
+or:
+
+```svelte
+<script>
+  onMount(()=> {
+    if ($params['post']) {
+      <!-- Load post from server -->
+    }
+  })
+</script>
+```
 
 - See it working [in our demo](https://elegua.netlify.app/dynamic)
 - See the demo's [source code](https://github.com/howesteve/elegua/tree/master/src/Dynamic)
@@ -618,7 +634,7 @@ A named route will resolve with *any* string. If you need more control of what's
 
 ### Regexp routes
 
-Sometimes you might want a route to match only on certain specific path patterns; ex: `/users/123`. For that, use [regexp routes](#regexp-routes) by passing a regexp as route in the `resolve(path, route)` method:
+If you might want a route to match only on certain specific path patterns; ex: `/users/123`. For that, use [regexp routes](#regexp-routes) by passing a regexp as route in the `resolve(path, route)` method:
 
 ```svelte
 {#if resolve($path, /\/users/([0-9]+)/)}
@@ -646,7 +662,7 @@ Named groups work as expected, and captured groups will be reflected in [`$param
 
 ### Nav menu highlighting
 
-Sometimes you want to highlight a nav menu item when user is on that page, so that he can see at a glance where they are. For instance, if you are in `"/about"` and your nav menu has the following links:
+Often you want to highlight a nav menu item when user is on that page, so that he can see at a glance where they are. For instance, if you are in `"/about"` and your nav menu has the following links:
 
 `BLOG | ORDERS | ABOUT`
 
@@ -677,7 +693,7 @@ Now when you are on `/about`, nav menu will show something as:
 
 ### How do I handle any other kind of url changes?
 
-Subscribe to [url](#url). It's the DOM [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL) object for the current browser's url. Then you can do anything you want with it.
+Subscribe to [$url](#url). It's the DOM [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL) object for the current browser's url. Then you can do anything you want with it.
 
 ### Redirects
 
@@ -691,7 +707,7 @@ No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just u
 {#if $path ==="/old_blog"}
   <svelte:head>
     <meta http-equiv="refresh" content="3; url = /blog"/>
-  </svelte:head>
+  </sve
   Blog has changed path; redirecting...
 {/if}
 ```
@@ -710,7 +726,7 @@ No need to bloat [Elegua](https://github.com/howesteve/elegua) with that. Just u
 
 ### File system dynamic routes, like Sveltekit?
 
-I would have implemented this better, but [Vite](https://vitejs.dev/) only allows string literals in [`import.meta.glob()`](https://vitejs.dev/guide/features.html#glob-import) calls, so this has has to be manual.
+I would have implemented this better, but [Vite](https://vitejs.dev/) only allows string literals in [`import.meta.glob()`](https://vitejs.dev/guide/features.html#glob-import) calls, so I end up impolthis had to be manual.
 
 ```ts
 await Promise.all(
