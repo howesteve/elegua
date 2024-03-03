@@ -452,14 +452,18 @@ Appending a `searchParam` (reactive - browser url will change):
 
 #### Multiple `searchParam` changes
 
-These helper `$searchParam` methods above perform both the `searchParam` update and a history push at the same time. I implemented this way to make the most common case, i.e. single `searchParam` updates, easier.
-But somethimes, you might want to change more then one `searchParam` and do a single history push for them all at the end, not ending up with a lot of history items for every change. For that, call `$url.searchParams` for each change, and "commit" them all by calling [`goto`](#goto) at the end, which will push just the final resulting url.
+These helper `$searchParam` methods above perform both the `searchParam` update and a history push at the same time. I implemented this way to make the most common case, i.e. single `searchParam` updates, easier. They call `$url.searchParams.xxx()` internally.
+But somethimes, you might want to change multiple `searchParam` and do a single history push for them all after those changes, avoiding ending up with a lot of history items for every change.
+For that, use the original `$url.searchParams.xxx()` methods for each change, and "commit" them all at once at the end by calling [`goto`](#goto):
 
 ```ts
+// do all changes you want using original URL.searchParams methods
 $url.searchParams.set('a', 1);
 $url.searchParams.set('b', 2);
-$url.searchParams.set('c', 3);
-goto($url) // => pushes into history just once
+$url.searchParams.append('c', 3);
+ //(...) 
+// then push all above changes into history just once
+goto($url) 
 ```
 
 > **Note**
