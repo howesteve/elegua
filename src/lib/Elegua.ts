@@ -1,5 +1,8 @@
 import type { ComponentType } from 'svelte';
-import { derived, get, readable, writable, type Subscriber } from 'svelte/store';
+import {derived, get, readable, writable, type Subscriber} from 'svelte/store'
+import type {Writable} from 'svelte/store'
+
+export const state: Writable<Record<any, any>> = writable({})
 
 let pathSetter: Subscriber<string>;
 export const path = (() => {
@@ -44,7 +47,7 @@ export const url = (() => {
     u.searchParams.set = (name, value) => {
       const res = sset.call(u.searchParams, name, value);
       set_(u);
-      history.pushState({}, '', u.toString());
+      history.pushState(get(state), '', u.toString());
       return res;
     };
     u.searchParams.append = (name, value) => {
@@ -56,7 +59,7 @@ export const url = (() => {
     u.searchParams.delete = (name) => {
       const res = sdel.call(u.searchParams, name);
       set_(u);
-      history.pushState({}, '', u.toString());
+      history.pushState(get(state), '', u.toString());
       return res;
     };
     oldUrlSetter(get(url));
@@ -67,7 +70,10 @@ export const url = (() => {
   return {
     subscribe,
     set: (u: URL) => {
-      history.pushState(null, '', u);
+      history.replaceState(get(state), '', get(url));
+      history.pushState({}, '', u);
+      state.set({});
+
       urlSetter(u);
     },
     update
@@ -193,6 +199,7 @@ window?.addEventListener('load', () => {
     const u = new URL(window.location.href);
     urlSetter(u);
     event.preventDefault();
+    state.set(event.state);
   });
 
   let lastKbdEv: KeyboardEvent | undefined

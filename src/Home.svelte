@@ -1,9 +1,16 @@
 <script lang="ts">
-  import { goto, path, url } from './lib/Elegua';
+  import {goto, path, state, url} from './lib/Elegua'
   import * as package_json from '../package.json';
+
+  if($state.inputValue === undefined) {
+    $state.inputValue = ""
+  }
 </script>
 
 <h1>This is the home page.</h1>
+
+<p>State only for this page</p>
+<input bind:value={$state.inputValue}/>
 <p>
   <b
     >This is the demo application for <a href="https://github.com/howesteve/elegua">Elegua v{package_json.version}</a>,
